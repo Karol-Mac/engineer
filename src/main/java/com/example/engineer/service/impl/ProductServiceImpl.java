@@ -1,26 +1,48 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.Product;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.service.ProductService;
+import com.example.engineer.util.ProductMapper;
 
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+
+    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper){
+        this.productRepository = productRepository;
+        this.productMapper = productMapper;
+    }
+
     @Override
-    public FreshProductDto addProduct(FreshProductDto product){
-        return null;
+    public FreshProductDto addProduct(FreshProductDto freshProduct){
+
+        Product product = productMapper.mapToEntity(freshProduct);
+        Product saved = productRepository.save(product);
+
+        return productMapper.mapProductToFresh(saved);
     }
 
     @Override
     public List<ProductDto> getAllProducts(String productName){
-        return List.of();
+
+        List<Product> products = productRepository.findByName(productName);
+
+        //TODO: add functionality to set isFavourite & isReported
+        return products.stream().map(productMapper::mapProductToDto).toList();
     }
 
     @Override
     public ProductDto getProductById(long productId){
-        return null;
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()->new RuntimeException("Product not found"));
+        return productMapper.mapProductToDto(product);
     }
 
     @Override

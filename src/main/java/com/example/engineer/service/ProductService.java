@@ -6,7 +6,7 @@ import com.example.engineer.payload.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-    FreshProductDto addProduct(FreshProductDto product);
+    FreshProductDto addProduct(FreshProductDto freshProduct);
 
     List<ProductDto> getAllProducts(String productName);
 
