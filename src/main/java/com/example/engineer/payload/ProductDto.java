@@ -10,7 +10,11 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDto {
+
+/**
+  Class describes a version of product - any system user will see
+ */
+public final class ProductDto {
 
     private long id;
 
@@ -37,6 +41,8 @@ public class ProductDto {
     private int fiber;
 
     private int salt;
+
+    private String imageName;
 
     private boolean isHidden;
 
