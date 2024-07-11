@@ -1,5 +1,18 @@
 package com.example.engineer.service;
 
-public interface ProductService {
+import com.example.engineer.payload.FreshProductDto;
+import com.example.engineer.payload.ProductDto;
 
+import java.util.List;
+
+public interface ProductService {
+    FreshProductDto addProduct(FreshProductDto product);
+
+    List<ProductDto> getAllProducts(String productName);
+
+    ProductDto getProductById(long productId);
+
+    FreshProductDto updateProduct(FreshProductDto product);
+
+    String deleteProduct(long productId);
 }
