@@ -151,7 +151,7 @@ Przy rejestracji, czy później - jak konto już istnieje?
     fiber: int
     salt: int
     isHidden: boolean
-    isFavourited: boolean
+    isFavourite: boolean
     isReported: boolean
     imageName: string
 }
