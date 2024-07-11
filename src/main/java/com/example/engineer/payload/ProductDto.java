@@ -26,8 +26,6 @@ public final class ProductDto {
 
     private int weight;
 
-    private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 
     private int energeticValue;
@@ -42,11 +40,12 @@ public final class ProductDto {
 
     private int salt;
 
-    private String imageName;
-
     private boolean isHidden;
 
     private boolean isFavourite;
 
     private boolean isReported;
+
+    private String imageName;
+
 }

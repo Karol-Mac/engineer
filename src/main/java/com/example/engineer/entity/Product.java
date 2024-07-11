@@ -60,5 +60,7 @@ public class Product {
     private int salt;
 
     @Column(nullable = false)
-    private boolean isHidden;       //removed products have isHidden=true
+    private boolean isHidden;      //removed products have isHidden=true
+
+    private String imageName;
 }
