@@ -2,17 +2,17 @@ package com.example.engineer.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 
-@Controller
+@RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
-//    @ExceptionHandler(ApiException.class)
+    @ExceptionHandler(ApiException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     ErrorInfo handleApiException(ApiException ex, HttpServletRequest request) {
@@ -37,7 +37,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     ErrorInfo handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
-        return new ErrorInfo(request.getRequestURI() , ex);
+        return new ErrorInfo(request.getRequestURL().toString() , ex);
     }
 
 }
