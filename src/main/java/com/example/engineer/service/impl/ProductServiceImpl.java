@@ -1,14 +1,17 @@
 package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
+import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.service.ProductService;
 import com.example.engineer.util.ProductMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -41,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto getProductById(long productId){
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(()->new RuntimeException("Product not found"));
+                .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
         return productMapper.mapProductToDto(product);
     }
 
