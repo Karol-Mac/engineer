@@ -5,12 +5,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public final class AuthenticationException extends RuntimeException {
-    private final String message;
-    private final HttpStatus status;
-
-    public AuthenticationException(String message, HttpStatus status) {
-        super(message);
-        this.message = message;
-        this.status = status;
-    }
+    private final String message = "You can not perform this action";
+    private final HttpStatus status = HttpStatus.FORBIDDEN;
 }
