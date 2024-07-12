@@ -4,12 +4,12 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public final class ApiException extends RuntimeException {
+public class ApiException extends RuntimeException {
 
-    private final HttpStatus status;
-    private final String message;
+    protected final HttpStatus status;
+    protected final String message;
 
-    public ApiException(HttpStatus status, String message) {
+    public ApiException( String message, HttpStatus status) {
         super(message);
         this.status = status;
         this.message = message;
