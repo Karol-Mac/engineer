@@ -16,6 +16,7 @@ public class ProductController {
         this.productService = productService;
     }
 
+    //TODO: add functionality to save Image file
     @PostMapping
     public ResponseEntity<FreshProductDto> addProduct(@RequestBody FreshProductDto product){
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
@@ -26,5 +27,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
+    //TODO: add rest of controller methods
 
+
+
+
+
+    //TODO: create logic for image operations
 }
