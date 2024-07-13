@@ -59,7 +59,7 @@ public class ProductMapper {
     private void copyCommonFields(ProductDto source, Product target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setGram(source.isGram());
+        target.setInGrams(source.isInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
@@ -73,7 +73,7 @@ public class ProductMapper {
     private void copyCommonFields(Product source, ProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setGram(source.isGram());
+        target.setInGrams(source.isInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
@@ -87,7 +87,7 @@ public class ProductMapper {
     private void copyCommonFields(FreshProductDto source, Product target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setGram(source.isGram());
+        target.setInGrams(source.isInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
@@ -101,7 +101,7 @@ public class ProductMapper {
     private void copyCommonFields(Product source, FreshProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setGram(source.isGram());
+        target.setInGrams(source.isInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());

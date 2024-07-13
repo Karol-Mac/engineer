@@ -30,7 +30,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private boolean isGram;         // (isGram ? solid : liquid ) product
+    private boolean inGrams;         // (inGrams ? solid : liquid ) product
 
     @Column(nullable = false)
     private int weight;            //weight of single pack

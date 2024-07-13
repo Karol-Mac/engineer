@@ -22,7 +22,7 @@ public final class ProductDto {
 
     private BigDecimal price;
 
-    private boolean isGram;
+    private boolean inGrams;
 
     private int weight;
 

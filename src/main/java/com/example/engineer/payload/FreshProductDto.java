@@ -19,7 +19,7 @@ public final class FreshProductDto {
 
     private BigDecimal price;
 
-    private boolean isGram;
+    private boolean inGrams;
 
     private int weight;
 
