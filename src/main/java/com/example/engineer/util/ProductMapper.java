@@ -16,7 +16,7 @@ public class ProductMapper {
 
         product.setId(productDto.getId());          //FIXME: id should me set ?
         product.setHidden(productDto.isHidden());
-
+        //TODO: when you create users & reports - remember to add mapping
         return product;
     }
 
@@ -41,7 +41,7 @@ public class ProductMapper {
 
         Product product = new Product();
         copyCommonFields(freshProductDto, product);
-        product.setId(freshProductDto.getId());     //FIXME: id should me set ?
+//        product.setId(freshProductDto.getId());     //FIXME: id should've been set ?
 
         return product;
     }

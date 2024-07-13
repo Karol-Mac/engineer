@@ -43,18 +43,30 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProductById(long productId){
 
-        Product product = productRepository.findById(productId)
-                .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
+        Product product = getProductFromDB(productId);
         return productMapper.mapProductToDto(product);
     }
 
     @Override
-    public FreshProductDto updateProduct(FreshProductDto product){
-        return null;
+    public FreshProductDto updateProduct(FreshProductDto freshProductDto, long productId){
+        getProductFromDB(productId);
+
+        Product updated = productMapper.mapToEntity(freshProductDto);
+        updated.setId(productId);
+
+        return productMapper.mapProductToFresh(productRepository.save(updated));
     }
 
     @Override
     public String deleteProduct(long productId){
-        return "";
+        getProductFromDB(productId);
+        productRepository.deleteById(productId);
+
+        return "Product deleted succesfully";
+    }
+
+    private Product getProductFromDB(long productId){
+        return productRepository.findById(productId)
+                .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
     }
 }
