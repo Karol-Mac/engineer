@@ -2,6 +2,8 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.service.ImageService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,5 +30,20 @@ public class ImageServiceImpl implements ImageService {
         Files.write(filePath, file.getBytes());
 
         return imageName;
+    }
+
+    @Override
+    public Resource getImage(String imageName) throws IOException {
+        Path filePath = Paths.get(imageDirectory).resolve(imageName);
+        if (Files.exists(filePath)) {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new IOException("Could not read the file: " + imageName);
+            }
+        } else {
+            throw new IOException("File not found: " + imageName);
+        }
     }
 }
