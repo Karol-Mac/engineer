@@ -4,7 +4,6 @@ import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ public class ProductController {
         this.imageService = imageService;
     }
 
-    //TODO: add functionality to save Image file
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FreshProductDto> addProduct(@RequestPart("product") FreshProductDto product,
                                                       @RequestPart("file") MultipartFile file)
@@ -44,9 +42,4 @@ public class ProductController {
 
     //TODO: add rest of controller methods
 
-
-
-
-
-    //TODO: create logic for image operations
 }
