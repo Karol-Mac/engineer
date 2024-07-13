@@ -59,8 +59,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public String deleteProduct(long productId){
-        getProductFromDB(productId);
-        productRepository.deleteById(productId);
+        var product = getProductFromDB(productId);
+        product.setHidden(true);
+        productRepository.save(product);
 
         return "Product deleted succesfully";
     }
