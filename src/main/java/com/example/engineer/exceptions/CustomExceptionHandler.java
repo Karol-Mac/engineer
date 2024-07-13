@@ -34,7 +34,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     ErrorInfo handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
         return new ErrorInfo(request.getRequestURL().toString() , ex);
