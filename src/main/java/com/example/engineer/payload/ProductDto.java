@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 /**
  Class describes a version of product - any system user will see
+ This class don't really need any validation - It's just a view for the user
  */
 public final class ProductDto {
 
