@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 //TODO: is this class okay ? For know - yes...but idk what will be sooner
+//FIXME: gdy przy próbie dodania produktu przez niezalogowanego uzytkownika
+// wychodzi dobry kod, ale bez ciała
 @RestControllerAdvice
 public class CustomExceptionHandler extends ExceptionHandlerExceptionResolver {
 
