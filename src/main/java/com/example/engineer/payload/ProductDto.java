@@ -12,40 +12,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 /**
-  Class describes a version of product - any system user will see
+ Class describes a version of product - any system user will see
  */
 public final class ProductDto {
 
     private long id;
-
     private String name;
-
     private BigDecimal price;
-
-    private boolean inGrams;
-
-    private int weight;
-
+    private Boolean inGrams;
     private LocalDateTime updatedAt;
-
-    private int energeticValue;
-
-    private int fat;
-
-    private int protein;
-
-    private int carbs;
-
-    private int fiber;
-
-    private int salt;
-
-    private boolean isHidden;
-
-    private boolean isFavourite;
-
-    private boolean isReported;
-
+    private Integer weight;
+    private Integer energeticValue;
+    private Integer fat;
+    private Integer protein;
+    private Integer carbs;
+    private Integer fiber;
+    private Integer salt;
     private String imageName;
-
+    private Boolean isHidden;
+    private Boolean isFavourite;
+    private Boolean isReported;
 }

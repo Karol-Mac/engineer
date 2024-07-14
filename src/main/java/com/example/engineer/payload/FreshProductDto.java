@@ -1,39 +1,61 @@
 package com.example.engineer.payload;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import com.example.engineer.util.ValidPercentage;
+
 /**
- Class describe product that seller adds and operate on
+ * Class describe product that seller adds and operate on
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public final class FreshProductDto {
     private long id;
 
+    @NotBlank
     private String name;
 
+    @Min(0)
+    @NotNull
     private BigDecimal price;
 
-    private boolean inGrams;
+    @NotNull
+    private Boolean inGrams;
 
-    private int weight;
+    @Min(0)
+    @NotNull
+    private Integer weight;
 
-    private int energeticValue;
+    @Min(0)
+    @NotNull
+    private Integer energeticValue;
 
-    private int fat;
+    @ValidPercentage
+    @NotNull
+    private Integer fat;
 
-    private int protein;
+    @ValidPercentage
+    @NotNull
+    private Integer protein;
 
-    private int carbs;
+    @ValidPercentage
+    @NotNull
+    private Integer carbs;
 
-    private int fiber;
+    @ValidPercentage
+    @NotNull
+    private Integer fiber;
 
-    private int salt;
+    @ValidPercentage
+    @NotNull
+    private Integer salt;
 
     private String imageName;
 }

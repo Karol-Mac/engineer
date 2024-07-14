@@ -15,7 +15,7 @@ public class ProductMapper {
         copyCommonFields(productDto, product);
 
         product.setId(productDto.getId());          //FIXME: id should me set ?
-        product.setHidden(productDto.isHidden());
+        product.setHidden(productDto.getIsHidden());
         //TODO: when you create users & reports - remember to add mapping
         return product;
     }
@@ -27,11 +27,11 @@ public class ProductMapper {
         copyCommonFields(product, productDto);
         productDto.setId(product.getId());          //FIXME: HERE IT SHOULD!
         productDto.setUpdatedAt(product.getUpdatedAt());
-        productDto.setHidden(product.isHidden());
+        productDto.setIsHidden(product.isHidden());
 
         // default values for fields not defined in product
-        productDto.setFavourite(false);
-        productDto.setReported(false);
+        productDto.setIsFavourite(false);
+        productDto.setIsReported(false);
 
         return productDto;
     }
@@ -59,7 +59,7 @@ public class ProductMapper {
     private void copyCommonFields(ProductDto source, Product target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setInGrams(source.isInGrams());
+        target.setInGrams(source.getInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
@@ -87,7 +87,7 @@ public class ProductMapper {
     private void copyCommonFields(FreshProductDto source, Product target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setInGrams(source.isInGrams());
+        target.setInGrams(source.getInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
