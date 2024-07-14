@@ -8,18 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper {
 
-    public Product mapToEntity(ProductDto productDto) {
-        if (productDto == null) throw new NullPointerException("ProductDto cannot be null");
-
-        Product product = new Product();
-        copyCommonFields(productDto, product);
-
-        product.setId(productDto.getId());          //FIXME: id should me set ?
-        product.setHidden(productDto.getIsHidden());
-        //TODO: when you create users & reports - remember to add mapping
-        return product;
-    }
-
     public ProductDto mapProductToDto(Product product) {
         if (product == null) throw new NullPointerException("Product cannot be null");
 
@@ -54,20 +42,6 @@ public class ProductMapper {
         freshProductDto.setId(product.getId());
 
         return freshProductDto;
-    }
-
-    private void copyCommonFields(ProductDto source, Product target) {
-        target.setName(source.getName());
-        target.setPrice(source.getPrice());
-        target.setInGrams(source.getInGrams());
-        target.setWeight(source.getWeight());
-        target.setEnergeticValue(source.getEnergeticValue());
-        target.setFat(source.getFat());
-        target.setProtein(source.getProtein());
-        target.setCarbs(source.getCarbs());
-        target.setFiber(source.getFiber());
-        target.setSalt(source.getSalt());
-        target.setImageName(source.getImageName());
     }
 
     private void copyCommonFields(Product source, ProductDto target) {
