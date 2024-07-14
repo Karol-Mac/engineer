@@ -4,6 +4,7 @@ import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ public class ProductController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FreshProductDto> addProduct(@RequestPart("product") FreshProductDto product,
-                                                      @RequestPart("file") MultipartFile file)
+    public ResponseEntity<FreshProductDto> addProduct(@RequestPart("product") @Valid FreshProductDto product,
+                                                      @RequestPart(value = "file")  MultipartFile file)
                                                         throws IOException{
 
         String imageName = imageService.saveImage(file);
@@ -45,5 +46,16 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProductsByName(@RequestParam String name){
         return ResponseEntity.ok(productService.getAllProducts(name));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FreshProductDto> updateProduct(@PathVariable long id,
+                                                         @RequestBody @Valid FreshProductDto product){
+        return ResponseEntity.ok(productService.updateProduct(product, id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable long id){
+        return ResponseEntity.ok(productService.deleteProduct(id));
     }
 }
