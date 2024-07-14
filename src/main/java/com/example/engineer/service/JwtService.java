@@ -8,7 +8,8 @@ import java.util.Map;
 public interface JwtService {
 
     String extractEmail(String jwtToken);
-
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails);
+    String generateToken(Map<String, Object> claims, UserDetails userDetails);
+    String generateToken(UserDetails userDetails);
+    boolean isTokenValid(String token, UserDetails userDetails);
 
 }

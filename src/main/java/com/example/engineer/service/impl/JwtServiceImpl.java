@@ -50,6 +50,7 @@ public class JwtServiceImpl implements JwtService {
                         Decoders.BASE64.decode(secretKey));
     }
 
+    @Override
     public String generateToken(Map<String, Object> claims, UserDetails userDetails){
         return Jwts.builder()
                 .setClaims(claims)
@@ -60,7 +61,19 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+    @Override
     public String generateToken(UserDetails userDetails){
         return generateToken(new HashMap<>(), userDetails);
+    }
+
+    @Override
+    public boolean isTokenValid(String jwtToken, UserDetails userDetails){
+        String email = extractEmail(jwtToken);
+
+        return email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken);
+    }
+
+    private boolean isTokenExpired(String jwtToken){
+        return extractClaims(jwtToken).getExpiration().before(new Date());
     }
 }
