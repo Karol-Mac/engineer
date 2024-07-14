@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -41,5 +42,8 @@ public class ProductController {
     }
 
     //TODO: add rest of controller methods
-
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> getProductsByName(@RequestParam String name){
+        return ResponseEntity.ok(productService.getAllProducts(name));
+    }
 }

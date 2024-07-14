@@ -34,9 +34,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProducts(String productName){
 
-        List<Product> products = productRepository.findByName(productName);
+        List<Product> products = productRepository.findByNameContaining(productName);
 
-        //TODO: add functionality to set isFavourite & isReported
+        //FIXME: add functionality to set isFavourite & isReported
         return products.stream().map(productMapper::mapProductToDto).toList();
     }
 

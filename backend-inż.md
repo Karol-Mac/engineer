@@ -31,7 +31,7 @@ Struktura wyjątku: {
 | method type | endpoint                  | body | response  |
 |-------------|---------------------------|------|-----------|
 | GET         | /api/products/{productId} |      | PRODUCT   |
-| POST        | /api/products             | name | [PRODUCT] |
+| GET         | /api/products?name=string |      | [PRODUCT] |
 
 ### SELLER - PRODUCTS
 | method type | endpoint                  | body          | response      | role         |
@@ -165,12 +165,10 @@ body: **brak**
 response: {}
 
 ##### Przeglądanie listy produktów:
-_POST: localhost:8080/api/products_
+_GET: localhost:8080/api/products?name=string_
+name - nazwa produktu (lub jej fragment) - **wymagane**
 
-body: {
-name: string
-}
-
+body: **brak**
 response: `[{PRODUCT}, {PRODUCT}, ...]`
 
 Pytania: 
