@@ -2,15 +2,16 @@ package com.example.engineer.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
-
+//TODO: is this class okay ?
 @RestControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+public class CustomExceptionHandler extends ExceptionHandlerExceptionResolver {
 
     @ExceptionHandler(ApiException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -40,4 +41,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ErrorInfo(request.getRequestURL().toString() , ex);
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    ErrorInfo handleException(MissingServletRequestParameterException ex, HttpServletRequest request) {
+        return new ErrorInfo(request.getRequestURL().toString() , ex);
+    }
 }
