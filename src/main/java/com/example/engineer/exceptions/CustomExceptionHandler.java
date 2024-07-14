@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
-//TODO: is this class okay ?
+//TODO: is this class okay ? For know - yes...but idk what will be sooner
 @RestControllerAdvice
 public class CustomExceptionHandler extends ExceptionHandlerExceptionResolver {
 
