@@ -1,6 +1,7 @@
 package com.example.engineer.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +21,14 @@ public class CustomExceptionHandler extends ExceptionHandlerExceptionResolver {
         return new ErrorInfo(request.getRequestURI() , ex);
     }
 
-    @ExceptionHandler(AuthorizationException.class)
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    ErrorInfo handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
+        return new ErrorInfo(request.getRequestURI() , ex);
+    }
+
+    @ExceptionHandler(AuthorizationException.class )
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     ErrorInfo handleAuthorizationException(AuthorizationException ex, HttpServletRequest request) {

@@ -1,6 +1,7 @@
 package com.example.engineer.service.impl;
 
 import com.example.engineer.service.ImageService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,6 +22,8 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String saveImage(MultipartFile file) throws IOException {
+        if(file.isEmpty()) throw new BadRequestException("Image file must not be empty");
+
         String imageName = UUID.randomUUID()+ "_" + file.getOriginalFilename();
         Path directoryPath = Paths.get(imageDirectory);
 
