@@ -2,7 +2,6 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Seller;
-import com.example.engineer.exceptions.AuthenticationException;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
@@ -12,6 +11,7 @@ import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
 import com.example.engineer.util.ProductMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
     private Seller getSellerFromDB(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return sellerRepository.findByEmail(email)
-                .orElseThrow(() -> new AuthenticationException("You have no permission to access this resource"));
+                .orElseThrow(() -> new AccessDeniedException("You have no permission to access this resource"));
     }
 
 }
