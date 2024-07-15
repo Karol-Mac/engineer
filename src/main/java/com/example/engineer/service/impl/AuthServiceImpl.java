@@ -3,7 +3,6 @@ package com.example.engineer.service.impl;
 import com.example.engineer.entity.Role;
 import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
-import com.example.engineer.exceptions.AuthorizationException;
 import com.example.engineer.payload.JwtAuthResponse;
 import com.example.engineer.payload.LoginDto;
 import com.example.engineer.payload.RegisterSellerDto;
@@ -15,6 +14,7 @@ import com.example.engineer.service.AuthService;
 import com.example.engineer.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,10 +31,10 @@ public class AuthServiceImpl implements AuthService {
     private final SellerRepository sellerRepository;
 
     @Override
-    public String register(RegisterUserDto registerUserDto){
+    public String register(RegisterUserDto registerUserDto) throws BadCredentialsException{
 
         if(userRepository.existsByEmail(registerUserDto.getEmail()))
-                    throw new AuthorizationException("User with given email (" + registerUserDto.getEmail() +") already exist");
+                    throw new BadCredentialsException("User with given email (" + registerUserDto.getEmail() +") already exist");
 
         Role role = roleRepository.findByName("ROLE_USER").get();
 
@@ -70,9 +70,9 @@ public class AuthServiceImpl implements AuthService {
 
 
     @Override
-    public String registerCompany(RegisterSellerDto registerSellerDto){
+    public String registerCompany(RegisterSellerDto registerSellerDto) throws BadCredentialsException{
         if(sellerRepository.existsByEmail(registerSellerDto.getEmail()))
-            throw new AuthorizationException("Seller with given email (" + registerSellerDto.getEmail() +") already exist");
+            throw new BadCredentialsException("Seller with given email (" + registerSellerDto.getEmail() +") already exist");
 
         Role role = roleRepository.findByName("ROLE_SELLER").get();
 
