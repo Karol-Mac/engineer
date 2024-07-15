@@ -14,7 +14,6 @@ import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.AuthService;
 import com.example.engineer.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -84,7 +83,7 @@ public class AuthServiceImpl implements AuthService {
                 .KRS(registerSellerDto.getKrsNumber())
                 .role(role)
                 .isDeleted(false)
-                .imageName("")  //FIXME: add proper image name
+                .imageName(registerSellerDto.getImageName())
                 .build();
 
         sellerRepository.save(seller);

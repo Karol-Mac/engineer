@@ -1,6 +1,5 @@
 package com.example.engineer.payload;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -29,6 +28,8 @@ public class RegisterSellerDto {
 
     @Size(min = 10, max = 10, message = "Must be valid KRS number (exactly 10 numbers)")
     @NotBlank
-    @JsonAlias("KRS")
+//    @JsonAlias("KRS")
     private String krsNumber;
+
+    private String imageName;
 }

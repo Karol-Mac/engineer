@@ -6,13 +6,16 @@ import com.example.engineer.service.AuthService;
 import com.example.engineer.payload.LoginDto;
 import com.example.engineer.payload.RegisterUserDto;
 
+import com.example.engineer.service.ImageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final AuthService authService;
+    private ImageService imageService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
@@ -36,8 +40,14 @@ public class AuthenticationController {
         return new ResponseEntity<>(authService.register(registerUserDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/company/register")
-    public ResponseEntity<String> registerCompany(@RequestBody RegisterSellerDto registerSellerDto){
+    @PostMapping(name = "/company/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> registerCompany(@RequestPart(value = "company") @Valid RegisterSellerDto registerSellerDto,
+                                                  @RequestPart(value = "file") MultipartFile imageFile)
+                                                    throws IOException{
+
+        String imageName = imageService.saveImage(imageFile);
+        registerSellerDto.setImageName(imageName);
+
         return new ResponseEntity<>(authService.registerCompany(registerSellerDto), HttpStatus.CREATED);
     }
 

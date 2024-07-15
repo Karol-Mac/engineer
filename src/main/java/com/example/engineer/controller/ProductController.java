@@ -28,10 +28,10 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FreshProductDto> addProduct(@RequestPart("product") @Valid FreshProductDto product,
-                                                      @RequestPart(value = "file")  MultipartFile file)
+                                                      @RequestPart(value = "file")  MultipartFile imageFile)
                                                         throws IOException{
 
-        String imageName = imageService.saveImage(file);
+        String imageName = imageService.saveImage(imageFile);
         product.setImageName(imageName);
 
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
