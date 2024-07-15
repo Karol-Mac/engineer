@@ -1,31 +1,44 @@
 package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
+import com.example.engineer.entity.Seller;
+import com.example.engineer.exceptions.AuthenticationException;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
+import com.example.engineer.repository.SellerRepository;
+import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
 import com.example.engineer.util.ProductMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final SellerRepository sellerRepository;
     private final ProductMapper productMapper;
+    private final ImageService imageService;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper){
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
-    }
 
     @Override
-    public FreshProductDto addProduct(FreshProductDto freshProduct){
+    public FreshProductDto addProduct(FreshProductDto freshProduct, MultipartFile imageFile) throws IOException{
 
         Product product = productMapper.mapToEntity(freshProduct);
+
+        Seller owner = getSellerFromDB();
+        String imageName = imageService.saveImage(imageFile);
+
+        product.setSeller(owner);
+        product.setImageName(imageName);
         Product saved = productRepository.save(product);
 
         return productMapper.mapProductToFresh(saved);
@@ -70,4 +83,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(productId)
                 .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
     }
+
+    private Seller getSellerFromDB(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthenticationException("You have no permission to access this resource"));
+    }
+
 }

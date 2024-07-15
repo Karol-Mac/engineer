@@ -33,4 +33,5 @@ public final class ProductDto {
     private Boolean isHidden;
     private Boolean isFavourite;
     private Boolean isReported;
+    private long sellerId;
 }

@@ -2,9 +2,9 @@ package com.example.engineer.controller;
 
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
-import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@RequiredArgsConstructor
 public class ProductController {
+
     private final ProductService productService;
-
-    private final ImageService imageService;
-
-    public ProductController(ProductService productService, ImageService imageService){
-        this.productService = productService;
-        this.imageService = imageService;
-    }
 
     @PreAuthorize("hasRole('SELLER')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

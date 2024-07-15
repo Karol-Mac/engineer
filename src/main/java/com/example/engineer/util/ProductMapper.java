@@ -56,6 +56,7 @@ public class ProductMapper {
         target.setFiber(source.getFiber());
         target.setSalt(source.getSalt());
         target.setImageName(source.getImageName());
+        target.setSellerId(source.getSeller().getId());
     }
 
     private void copyCommonFields(FreshProductDto source, Product target) {
@@ -69,7 +70,6 @@ public class ProductMapper {
         target.setCarbs(source.getCarbs());
         target.setFiber(source.getFiber());
         target.setSalt(source.getSalt());
-        target.setImageName(source.getImageName());
     }
 
     private void copyCommonFields(Product source, FreshProductDto target) {
@@ -84,5 +84,6 @@ public class ProductMapper {
         target.setFiber(source.getFiber());
         target.setSalt(source.getSalt());
         target.setImageName(source.getImageName());
+        target.setSellerId(source.getSeller().getId());
     }
 }
