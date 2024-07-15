@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -63,4 +64,11 @@ public class Product {
     private boolean isHidden;      //removed products have isHidden=true
 
     private String imageName;
+
+    @ManyToOne
+    @JoinColumn(name = "sellerId", nullable = false)
+    private Seller seller;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports;
 }
