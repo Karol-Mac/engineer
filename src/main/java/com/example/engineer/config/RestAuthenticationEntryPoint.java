@@ -25,6 +25,5 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(response.getWriter(), errorInfo);
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }

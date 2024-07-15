@@ -2,10 +2,10 @@ package com.example.engineer.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.coyote.BadRequestException;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,14 +19,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public ResponseEntity<ErrorInfo> handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
-        LoggerFactory.getLogger(CustomExceptionHandler.class).error("Access Denied: {}", ex.getMessage());
         ErrorInfo errorInfo = new ErrorInfo(request.getRequestURI(),  ex);
         return new ResponseEntity<>(errorInfo, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(AuthorizationException.class)
-    public ResponseEntity<ErrorInfo> handleAuthorizationException(AuthorizationException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.UNAUTHORIZED);
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public ResponseEntity<ErrorInfo> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request) {
+        ErrorInfo errorInfo = new ErrorInfo(request.getRequestURI(),  ex);
+        return new ResponseEntity<>(errorInfo, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(ApiException.class)
