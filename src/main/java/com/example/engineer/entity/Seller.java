@@ -1,6 +1,7 @@
 package com.example.engineer.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
@@ -12,8 +13,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "sellers")
 public class Seller implements UserDetails {
@@ -46,11 +49,14 @@ public class Seller implements UserDetails {
     private List<Product> products;
 
 
+
+    //UserDetails implementation:
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
         return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
+    //same reason as In User.java
     @Override
     public String getUsername(){
         return email;
@@ -63,7 +69,7 @@ public class Seller implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked(){
-        return UserDetails.super.isAccountNonLocked();
+        return !isDeleted;
     }
 
     @Override
@@ -73,7 +79,7 @@ public class Seller implements UserDetails {
 
     @Override
     public boolean isEnabled(){
-        return UserDetails.super.isEnabled();
+        return !isDeleted;
     }
 }
 
