@@ -5,7 +5,8 @@ import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.AuthorizationException;
 import com.example.engineer.payload.JwtAuthResponse;
 import com.example.engineer.payload.LoginDto;
-import com.example.engineer.payload.RegisterDto;
+import com.example.engineer.payload.RegisterSellerDto;
+import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.RoleRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.AuthService;
@@ -27,17 +28,17 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     @Override
-    public String register(RegisterDto registerDto){
+    public String register(RegisterUserDto registerUserDto){
 
-        if(userRepository.existsByEmail(registerDto.getEmail()))
+        if(userRepository.existsByEmail(registerUserDto.getEmail()))
                     throw new AuthorizationException("Email already exist");
 
         Role role = roleRepository.findByName("ROLE_USER").get();
 
         var user = User.builder()
-                .username(registerDto.getUsername())
-                .password(passwordEncoder.encode(registerDto.getPassword()))
-                .email(registerDto.getEmail())
+                .username(registerUserDto.getUsername())
+                .password(passwordEncoder.encode(registerUserDto.getPassword()))
+                .email(registerUserDto.getEmail())
                 .role(role)
                 .isBlocked(false)
                 .isDeleted(false)
@@ -65,4 +66,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
 
+    @Override
+    public String registerCompany(RegisterSellerDto registerSellerDto){
+        return "";
+    }
+
+    @Override
+    public JwtAuthResponse loginCompany(LoginDto loginDto){
+        return null;
+    }
 }

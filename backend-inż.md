@@ -20,12 +20,12 @@ Struktura wyjątku: {
 
 ## 2. Tabele z endpointami
 ### LOGOWANIE / REJESTRACJA
-| method type | endpoint                   | body                                      | response | ROLE       |
-|-------------|----------------------------|-------------------------------------------|----------|------------|
-| POST        | /api/auth/login            | email, password                           | token    | user/admin |
-| POST        | /api/auth/register         | username, email, password                 | ???      | user/admin |
-| POST        | /api/auth/company/login    | email, password                           | token    | seller     |
-| POST        | /api/auth/company/register | shopName, email, password, KRS, imageFile | ???      | seller     |
+| method type | endpoint                   | body                                      | response  | ROLE       |
+|-------------|----------------------------|-------------------------------------------|-----------|------------|
+| POST        | /api/auth/login            | email, password                           | token     | user/admin |
+| POST        | /api/auth/register         | username, email, password                 | komunikat | user/admin |
+| POST        | /api/auth/company/login    | email, password                           | token     | seller     |
+| POST        | /api/auth/company/register | shopName, email, password, KRS, imageFile | komunikat | seller     |
 
 ### WYSZUKIWANIE PRODUKTÓW
 | method type | endpoint                  | body | response  |
@@ -90,9 +90,10 @@ body: {
     password: string
 }
 
-response: {
-	token: longTokenString
-}
+response: `{
+    accessToken: string,
+    tokenType : string
+}`
 
 ##### rejestracja:
 _POST: localhost:8080/api/auth/register_
@@ -103,7 +104,7 @@ body: {
     password: string
 }
 
-response: **???**
+response: **komunikat**
 
 #### konto firmowe (seller)
 ##### logowanie:
@@ -114,9 +115,10 @@ email: string
 password: string
 }
 
-response: {
-token: longTokenString
-}
+response: `{
+    accessToken: string,
+    tokenType : string
+}`
 
 ##### rejestracja:
 _POST: localhost:8080/api/auth/company/register_
@@ -128,7 +130,7 @@ body:
     KRS: string
 }, imageFile (plik ze zdjęciem)
 
-response: **???**
+response: **komunikat**
 
 Pytania:
 1. Kiedy dać ustawianie zdjęcia dla sprzedawcy?
@@ -243,12 +245,12 @@ response: **komunikat**
 ##### Zablokowanie użytkownika:
 _PUT: localhost:8080/api/users/{userId}/block_
 body: **brak**
-response: **zablokowany użytkownik ? komunikat ? nic**
+response: **komunikat**
 
 ##### Zablokowanie komentarzy użytkownika:
 _PUT: localhost:8080/api/users/{userId}/comments_
 body: **brak**
-response: **treść komentarza ? komunikat ? nic**
+response: **komunikat**
 
 ### LISTA ULUBIONYCH
 
@@ -330,9 +332,8 @@ Oczywiście na raz podajemy **TYLKO JEDEN** z parametrów
     createdAt: date
     isDone: boolean
     message: string
-    authorId: int		//id:  usera który napisał komentarz / sellera, który dodał produkt
-    // ⬇️⬆️zamiast id mogę zwrócić nazwę - obojętnie
-    reportersId: int
+    authorName: string		// username usera/shopName sellera - którzy zrobili błąd
+    reporterName: string
     productId: int		//productId albo commentId - jedno z nich będzie NULLEM!!!
     commentId: int
 }
