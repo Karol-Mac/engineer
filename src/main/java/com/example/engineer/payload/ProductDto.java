@@ -30,6 +30,7 @@ public final class ProductDto {
     private Integer fiber;
     private Integer salt;
     private String imageName;
+
     private Boolean isHidden;
     private Boolean isFavourite;
     private Boolean isReported;
