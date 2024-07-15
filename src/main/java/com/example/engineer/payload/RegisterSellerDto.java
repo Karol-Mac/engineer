@@ -1,5 +1,6 @@
 package com.example.engineer.payload;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -26,11 +27,8 @@ public class RegisterSellerDto {
                     "1 special character & at stay in range between <8, 20> characters (total)")
     private String password;
 
-    private boolean isDeleted;
-
-    @Size(min = 2, max = 30, message = "Must be valid KRS number")
+    @Size(min = 10, max = 10, message = "Must be valid KRS number (exactly 10 numbers)")
     @NotBlank
-    private String KRS;
-
-    private String imageName;
+    @JsonAlias("KRS")
+    private String krsNumber;
 }

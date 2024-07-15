@@ -36,7 +36,7 @@ public class Seller implements UserDetails {
     @Column(nullable = false)
     private boolean isDeleted;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 10)
     private String KRS;
 
     private String imageName;
