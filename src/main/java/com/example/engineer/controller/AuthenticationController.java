@@ -23,7 +23,7 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthService authService;
-    private ImageService imageService;
+    private final ImageService imageService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
@@ -40,7 +40,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(authService.register(registerUserDto), HttpStatus.CREATED);
     }
 
-    @PostMapping(name = "/company/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/company/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> registerCompany(@RequestPart(value = "company") @Valid RegisterSellerDto registerSellerDto,
                                                   @RequestPart(value = "file") MultipartFile imageFile)
                                                     throws IOException{
@@ -50,5 +50,4 @@ public class AuthenticationController {
 
         return new ResponseEntity<>(authService.registerCompany(registerSellerDto), HttpStatus.CREATED);
     }
-
 }
