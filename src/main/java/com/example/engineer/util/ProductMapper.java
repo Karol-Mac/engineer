@@ -1,27 +1,52 @@
 package com.example.engineer.util;
 
 import com.example.engineer.entity.Product;
+import com.example.engineer.entity.User;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.repository.UserRepository;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
+
+    private final UserRepository userRepository;
+
+    public ProductMapper(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public ProductDto mapProductToDto(Product product) {
         if (product == null) throw new NullPointerException("Product cannot be null");
 
         ProductDto productDto = new ProductDto();
         copyCommonFields(product, productDto);
-        productDto.setId(product.getId());          //FIXME: HERE IT SHOULD!
+        productDto.setId(product.getId());
         productDto.setUpdatedAt(product.getUpdatedAt());
         productDto.setIsHidden(product.isHidden());
 
-        // default values for fields not defined in product
-        productDto.setIsFavourite(false);
-        productDto.setIsReported(false);
+        var user = getUserFromDB();
 
+        if (user != null) {
+            productDto.setIsFavourite(isFavourite(product, user));
+            productDto.setIsReported(isReported(product, user));
+        } else {
+            productDto.setIsFavourite(false);
+            productDto.setIsReported(false);
+        }
         return productDto;
+    }
+
+    private static boolean isReported(Product product, User user) {
+        return user.getReports().stream()
+                .anyMatch(report -> report.getProduct().equals(product));
+    }
+
+    private static boolean isFavourite(Product product, User user) {
+        return user.getFavouriteProducts().stream().anyMatch(pro -> pro.equals(product));
     }
 
     public Product mapToEntity(FreshProductDto freshProductDto) {
@@ -85,5 +110,16 @@ public class ProductMapper {
         target.setSalt(source.getSalt());
         target.setImageName(source.getImageName());
         target.setSellerId(source.getSeller().getId());
+    }
+
+    private User getUserFromDB(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        LoggerFactory.getLogger(ProductMapper.class).warn("email: {}", email);
+
+        //FIXME:
+        if(email.equals("anonymousUser")) return null;
+
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new AccessDeniedException("exception from mapper :D"));
     }
 }
