@@ -19,7 +19,7 @@ import com.example.engineer.util.ValidPercentage;
 public final class FreshProductDto {
     private long id;
 
-    @NotBlank
+    @NotBlank(message = "need to contain at least 1 character")
     private String name;
 
     @Min(0)
