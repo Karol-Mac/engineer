@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
         List<Product> products = productRepository.findByNameContaining(productName);
 
-        //FIXME: add functionality to set isFavourite & isReported
+        //TODO: add functionality to set isFavourite & isReported
         return products.stream().map(productMapper::mapProductToDto).toList();
     }
 
