@@ -1,7 +1,6 @@
-package com.example.engineer.config;
+package com.example.engineer.exceptions;
 
 
-import com.example.engineer.exceptions.ErrorInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
