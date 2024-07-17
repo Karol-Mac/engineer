@@ -1,6 +1,7 @@
 package com.example.engineer.config;
 
 import com.example.engineer.exceptions.RestAuthenticationEntryPoint;
+import com.example.engineer.util.RoleName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +27,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers( "/api/auth/**").permitAll()
-                                .requestMatchers( HttpMethod.GET, "/api/products/**").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/images").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/comments").permitAll()
+
+                                /** Jwt filter need's to be applied on those endpoints,
+                                    but at the same time I need's
+                                    to be accessible for every user (anonymous too)
+                                    this is why I created enum RoleName
+                                 */
+                                .requestMatchers( HttpMethod.GET, "/api/products/**").hasAnyRole(RoleName.allRoles())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()
