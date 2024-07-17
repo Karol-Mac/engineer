@@ -221,7 +221,7 @@ response: **komunikat**
 #### prywatnym (private account/admin (swoje dane)):
 
 ##### Aktualizowanie nazwy użytkownika/hasła
-_PUT: localhost:8080/api/users_
+_POST: localhost:8080/api/users_
 
 body: {
     username: string
@@ -235,20 +235,57 @@ response: {
 }
 
 #### admin:
-##### Usunięcie użytownika:
-_DELETE: localhost:8080/api/users/{userId}_
+**Obiekt usera/sellera -> ACCOUNT**
+`{
+    id: int                 //niezmieniable
+    username: string        //niezmieniable
+    email: string           //niezmieniable
+    isBlocked: boolean      //czy zablokowany - seller ma zawsze na false
+    isDeleted: boolean      
+    role: string            // USER/SELLER/ADMIN
+    //pola przydatne do szczegółów konta (niezmieniable):
+    reportsCount: int               //user
+    commentsCount: int              //user
+    reportedComments: int           //user
+    addedProductsCount: int         //seller
+    reportedProductsCount: int      //seller
+}`
+
+##### lista wszystkich użytkowników/sellerów):
+_GET: localhost:8080/api/users_
 
 body: **brak**
 
-response: **komunikat**
+response: `[
+    {ACCOUNT},
+    {ACCOUNT},
+    ...
+]`
 
-##### Zablokowanie użytkownika:
-_PUT: localhost:8080/api/users/{userId}/block_
+#### szczegoly konta:
+_GET: localhost:8080/api/users?type=string&id=_
+type - typ użytkownika (USER/SELLER)
+id - id użytkownika dla detali
 body: **brak**
+response: {ACCOUNT}
+
+##### Zmiana danych usera/sellera:
+_PUT: localhost:8080/api/users_
+U użytkownika (private user) można zmienić:
+ - isBlocked - zablokowanie użytkownika
+ - isDeleted - usunięcie użytkownika
+ - role - zmiana roli (na SELLER lub ADMIN)
+_usunięcie wszystkich komentarzy użytkownika dostępne jest w sekcji KOMENTARZE_
+
+U sellera można zmienić:
+ - isDeleted - usunięcie użytkownika
+ - role - zmiana roli (na SELLER lub ADMIN)
+
+body: {ACCOUNT}     //użytkownik weryfikowany jest po emailu
 response: **komunikat**
 
-##### Zablokowanie komentarzy użytkownika:
-_PUT: localhost:8080/api/users/{userId}/comments_
+##### Usuń wszystkie komentarze
+_DELETE: localhost:8080/api/users/{userId}/comments_
 body: **brak**
 response: **komunikat**
 
@@ -258,9 +295,9 @@ response: **komunikat**
 _GET: localhost:8080/api/users/favorites_
 body: **brak**
 response: `[
-{PRODUCT},
-{PRODUCT},
-...
+    {PRODUCT},
+    {PRODUCT},
+    ...
 ]`
 
 ##### Dodanie do ulubionych:
@@ -294,13 +331,6 @@ response: `[
     ...
 ]`
 
-##### pojedynczy komentarz (przydatne przy zgłoszeniach)
-_GET: localhost:8080/api/comments/{commentId}_
-`commentId` - id konkretnego komentarza
-body: **brak**
-
-response: {COMMENT}
-
 ##### Dodaj komentarz:
 _POST: localhost:8080/api/comments_
 
@@ -308,9 +338,16 @@ body: {COMMENT}	//oczywiście bez id, nie trzeba B-)
 
 response: {COMMENT}
 
-##### Usuń komentarz
-**Chodzi o admina usuwającego komentarz - użytkownicy swoich nie mogą**
-_DELETE: localhost:8080/api/users/comments/{commentId}_
+### admin (funkcje przydatne przy zgłoszeniach):
+##### pojedynczy komentarz:
+_GET: localhost:8080/api/comments/{commentId}_
+`commentId` - id konkretnego komentarza
+body: **brak**
+
+response: {COMMENT}
+
+##### **Usuń** pojedynczy komentarz 
+_DELETE: localhost:8080/api/comments/{commentId}_
 `commentId` - Id komentarza do usunięcia
 body: **brak**
 response: **komunikat**

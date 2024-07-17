@@ -33,7 +33,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private Boolean isBlocked;
+    private Boolean isBlocked;      //isBlocked = can add comments ?
     private Boolean isDeleted;
     private Boolean isDarkModeOn;
 
