@@ -53,7 +53,7 @@ Struktura wyjątku: {
 |-------------|--------------------------------|------|-----------|------|
 | GET         | /api/users/favorites           |      | [PRODUCT] | user |
 | PUT         | /api/users/favorites?productId |      | PRODUCT   | user |
-| DELETE      | /api/favorites?productId       |      | komunikat | user |
+| DELETE      | /api/users/favorites?productId |      | komunikat | user |
 
 ### KOMENTARZE
 | method type | endpoint                        | body    | response  | role       |
@@ -270,7 +270,7 @@ body: **brak**
 response: {PRODUCT}
 
 ##### Usunięcie z ulubionych:
-_DELETE: localhost:8080/api/favorites?productId_
+_DELETE: localhost:8080/api/users/favorites?productId_
 `productId` - id produktu do dodania
 body: **brak** 
 response: **komunikat**
