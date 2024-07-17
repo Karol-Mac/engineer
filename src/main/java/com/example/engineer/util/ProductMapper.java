@@ -4,6 +4,7 @@ import com.example.engineer.entity.Product;
 import com.example.engineer.entity.User;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.repository.UserRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Component;
 public class ProductMapper {
 
     private final UserRepository userRepository;
+    private final SellerRepository sellerRepository;
 
-    public ProductMapper(UserRepository userRepository) {
+    public ProductMapper(UserRepository userRepository, SellerRepository sellerRepository) {
         this.userRepository = userRepository;
+        this.sellerRepository = sellerRepository;
     }
 
     public ProductDto mapProductToDto(Product product) {
@@ -116,10 +119,12 @@ public class ProductMapper {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         LoggerFactory.getLogger(ProductMapper.class).warn("email: {}", email);
 
-        //FIXME:
-        if(email.equals("anonymousUser")) return null;
-
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new AccessDeniedException("exception from mapper :D"));
+        /** If a user is anonymous, or it's a seller (which can't add products to favourite either)
+                      then return null (set isFav & isRep to false)*/
+        if(email.equals("anonymousUser") || sellerRepository.existsByEmail(email)) return null;
+        else {
+            return userRepository.findByEmail(email).orElseThrow(
+                    () -> new AccessDeniedException("exception from mapper :D"));
+        }
     }
 }
