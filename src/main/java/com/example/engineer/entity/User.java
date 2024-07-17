@@ -55,7 +55,10 @@ public class User implements UserDetails {
     )
     private List<Product> favouriteProducts;
 
-
+    //method created for mapping to RegisterDto XD
+    public String getRealUsername(){
+        return username;
+    }
 
     //UserDetails implementation:
     @Override

@@ -1,15 +1,56 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.AccountDto;
+import com.example.engineer.payload.RegisterUserDto;
+import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
+import com.example.engineer.util.RoleName;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AccountManagementServiceImpl implements AccountManagementService {
+
+    private final UserRepository userRepository;
+    private final SellerRepository sellerRepository;
+    private final ProductRepository productRepository;
+    private final CommentRepository commentRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AccountManagementServiceImpl(UserRepository userRepository,
+                                        SellerRepository sellerRepository,
+                                        ProductRepository productRepository,
+                                        CommentRepository commentRepository,
+                                        RoleRepository roleRepository, PasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.sellerRepository = sellerRepository;
+        this.productRepository = productRepository;
+        this.commentRepository = commentRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
-    public AccountDto changeCredentials(String username, String password){
-        return null;
+    public RegisterUserDto changeCredentials(String username, String password){
+        User user = (User) getUserFromDB(RoleName.USER.getRoleName());
+
+        if(username != null) user.setUsername(username);
+        if(password != null) user.setPassword(passwordEncoder.encode(password));
+
+        var savedUser = userRepository.save(user);
+
+        return new RegisterUserDto(
+                savedUser.getRealUsername(),
+                savedUser.getEmail(),
+                savedUser.getPassword());
     }
 
     @Override
@@ -33,5 +74,15 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
 
+    private UserDetails getUserFromDB(String type){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
+        if(type.equalsIgnoreCase(RoleName.USER.getRoleName())){
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new NotFoundException("User not found", 1));
+        }
+
+        return sellerRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Seller not found"));
+    }
 }
