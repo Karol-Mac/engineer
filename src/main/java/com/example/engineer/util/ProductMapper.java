@@ -6,9 +6,9 @@ import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.repository.UserRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -57,7 +57,6 @@ public class ProductMapper {
 
         Product product = new Product();
         copyCommonFields(freshProductDto, product);
-//        product.setId(freshProductDto.getId());     //FIXME: id should've been set ?
 
         return product;
     }
@@ -117,14 +116,13 @@ public class ProductMapper {
 
     private User getUserFromDB(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        LoggerFactory.getLogger(ProductMapper.class).warn("email: {}", email);
 
         /** If a user is anonymous, or it's a seller (which can't add products to favourite either)
                       then return null (set isFav & isRep to false)*/
         if(email.equals("anonymousUser") || sellerRepository.existsByEmail(email)) return null;
         else {
             return userRepository.findByEmail(email).orElseThrow(
-                    () -> new AccessDeniedException("exception from mapper :D"));
+                    () -> new UsernameNotFoundException("User with email: " + email + " not found"));
         }
     }
 }
