@@ -28,7 +28,7 @@ public class FavouritesController {
         return ResponseEntity.ok(favouritesService.getFavorites(getUserEmail()));
     }
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<ProductDto> addFavorite(@RequestParam long productId)
             throws BadRequestException{
         return new ResponseEntity<>(favouritesService.updateFavorite(getUserEmail(), productId),
