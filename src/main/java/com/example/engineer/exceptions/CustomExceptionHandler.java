@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +37,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorInfo> handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
+    @ExceptionHandler({BadRequestException.class, IOException.class})
+    public ResponseEntity<ErrorInfo> handleBadRequestException(IOException ex, HttpServletRequest request) {
         return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.BAD_REQUEST);
     }
 

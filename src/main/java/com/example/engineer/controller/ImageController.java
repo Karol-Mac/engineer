@@ -22,14 +22,10 @@ public class ImageController {
     }
 
     @GetMapping("/{imageName}")
-    public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
-        try {
+    public ResponseEntity<Resource> getImage(@PathVariable String imageName) throws IOException{
             Resource image = imageService.getImage(imageName);
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getFilename() + "\"")
                     .body(image);
-        } catch (IOException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }
