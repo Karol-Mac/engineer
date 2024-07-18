@@ -1,5 +1,6 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.Role;
 import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
@@ -7,10 +8,12 @@ import com.example.engineer.payload.AccountDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
+import com.example.engineer.util.AccountMapper;
 import com.example.engineer.util.RoleBeans;
+import org.apache.coyote.BadRequestException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,28 +25,28 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     private final UserRepository userRepository;
     private final SellerRepository sellerRepository;
-    private final ProductRepository productRepository;
-    private final CommentRepository commentRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AccountMapper accountMapper;
+    private final CommentRepository commentRepository;
 
 
     public AccountManagementServiceImpl(UserRepository userRepository,
                                         SellerRepository sellerRepository,
-                                        ProductRepository productRepository,
-                                        CommentRepository commentRepository,
-                                        RoleRepository roleRepository, PasswordEncoder passwordEncoder){
+                                        RoleRepository roleRepository,
+                                        PasswordEncoder passwordEncoder,
+                                        AccountMapper accountMapper, CommentRepository commentRepository){
         this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
-        this.productRepository = productRepository;
-        this.commentRepository = commentRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.accountMapper = accountMapper;
+        this.commentRepository = commentRepository;
     }
 
     @Override
     public RegisterUserDto changeCredentials(String username, String password){
-        User user = (User) getUserFromDB(RoleBeans.USER);
+        User user = getUserFromDB();
 
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(passwordEncoder.encode(password));
@@ -59,87 +62,80 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     @Override
     public List<AccountDto> getAllUsers(){
         var users = userRepository.findAll()
-                .stream().map(AccountManagementServiceImpl::mapToDto);
+                .stream().map(accountMapper::mapToDto);
         var sellers = sellerRepository.findAll()
-                .stream().map(AccountManagementServiceImpl::mapToDto);
+                .stream().map(accountMapper::mapToDto);
 
         return Stream.concat(sellers, users).toList();
     }
 
     @Override
     public AccountDto getUser(String type, long id){
-        return null;
+
+        var user = getUserById(type, id);
+        if(type.equals(RoleBeans.USER)){
+            return accountMapper.mapToDto((User) user);
+        } else {
+            return accountMapper.mapToDto((Seller) user);
+        }
     }
 
     @Override
-    public AccountDto updateUser(AccountDto account) throws NotFoundException{
-        return null;
+    public AccountDto updateUser(AccountDto account)
+            throws BadCredentialsException, BadRequestException {
+
+        var email = account.getEmail();
+        if(userRepository.existsByEmail(email)){
+            var user = userRepository.findByEmail(email).get();
+
+            user.setIsBlocked(account.getIsBlocked());
+            user.setIsDeleted(account.getIsDeleted());
+            user.setRole(getRoleByName(account.getRole()));
+            User updated = userRepository.save(user);
+            return accountMapper.mapToDto(updated);
+        } else {
+            var seller = sellerRepository.findByEmail(email).orElseThrow(
+                    () -> new BadCredentialsException("User with email " + email + " not found"));
+
+            seller.setDeleted(account.getIsDeleted());
+            seller.setRole(getRoleByName(account.getRole()));
+            Seller updated = sellerRepository.save(seller);
+            return accountMapper.mapToDto(updated);
+        }
     }
+
+    private Role getRoleByName(String roleName) throws BadRequestException {
+        return roleRepository.findByName("ROLE_" + roleName.toUpperCase())
+                .orElseThrow(() -> new BadRequestException("Role name is incorrect"));
+    }
+
+
 
     @Override
     public String removeAllComments(long id){
+        User user = (User) getUserById(RoleBeans.USER, id);
+
+
+
         return "";
     }
 
 
-    private UserDetails getUserFromDB(String type){
+    private UserDetails getUserById(String type, long id){
+
+        if(type.equalsIgnoreCase(RoleBeans.USER)) {
+            return userRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("User", id));
+        }
+        return sellerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Seller", id));
+    }
+
+    private User getUserFromDB(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if(type.equalsIgnoreCase(RoleBeans.USER)){
-            return userRepository.findByEmail(email)
-                    .orElseThrow(() -> new NotFoundException("User not found", 1));
-        }
-
-        return sellerRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Seller not found"));
-    }
-
-    private static AccountDto mapToDto(User user){
-        AccountDto accountDto = new AccountDto();
-
-        accountDto.setId(user.getId());
-        accountDto.setUsername(user.getRealUsername());
-        accountDto.setEmail(user.getEmail());
-        accountDto.setIsBlocked(user.getIsBlocked());
-        accountDto.setIsDeleted(user.getIsDeleted());
-        //only role name, not ROLE_NAME
-        accountDto.setRole(user.getRole().getName().substring(5));
-        accountDto.setReportsCount(user.getReports().size());
-        accountDto.setCommentsCount(user.getComments().size());
-
-        //FIXME: ???
-        var reportedCommentsCount = user.getReports().stream()
-                .filter(report -> report.getComment() != null).count();
-        var reportedProductsCount = user.getReports().stream()
-                .filter(report -> report.getProduct() != null).count();
-
-
-        accountDto.setReportedCommentsCount(reportedCommentsCount);
-        accountDto.setReportedProductsCount(reportedProductsCount);
-        accountDto.setAddedProductsCount(0);
-
-        return accountDto;
-    }
-
-    private static AccountDto mapToDto(Seller seller){
-        AccountDto accountDto = new AccountDto();
-
-        accountDto.setId(seller.getId());
-        accountDto.setUsername(seller.getShopName());
-        accountDto.setEmail(seller.getEmail());
-        accountDto.setIsBlocked(false);
-        accountDto.setIsDeleted(seller.getIsDeleted());
-        //only role name, not ROLE_NAME
-        accountDto.setRole(seller.getRole().getName().substring(5));
-
-        accountDto.setReportsCount(0);
-        accountDto.setCommentsCount(0);
-        accountDto.setReportedCommentsCount(0);
-        accountDto.setReportedProductsCount(0);
-
-        accountDto.setAddedProductsCount(seller.getProducts().size());
-
-        return accountDto;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new BadCredentialsException("User not found with email: " + email));
     }
 
 }
