@@ -6,7 +6,6 @@ import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.repository.UserRepository;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -71,7 +70,7 @@ public class ProductMapper {
         return freshProductDto;
     }
 
-    private void copyCommonFields(Product source, ProductDto target) {
+    public void copyCommonFields(Product source, ProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
         target.setInGrams(source.isInGrams());
@@ -86,7 +85,7 @@ public class ProductMapper {
         target.setSellerId(source.getSeller().getId());
     }
 
-    private void copyCommonFields(FreshProductDto source, Product target) {
+    public void copyCommonFields(FreshProductDto source, Product target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
         target.setInGrams(source.getInGrams());
@@ -99,7 +98,7 @@ public class ProductMapper {
         target.setSalt(source.getSalt());
     }
 
-    private void copyCommonFields(Product source, FreshProductDto target) {
+    public void copyCommonFields(Product source, FreshProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
         target.setInGrams(source.isInGrams());

@@ -1,6 +1,6 @@
 package com.example.engineer.payload;
 
-import com.example.engineer.util.RoleName;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ public class AccountDto {
 
     private Boolean isDeleted;
 
-    private RoleName role;
+    private String role;
 
     private int reportsCount = 0;
     private int commentsCount = 0;

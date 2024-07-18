@@ -22,7 +22,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PreAuthorize("hasRole(RoleName.SELLER)")
+    @PreAuthorize("hasRole(@sellerRole)")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FreshProductDto> addProduct(@RequestPart("product") @Valid FreshProductDto product,
                                                       @RequestPart(value = "file")  MultipartFile imageFile)
@@ -42,14 +42,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole(RoleName.SELLER, RoleName.ADMIN)")
+    @PreAuthorize("hasRole(@sellerRole)")
     public ResponseEntity<FreshProductDto> updateProduct(@PathVariable long id,
                                                          @RequestBody @Valid FreshProductDto product){
         return ResponseEntity.ok(productService.updateProduct(product, id));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole(RoleName.SELLER, RoleName.ADMIN)")
+    @PreAuthorize("hasAnyRole(@sellerRole, @adminRole)")
     public ResponseEntity<String> deleteProduct(@PathVariable long id){
         return ResponseEntity.ok(productService.deleteProduct(id));
     }

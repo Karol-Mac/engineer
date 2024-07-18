@@ -21,7 +21,7 @@ public class AccountManagementController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole(@userRole)")
     public ResponseEntity<RegisterUserDto> changeCredentials(@RequestBody RegisterUserDto registerUserDto) {
         var username = registerUserDto.getUsername();
         var password = registerUserDto.getPassword();

@@ -1,7 +1,7 @@
 package com.example.engineer.config;
 
 import com.example.engineer.exceptions.RestAuthenticationEntryPoint;
-import com.example.engineer.util.RoleName;
+import com.example.engineer.util.RoleBeans;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -41,7 +41,7 @@ public class SecurityConfig {
                                     to be accessible for every user (anonymous too)
                                     this is why I created enum RoleName
                                  */
-                                .requestMatchers( HttpMethod.GET, "/api/products/**").hasAnyRole(RoleName.allRoles())
+                                .requestMatchers( HttpMethod.GET, "/api/products/**").hasAnyRole(RoleBeans.getAllRoles())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement()

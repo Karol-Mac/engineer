@@ -6,7 +6,7 @@ import com.example.engineer.payload.AccountDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
-import com.example.engineer.util.RoleName;
+import com.example.engineer.util.RoleBeans;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +25,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     public AccountManagementServiceImpl(UserRepository userRepository,
                                         SellerRepository sellerRepository,
                                         ProductRepository productRepository,
@@ -40,7 +41,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     @Override
     public RegisterUserDto changeCredentials(String username, String password){
-        User user = (User) getUserFromDB(RoleName.USER.getRoleName());
+        User user = (User) getUserFromDB(RoleBeans.USER);
 
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(passwordEncoder.encode(password));
@@ -77,7 +78,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     private UserDetails getUserFromDB(String type){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if(type.equalsIgnoreCase(RoleName.USER.getRoleName())){
+        if(type.equalsIgnoreCase(RoleBeans.USER)){
             return userRepository.findByEmail(email)
                     .orElseThrow(() -> new NotFoundException("User not found", 1));
         }

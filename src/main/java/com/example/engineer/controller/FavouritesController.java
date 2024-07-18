@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/favorites")
-@PreAuthorize("hasRole(RoleName.USER)")
+@PreAuthorize("hasRole(@userRole)")
 public class FavouritesController {
 
     private final FavouritesService favouritesService;

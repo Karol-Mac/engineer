@@ -61,12 +61,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public FreshProductDto updateProduct(FreshProductDto freshProductDto, long productId){
-        getProductFromDB(productId);
+        Product actual = getProductFromDB(productId);
 
-        Product updated = productMapper.mapToEntity(freshProductDto);
-        updated.setId(productId);
+        productMapper.copyCommonFields(freshProductDto, actual);
+        actual.setId(productId);
 
-        return productMapper.mapProductToFresh(productRepository.save(updated));
+        return productMapper.mapProductToFresh(productRepository.save(actual));
     }
 
     @Override
