@@ -1,5 +1,6 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.Comment;
 import com.example.engineer.entity.Role;
 import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
@@ -110,14 +111,16 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
 
-
     @Override
     public String removeAllComments(long id){
         User user = (User) getUserById(RoleBeans.USER, id);
 
+        List<Comment> wrotedComments = commentRepository.findByUser(user);
 
+        wrotedComments.forEach(comment -> comment.setVisible(false));
+        commentRepository.saveAll(wrotedComments);
 
-        return "";
+        return "All user's comments removed successfully";
     }
 
 
