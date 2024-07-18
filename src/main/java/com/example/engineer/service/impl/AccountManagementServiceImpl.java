@@ -1,5 +1,6 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.AccountDto;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class AccountManagementServiceImpl implements AccountManagementService {
@@ -56,7 +58,12 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     @Override
     public List<AccountDto> getAllUsers(){
-        return List.of();
+        var users = userRepository.findAll()
+                .stream().map(AccountManagementServiceImpl::mapToDto);
+        var sellers = sellerRepository.findAll()
+                .stream().map(AccountManagementServiceImpl::mapToDto);
+
+        return Stream.concat(sellers, users).toList();
     }
 
     @Override
@@ -86,4 +93,53 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         return sellerRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Seller not found"));
     }
+
+    private static AccountDto mapToDto(User user){
+        AccountDto accountDto = new AccountDto();
+
+        accountDto.setId(user.getId());
+        accountDto.setUsername(user.getRealUsername());
+        accountDto.setEmail(user.getEmail());
+        accountDto.setIsBlocked(user.getIsBlocked());
+        accountDto.setIsDeleted(user.getIsDeleted());
+        //only role name, not ROLE_NAME
+        accountDto.setRole(user.getRole().getName().substring(5));
+        accountDto.setReportsCount(user.getReports().size());
+        accountDto.setCommentsCount(user.getComments().size());
+
+        //FIXME: ???
+        var reportedCommentsCount = user.getReports().stream()
+                .filter(report -> report.getComment() != null).count();
+        var reportedProductsCount = user.getReports().stream()
+                .filter(report -> report.getProduct() != null).count();
+
+
+        accountDto.setReportedCommentsCount(reportedCommentsCount);
+        accountDto.setReportedProductsCount(reportedProductsCount);
+        accountDto.setAddedProductsCount(0);
+
+        return accountDto;
+    }
+
+    private static AccountDto mapToDto(Seller seller){
+        AccountDto accountDto = new AccountDto();
+
+        accountDto.setId(seller.getId());
+        accountDto.setUsername(seller.getShopName());
+        accountDto.setEmail(seller.getEmail());
+        accountDto.setIsBlocked(false);
+        accountDto.setIsDeleted(seller.getIsDeleted());
+        //only role name, not ROLE_NAME
+        accountDto.setRole(seller.getRole().getName().substring(5));
+
+        accountDto.setReportsCount(0);
+        accountDto.setCommentsCount(0);
+        accountDto.setReportedCommentsCount(0);
+        accountDto.setReportedProductsCount(0);
+
+        accountDto.setAddedProductsCount(seller.getProducts().size());
+
+        return accountDto;
+    }
+
 }

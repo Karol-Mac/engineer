@@ -21,9 +21,9 @@ public class AccountDto {
 
     private String role;
 
-    private int reportsCount = 0;
-    private int commentsCount = 0;
-    private int reportedComments = 0;
-    private int addedProductsCount = 0;
-    private int reportedProductsCount = 0;
+    private long reportsCount = 0;
+    private long commentsCount = 0;
+    private long reportedCommentsCount = 0;
+    private long reportedProductsCount = 0;
+    private long addedProductsCount = 0;
 }
