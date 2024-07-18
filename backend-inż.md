@@ -273,20 +273,16 @@ response: {ACCOUNT}
 _PUT: localhost:8080/api/users_
 U użytkownika (private user) można zmienić:
  - isBlocked - zablokowanie użytkownika
+ - isDeleted - usunięcie użytkownika
  - role - zmiana roli (na SELLER lub ADMIN)
-_usunięcie wszystkich komentarzy użytkownika dostępne jest w sekcji KOMENTARZE_
+_usunięcie wszystkich komentarzy <br/>
+użytkownika dostępne jest pod innym endpointem_
 
 U sellera można zmienić:
+- isDeleted - usunięcie sellera
  - role - zmiana roli (na USER lub ADMIN)
 
 body: {ACCOUNT}     //użytkownik weryfikowany jest po emailu
-response: **komunikat**
-
-##### Usunięcie usera/sellera:
-_DELETE: localhost:8080/api/users?type=string&id=_
-type - typ użytkownika (USER/SELLER)
-id - id użytkownika (usera/sellera)
-body: **brak**
 response: **komunikat**
 
 ##### Usuń wszystkie komentarze
