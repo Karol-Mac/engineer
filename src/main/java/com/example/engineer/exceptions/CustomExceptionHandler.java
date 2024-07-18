@@ -27,7 +27,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({AccessDeniedException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
-    public ResponseEntity<ErrorInfo> handleAccessDeniedException(AccessDeniedException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorInfo> handleAccessDeniedException(RuntimeException ex, HttpServletRequest request) {
         ErrorInfo errorInfo = new ErrorInfo(request.getRequestURI(),  ex);
         return new ResponseEntity<>(errorInfo, HttpStatus.FORBIDDEN);
     }
