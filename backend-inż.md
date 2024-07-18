@@ -255,19 +255,22 @@ response: {
 _GET: localhost:8080/api/users_
 
 body: **brak**
-
 response: `[
     {ACCOUNT},
     {ACCOUNT},
     ...
 ]`
 
-#### szczegoly konta:
-_GET: localhost:8080/api/users?type=string&id=_
-type - typ użytkownika (USER/SELLER)
-id - id użytkownika dla detali
+#### wyszukanie użytkownika po username:
+_GET: localhost:8080/api/users?name=string_
+name - username/shopName (odpowiednio dla usera/sellera)
+**Username nie jest unikalny, więc zwraca listę**
 body: **brak**
-response: {ACCOUNT}
+response: `[
+{ACCOUNT},
+{ACCOUNT},
+...
+]`
 
 ##### Zmiana danych usera/sellera:
 _PUT: localhost:8080/api/users_
@@ -283,7 +286,7 @@ U sellera można zmienić:
  - role - zmiana roli (na USER lub ADMIN)
 
 body: {ACCOUNT}     //użytkownik weryfikowany jest po emailu
-response: **komunikat**
+response: {ACCOUNT}
 
 ##### Usuń wszystkie komentarze
 _DELETE: localhost:8080/api/users/{userId}/comments_

@@ -11,7 +11,7 @@ public interface AccountManagementService {
     RegisterUserDto changeCredentials(String username, String password);
 
     List<AccountDto> getAllUsers();
-    AccountDto getUser(String type, long id);
+    List<AccountDto> getAccountsByName(String name);
 
     AccountDto updateUser(AccountDto account) throws NotFoundException, BadRequestException;
 

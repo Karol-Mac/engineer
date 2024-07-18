@@ -30,7 +30,11 @@ public class AccountManagementController {
 
     @GetMapping
     @PreAuthorize("hasRole(@adminRole)")
-    public ResponseEntity<List<AccountDto>> getAllAccounts() {
-        return ResponseEntity.ok(accountManagementService.getAllUsers());
+    public ResponseEntity<List<AccountDto>> getAccountsByName(
+                            @RequestParam(defaultValue = "") String name) {
+
+        return name.isBlank() ?
+                ResponseEntity.ok(accountManagementService.getAllUsers()) :
+                ResponseEntity.ok(accountManagementService.getAccountsByName(name));
     }
 }

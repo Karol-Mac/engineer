@@ -71,15 +71,26 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
-    public AccountDto getUser(String type, long id){
+    public List<AccountDto> getAccountsByName(String name) {
 
-        var user = getUserById(type, id);
-        if(type.equals(RoleBeans.USER)){
-            return accountMapper.mapToDto((User) user);
-        } else {
-            return accountMapper.mapToDto((Seller) user);
-        }
+        return getAllUsers()
+                .stream()
+                .filter(account ->
+                        account.getUsername().contains(name))
+                .toList();
+
     }
+
+//    @Override
+//    public AccountDto getUser(String type, long id){
+//
+//        var user = getUserById(type, id);
+//        if(type.equals(RoleBeans.USER)){
+//            return accountMapper.mapToDto((User) user);
+//        } else {
+//            return accountMapper.mapToDto((Seller) user);
+//        }
+//    }
 
     @Override
     public AccountDto updateUser(AccountDto account)
