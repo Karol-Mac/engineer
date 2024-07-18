@@ -81,17 +81,6 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     }
 
-//    @Override
-//    public AccountDto getUser(String type, long id){
-//
-//        var user = getUserById(type, id);
-//        if(type.equals(RoleBeans.USER)){
-//            return accountMapper.mapToDto((User) user);
-//        } else {
-//            return accountMapper.mapToDto((Seller) user);
-//        }
-//    }
-
     @Override
     public AccountDto updateUser(AccountDto account)
             throws BadCredentialsException, BadRequestException {
@@ -123,7 +112,8 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
 
     @Override
-    public String removeAllComments(long id){
+    public String removeAllComments(long id) throws BadRequestException {
+        if( id <= 0) throw new BadRequestException("Id must be greater than 0");
         User user = (User) getUserById(RoleBeans.USER, id);
 
         List<Comment> wrotedComments = commentRepository.findByUser(user);

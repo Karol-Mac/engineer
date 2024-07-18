@@ -15,5 +15,5 @@ public interface AccountManagementService {
 
     AccountDto updateUser(AccountDto account) throws NotFoundException, BadRequestException;
 
-    String removeAllComments(long id);
+    String removeAllComments(long id) throws BadRequestException;
 }
