@@ -1,6 +1,7 @@
 package com.example.engineer.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
@@ -8,8 +9,10 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "comments")
 public class Comment {
