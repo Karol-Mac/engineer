@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReportDto {
 
-    private long id;
+    private Long id;
 
     private LocalDate createdAt;
 
@@ -19,11 +19,11 @@ public class ReportDto {
 
     private String message;
 
-    private long commentId;
+    private Long commentId;
 
-    private long productId;
+    private Long productId;
 
-    private long reporterId;
+    private Long reporterId;
 
-    private long authorId;
+    private Long authorId;
 }

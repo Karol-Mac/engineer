@@ -9,6 +9,5 @@ public interface ReportService {
 
     List<ReportDto> getAllReports();
 
-
-
+    ReportDto updateReport(long reportId, boolean isDone);
 }

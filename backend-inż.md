@@ -416,10 +416,10 @@ response: `[
     ...
 ]`
 
-##### aktualizowanie zgłoszenia:
+##### aktualizowanie zgłoszenia (zmiana statusu):
 _PUT: localhost:8080/api/reports/{reportId}_    
 `reportId` - id zgłoszenia do zaktualizowania   
-body: {REPORT}  
+body: `boolean`   //ustawia `isDone` na podaną wartość      
 response: {REPORT}
 
 ###### nie przewiduje opcji kasowania zgłoszeń (przy edycji można ustawić isDone - zgłoszenie rozpatrzone)
