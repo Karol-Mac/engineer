@@ -10,11 +10,9 @@ import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
 import com.example.engineer.util.mappers.AccountMapper;
-import com.example.engineer.util.RoleBeans;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,9 +61,11 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     @Override
     public List<AccountDto> getAllUsers(){
         var users = userRepository.findAll()
-                .stream().map(accountMapper::mapToDto);
+                .stream()
+                .map(accountMapper::mapToDto);
         var sellers = sellerRepository.findAll()
-                .stream().map(accountMapper::mapToDto);
+                .stream()
+                .map(accountMapper::mapToDto);
 
         return Stream.concat(sellers, users).toList();
     }
@@ -78,7 +78,6 @@ public class AccountManagementServiceImpl implements AccountManagementService {
                 .filter(account ->
                         account.getUsername().contains(name))
                 .toList();
-
     }
 
     @Override
@@ -114,7 +113,8 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     @Override
     public String removeAllComments(long id) throws BadRequestException {
         if( id <= 0) throw new BadRequestException("Id must be greater than 0");
-        User user = (User) getUserById(RoleBeans.USER, id);
+        User user = userRepository.findById(id)
+                        .orElseThrow(() -> new NotFoundException("User", id));
 
         List<Comment> wrotedComments = commentRepository.findByUser(user);
 
@@ -122,17 +122,6 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         commentRepository.saveAll(wrotedComments);
 
         return "All user's comments removed successfully";
-    }
-
-
-    private UserDetails getUserById(String type, long id){
-
-        if(type.equalsIgnoreCase(RoleBeans.USER)) {
-            return userRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("User", id));
-        }
-        return sellerRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Seller", id));
     }
 
     private User getUserFromDB(){
