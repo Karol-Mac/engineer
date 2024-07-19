@@ -23,7 +23,7 @@ public class ReportDto {
 
     private Long productId;
 
-    private Long reporterId;
+    private String reporterName;
 
-    private Long authorId;
+    private String authorName;
 }
