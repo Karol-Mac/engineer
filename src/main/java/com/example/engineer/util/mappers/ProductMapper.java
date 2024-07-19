@@ -110,7 +110,6 @@ public class ProductMapper {
         target.setFiber(source.getFiber());
         target.setSalt(source.getSalt());
         target.setImageName(source.getImageName());
-        target.setSellerId(source.getSeller().getId());
     }
 
     private User getUserFromDB(){

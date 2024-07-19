@@ -58,6 +58,4 @@ public final class FreshProductDto {
     private Integer salt;
 
     private String imageName;
-
-    private Long sellerId;
 }
