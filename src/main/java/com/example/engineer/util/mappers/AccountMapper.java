@@ -1,4 +1,4 @@
-package com.example.engineer.util;
+package com.example.engineer.util.mappers;
 
 import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;

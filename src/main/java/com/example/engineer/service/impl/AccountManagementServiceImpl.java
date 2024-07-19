@@ -9,7 +9,7 @@ import com.example.engineer.payload.AccountDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
-import com.example.engineer.util.AccountMapper;
+import com.example.engineer.util.mappers.AccountMapper;
 import com.example.engineer.util.RoleBeans;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -98,7 +98,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
             var seller = sellerRepository.findByEmail(email).orElseThrow(
                     () -> new BadCredentialsException("User with email " + email + " not found"));
 
-            seller.setDeleted(account.getIsDeleted());
+            seller.setIsDeleted(account.getIsDeleted());
             seller.setRole(getRoleByName(account.getRole()));
             Seller updated = sellerRepository.save(seller);
             return accountMapper.mapToDto(updated);
@@ -118,7 +118,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
         List<Comment> wrotedComments = commentRepository.findByUser(user);
 
-        wrotedComments.forEach(comment -> comment.setVisible(false));
+        wrotedComments.forEach(comment -> comment.setIsVisible(false));
         commentRepository.saveAll(wrotedComments);
 
         return "All user's comments removed successfully";

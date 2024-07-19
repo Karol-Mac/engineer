@@ -319,12 +319,13 @@ response: **komunikat**
 ### KOMENTARZE
 
 **Obiekt komentarza -> COMMENT**
-{
+`{
 	id: int
     content: string
+    authorName: string
     isVisible: boolean
     isReported: boolean
-}
+}`
 
 ##### Lista komentarzy:
 _GET: localhost:8080/api/comments_

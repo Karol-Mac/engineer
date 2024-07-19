@@ -1,4 +1,4 @@
-package com.example.engineer.util;
+package com.example.engineer.util.mappers;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.User;
@@ -28,7 +28,7 @@ public class ProductMapper {
         copyCommonFields(product, productDto);
         productDto.setId(product.getId());
         productDto.setUpdatedAt(product.getUpdatedAt());
-        productDto.setIsHidden(product.isHidden());
+        productDto.setIsHidden(product.getIsHidden());
 
         var user = getUserFromDB();
 
@@ -73,7 +73,7 @@ public class ProductMapper {
     public void copyCommonFields(Product source, ProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setInGrams(source.isInGrams());
+        target.setInGrams(source.getInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());
@@ -101,7 +101,7 @@ public class ProductMapper {
     public void copyCommonFields(Product source, FreshProductDto target) {
         target.setName(source.getName());
         target.setPrice(source.getPrice());
-        target.setInGrams(source.isInGrams());
+        target.setInGrams(source.getInGrams());
         target.setWeight(source.getWeight());
         target.setEnergeticValue(source.getEnergeticValue());
         target.setFat(source.getFat());

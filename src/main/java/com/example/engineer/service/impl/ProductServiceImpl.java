@@ -9,7 +9,7 @@ import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
-import com.example.engineer.util.ProductMapper;
+import com.example.engineer.util.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(long productId){
         var product = getProductFromDB(productId);
-        product.setHidden(true);
+        product.setIsHidden(true);
         productRepository.save(product);
 
         return "Product deleted succesfully";

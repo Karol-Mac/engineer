@@ -21,7 +21,7 @@ public class Comment {
     private String content;
 
     @Column(nullable = false)
-    private boolean isVisible;
+    private Boolean isVisible;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

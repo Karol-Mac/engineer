@@ -7,7 +7,7 @@ import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.FavouritesService;
-import com.example.engineer.util.ProductMapper;
+import com.example.engineer.util.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

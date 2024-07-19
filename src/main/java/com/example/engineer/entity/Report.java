@@ -21,7 +21,7 @@ public class Report {
     private LocalDate createdAt;
 
     @Column(nullable = false)
-    private boolean isDone;
+    private Boolean isDone;
 
     private String message;
 

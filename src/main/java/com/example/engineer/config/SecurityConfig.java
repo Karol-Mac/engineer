@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers( "/api/auth/**").permitAll()
-                                .requestMatchers( HttpMethod.GET, "/api/images").permitAll()
+                                .requestMatchers( HttpMethod.GET, "/api/images/**").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/comments").permitAll()
 
                                 /** Jwt filter need's to be applied on those endpoints,

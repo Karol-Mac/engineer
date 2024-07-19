@@ -31,7 +31,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private boolean inGrams;         // (inGrams ? solid : liquid ) product
+    private Boolean inGrams;         // (inGrams ? solid : liquid ) product
 
     @Column(nullable = false)
     private int weight;            //weight of single pack
@@ -61,7 +61,7 @@ public class Product {
     private int salt;
 
     @Column(nullable = false)
-    private boolean isHidden;      //removed products have isHidden=true
+    private Boolean isHidden;      //removed products have isHidden=true
 
     private String imageName;
 

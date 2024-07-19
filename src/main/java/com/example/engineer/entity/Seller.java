@@ -33,7 +33,7 @@ public class Seller implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     @Column(nullable = false, length = 10)
     private String KRS;
@@ -47,9 +47,6 @@ public class Seller implements UserDetails {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 
-    public Boolean getIsDeleted(){
-        return isDeleted;
-    }
 
     //UserDetails implementation:
     @Override
