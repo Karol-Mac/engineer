@@ -44,5 +44,3 @@ public class Report {
     @Column(nullable = false)
     private AuthorType authorType;
 }
-
-
