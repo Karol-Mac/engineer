@@ -36,10 +36,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto addComment(CommentDto commentDto){
+    public CommentDto addComment(String content){
         Comment comment = Comment.builder()
-                .content(commentDto.getContent())
-                .isVisible(commentDto.getIsVisible())
+                .content(content)
+                .isVisible(true)
                 .user(getUserFromDB())
                 .build();
 
