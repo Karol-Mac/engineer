@@ -290,6 +290,7 @@ response:
     shopName: string
     email: string
     KRS: string
+    password: string
     imageName: string
 }
 ```

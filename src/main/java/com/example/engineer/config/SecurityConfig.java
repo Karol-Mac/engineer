@@ -33,6 +33,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers( "/api/auth/**").permitAll()
+                                //every user should be able to see seller details (when viewing product)
+                                .requestMatchers( HttpMethod.GET,"/api/users/{sellerId}").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/images/**").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/comments").permitAll()
 

@@ -6,6 +6,7 @@ import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.AccountDto;
+import com.example.engineer.payload.RegisterSellerDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
@@ -13,6 +14,7 @@ import com.example.engineer.util.mappers.AccountMapper;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +83,22 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
+    public RegisterSellerDto getSellerById(long sellerId){
+        Seller seller = sellerRepository.findById(sellerId)
+                .orElseThrow( () -> new UsernameNotFoundException("Seller with id: " + sellerId + " not found"));
+
+        var sellerDto = new RegisterSellerDto();
+        sellerDto.setId(seller.getId());
+        sellerDto.setShopName(seller.getShopName());
+        sellerDto.setEmail(seller.getEmail());
+        sellerDto.setPassword(seller.getPassword());
+        sellerDto.setKrsNumber(seller.getKRS());
+        sellerDto.setImageName(seller.getImageName());
+
+        return sellerDto;
+    }
+
+    @Override
     public AccountDto updateUser(AccountDto account)
             throws BadCredentialsException, BadRequestException {
 
@@ -130,5 +148,4 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BadCredentialsException("User not found with email: " + email));
     }
-
 }

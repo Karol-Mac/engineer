@@ -1,6 +1,7 @@
 package com.example.engineer.controller;
 
 import com.example.engineer.payload.AccountDto;
+import com.example.engineer.payload.RegisterSellerDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.service.AccountManagementService;
 import org.apache.coyote.BadRequestException;
@@ -19,6 +20,11 @@ public class AccountManagementController {
 
     public AccountManagementController(AccountManagementService accountManagementService){
         this.accountManagementService = accountManagementService;
+    }
+
+    @GetMapping("/{sellerId}")
+    public ResponseEntity<RegisterSellerDto> getSellerById(@PathVariable Long sellerId){
+        return ResponseEntity.ok(accountManagementService.getSellerById(sellerId));
     }
 
     @PostMapping

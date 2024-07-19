@@ -28,7 +28,6 @@ public class RegisterSellerDto {
 
     @Size(min = 10, max = 10, message = "Must be valid KRS number (exactly 10 numbers)")
     @NotBlank
-//    @JsonAlias("KRS")
     private String krsNumber;
 
     private String imageName;
