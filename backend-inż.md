@@ -83,63 +83,70 @@ Struktura wyjątku: {
 
 #### konto prywatne (private account)
 ##### logowanie:
-_POST: localhost:8080/api/auth/login_
-
-body: {
+_POST: localhost:8080/api/auth/login_   
+body: 
+```
+{
     email: string
     password: string
 }
-
-response: `{
+```
+response: 
+```
+{
     accessToken: string,
     tokenType : string
-}`
+}
+```
 
 ##### rejestracja:
-_POST: localhost:8080/api/auth/register_
-
-body: {
+_POST: localhost:8080/api/auth/register_    
+body: 
+```
+{
     username: string
     email: string
     password: string
 }
-
+```
 response: **komunikat**
 
 #### konto firmowe (seller)
 ##### logowanie:
-_POST: localhost:8080/api/auth/company/login_
-
-body: {
-email: string
-password: string
+_POST: localhost:8080/api/auth/company/login_   
+body: 
+```
+{
+    email: string
+    password: string
 }
-
-response: `{
+```
+response: 
+```
+{
     accessToken: string,
     tokenType : string
-}`
+}
+```
 
 ##### rejestracja:
-_POST: localhost:8080/api/auth/company/register_
-body:
+_POST: localhost:8080/api/auth/company/register_    
+body: 
+```
 {
     shopName: string
     email: string
     password: string
     KRS: string
-}, imageFile (plik ze zdjęciem)
-
+}
+```
+, file (plik ze zdjęciem)   
 response: **komunikat**
 
-Pytania:
-1. Kiedy dać ustawianie zdjęcia dla sprzedawcy?
-Przy rejestracji, czy później - jak konto już istnieje?
-(Zdjęcie nie ma być zapisywane w bazie, tylko w systemie plików - dlatego nie ma go w tabeli bazie)
 
 ### WYSZUKIWANIE PRODUKTÓW
-
 **obiekt produktu -> PRODUCT**
+```
 {
     id: int
     name: string
@@ -156,32 +163,30 @@ Przy rejestracji, czy później - jak konto już istnieje?
     isFavourite: boolean
     isReported: boolean
     imageName: string
+    sellerId: int
 }
+```
 
 ##### Pojedynczy produkt:
-_GET: localhost:8080/api/products/{productId}_
-productId - request parameter
-
-body: **brak**
-
-response: {}
+_GET: localhost:8080/api/products/{productId}_  
+body: **brak**  
+response: {PRODUCT}
 
 ##### Przeglądanie listy produktów:
-_GET: localhost:8080/api/products?name=string_
-name - nazwa produktu (lub jej fragment) - **wymagane**
-
-body: **brak**
+_GET: localhost:8080/api/products?name=string_  
+`name` - nazwa produktu (lub jej fragment) - **wymagane**     
+body: **brak**  
 response: `[{PRODUCT}, {PRODUCT}, ...]`
 
-Pytania: 
-// 1. Czy wyświetlać licznik zgłoszeń przy zgłoszonych produktach (i komentarzach)?
+Pytania:    
+// 1. Czy wyświetlać licznik zgłoszeń przy zgłoszonych produktach (i komentarzach)?     
 // Nie ma w wymaganich.
 
 ### SELLER - PRODUCTS
-
 **Obiekt dodawanego produktu -> FRESH_PRODUCT**
+```
 {
-	id: int
+    id: int
     name: string
     price: int
     isGram: boolean
@@ -194,26 +199,22 @@ Pytania:
     salt: int
     imageName: string
 }
+```
 
 ##### Dodawanie produktu:
-_POST: localhost:8080/api/products_
-			//id opcjonalne
-body: {FRESH_PRODUCT}, imageFile (plik ze zdjęciem)
-
+_POST: localhost:8080/api/products_     
+            // id opcjonalne    
+body: {FRESH_PRODUCT}, file (plik ze zdjęciem)  
 response: {FRESH_PRODUCT}
 
 ##### Aktualizowanie produktu:
-_PUT: localhost:8080/api/products/{productId}_
-
-body: {FRESH_PRODUCT} 	//id jest opcjonalne
-
+_PUT: localhost:8080/api/products/{productId}_  
+body: {FRESH_PRODUCT}	//id jest opcjonalne    
 response: {FRESH_PRODUCT}
 
 ##### Usuwanie produku (admin też może):
-_DELETE: localhost:8080/api/products/{productId}_
-
-body: **brak**
-
+_DELETE: localhost:8080/api/products/{productId}_   
+body: **brak**   
 response: **komunikat**	
 
 ### ZARZĄDANIE KONTEM
@@ -221,40 +222,46 @@ response: **komunikat**
 #### prywatnym (private account/admin (swoje dane)):
 
 ##### Aktualizowanie nazwy użytkownika/hasła
-_POST: localhost:8080/api/users_
-
-body: {
+_POST: localhost:8080/api/users_    
+body: 
+```
+{
     username: string
 	password: string
 }
-
-response: {
+```
+response:
+```
+{
     username: string
     email: string
     password: string
 }
+```
 
 #### admin:
 **Obiekt usera/sellera -> ACCOUNT**
-`{
+```
+{
     id: int                 //niezmieniable
     username: string        //niezmieniable
     email: string           //niezmieniable
     isBlocked: boolean      //czy zablokowany - seller ma zawsze na false
     isDeleted: boolean      
     role: string            // USER/SELLER/ADMIN
+    
     //pola przydatne do szczegółów konta (niezmieniable):
     reportsCount: int               //user
     commentsCount: int              //user
     reportedComments: int           //user
     addedProductsCount: int         //seller
     reportedProductsCount: int      //seller
-}`
+}
+```
 
 ##### lista wszystkich użytkowników/sellerów):
-_GET: localhost:8080/api/users_
-
-body: **brak**
+_GET: localhost:8080/api/users_     
+body: **brak**  
 response: `[
     {ACCOUNT},
     {ACCOUNT},
@@ -262,41 +269,56 @@ response: `[
 ]`
 
 #### wyszukanie użytkownika po username:
-_GET: localhost:8080/api/users?name=string_
-name - username/shopName (odpowiednio dla usera/sellera)
-**Username nie jest unikalny, więc zwraca listę**
-body: **brak**
+_GET: localhost:8080/api/users?name=string_     
+`name` - username/shopName (odpowiednio dla usera/sellera)  
+**Username nie jest unikalny, więc zwraca listę**   
+body: **brak**  
 response: `[
 {ACCOUNT},
 {ACCOUNT},
 ...
 ]`
 
+#### wyszukanie konkretnego sellera :
+Każdy produkt zawiera Id sellera - tutaj można ściągnąć nazwę sklepu, zdjęcie itd       
+_GET: localhost:8080/api/users/{sellerId}_           
+`sellerId` - id sellera którego dane chcemy           
+body: **brak**        
+response: 
+```
+{
+    shopName: string
+    email: string
+    KRS: string
+    imageName: string
+}
+```
+
 ##### Zmiana danych usera/sellera:
-_PUT: localhost:8080/api/users_
+_PUT: localhost:8080/api/users_ <br>
 U użytkownika (private user) można zmienić:
- - isBlocked - zablokowanie użytkownika
- - isDeleted - usunięcie użytkownika
- - role - zmiana roli (na SELLER lub ADMIN)
-_usunięcie wszystkich komentarzy <br/>
+ - `isBlocked` - zablokowanie użytkownika
+ - `isDeleted` - usunięcie użytkownika
+ - `role` - zmiana roli (na SELLER lub ADMIN)     
+_usunięcie wszystkich komentarzy    
 użytkownika dostępne jest pod innym endpointem_
 
 U sellera można zmienić:
-- isDeleted - usunięcie sellera
- - role - zmiana roli (na USER lub ADMIN)
+- `isDeleted` - usunięcie sellera
+ - `role` - zmiana roli (na USER lub ADMIN)
 
-body: {ACCOUNT}     //użytkownik weryfikowany jest po emailu
+body: {ACCOUNT}     // użytkownik weryfikowany jest po `emailu`     
 response: {ACCOUNT}
 
 ##### Usuń wszystkie komentarze
-_DELETE: localhost:8080/api/users/{userId}/comments_
-body: **brak**
+_DELETE: localhost:8080/api/users/{userId}/comments_    
+body: **brak**      
 response: **komunikat**
 
 ### LISTA ULUBIONYCH
 
 ##### Wyświetlenie listy ulubionych:
-_GET: localhost:8080/api/users/favorites_
+_GET: localhost:8080/api/users/favorites_   
 body: **brak**
 response: `[
     {PRODUCT},
@@ -305,27 +327,29 @@ response: `[
 ]`
 
 ##### Dodanie do ulubionych:
-_PUT: localhost:8080/api/users/favorites?productId_
-`productId` - id produktu do dodania
-body: **brak** 
+_PUT: localhost:8080/api/users/favorites?productId_     
+`productId` - id produktu do dodania    
+body: **brak**  
 response: {PRODUCT}
 
 ##### Usunięcie z ulubionych:
-_DELETE: localhost:8080/api/users/favorites?productId_
-`productId` - id produktu do dodania
-body: **brak** 
+_DELETE: localhost:8080/api/users/favorites?productId_      
+`productId` - id produktu do dodania        
+body: **brak**  
 response: **komunikat**
 
 ### KOMENTARZE
 
 **Obiekt komentarza -> COMMENT**
-`{
+```
+{
 	id: int
     content: string
     authorName: string
     isVisible: boolean
     isReported: boolean
-}`
+}
+```
 
 ##### Lista komentarzy:
 _GET: localhost:8080/api/comments_
@@ -339,36 +363,37 @@ response: `[
 ##### Dodaj komentarz:
 _POST: localhost:8080/api/comments_
 
-body: {COMMENT}	//oczywiście bez id, nie trzeba B-)
+body: `string` (treść komentarza)
 
 response: {COMMENT}
 
 ### admin (funkcje przydatne przy zgłoszeniach):
 ##### pojedynczy komentarz:
-_GET: localhost:8080/api/comments/{commentId}_
-`commentId` - id konkretnego komentarza
-body: **brak**
-
+_GET: localhost:8080/api/comments/{commentId}_  
+`commentId` - id konkretnego komentarza     
+body: **brak**  
 response: {COMMENT}
 
 ##### **Usuń** pojedynczy komentarz 
-_DELETE: localhost:8080/api/comments/{commentId}_
-`commentId` - Id komentarza do usunięcia
-body: **brak**
+_DELETE: localhost:8080/api/comments/{commentId}_   
+`commentId` - Id komentarza do usunięcia    
+body: **brak**  
 response: **komunikat**
 
 ### ZGŁOSZENIA
 #### private user:
 ##### zgłoszenie produktu/komentarza:
-_POST: localhost:8080/api/reports?productId=&commentId=_
-
-`productId` - id produktu który zgłaszamy
-`commentId` - id komentarza który zgłaszamy
+_POST: localhost:8080/api/reports?productId=&commentId=_    
+`productId` - id produktu który zgłaszamy   
+`commentId` - id komentarza który zgłaszamy     
 Oczywiście na raz podajemy **TYLKO JEDEN** z parametrów
 
-#### admin:
+body: `string` (treść zgłoszenia - opcjonalne)  
+reponse: **komunikat**
 
+#### admin:
 **obiekt zgłoszenia -> REPORT** 
+```
 {
 	reportId: int
     createdAt: date
@@ -379,10 +404,11 @@ Oczywiście na raz podajemy **TYLKO JEDEN** z parametrów
     productId: int		//productId albo commentId - jedno z nich będzie NULLEM!!!
     commentId: int
 }
+```
 
 ##### lista zgłoszeń
-_GET: localhost:8080/api/reports_
-body: brak
+_GET: localhost:8080/api/reports_   
+body: **brak**  
 response: `[
 	{REPORT},
     {REPORT},
@@ -390,20 +416,19 @@ response: `[
 ]`
 
 ##### aktualizowanie zgłoszenia:
-_PUT: localhost:8080/api/reports/{reportId}_
-`reportId` - id zgłoszenia do zaktualizowania
-
-body: {REPORT}
-
+_PUT: localhost:8080/api/reports/{reportId}_    
+`reportId` - id zgłoszenia do zaktualizowania   
+body: {REPORT}  
 response: {REPORT}
 
-###### nie przewiduje opcji kasowania zgłoszeń
+###### nie przewiduje opcji kasowania zgłoszeń (przy edycji można ustawić isDone - zgłoszenie rozpatrzone)
 ###### detale pojedynczego zgłoszenia prościej będzie ładować poprzez ściągnięcie odpowiednich danych z backendu
-Czyli w momencie zgłoszenia komentarza (commentId ≠ null) front wysyła rządanie o komentarz z danym Id - i wyświetla odpowiednie dane
+Czyli np:
+1. Admin chcę zobaczyć detale zgłoszenia danego komkentarza (commentId ≠ null, productId == null)   
+2. front wysyła rządanie o komentarz z danym Id - i wyświetla odpowiednie dane
 
 ### POBIERANIE ZDJĘĆ (po image name)
-_POST: localhost:8080/api/images_
-
-body: {imageName: string}
-
+_GET: localhost:8080/api/images/{imageName}_    
+`imageName` - nazwa zdjęcia, dostępna przy pobieraniu konkretnego produktu/sellera  
+body: **brak**  
 response: File (konkretny plik na serwerze ? tablica bajtów - jeszcze nie wiem jak to działa)
