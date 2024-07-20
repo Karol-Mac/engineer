@@ -89,7 +89,7 @@ public class AuthServiceImpl implements AuthService {
 
         sellerRepository.save(seller);
 
-        return "Seller account created";
+        return "seller account created";
     }
 
     @Override

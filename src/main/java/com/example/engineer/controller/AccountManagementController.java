@@ -1,9 +1,11 @@
 package com.example.engineer.controller;
 
 import com.example.engineer.payload.AccountDto;
+import com.example.engineer.payload.ChangeUserCredentialsDto;
 import com.example.engineer.payload.RegisterSellerDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.service.AccountManagementService;
+import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,9 +31,10 @@ public class AccountManagementController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
-    public ResponseEntity<RegisterUserDto> changeCredentials(@RequestBody RegisterUserDto registerUserDto) {
-        var username = registerUserDto.getUsername();
-        var password = registerUserDto.getPassword();
+    public ResponseEntity<RegisterUserDto> changeCredentials(
+            @RequestBody @Valid ChangeUserCredentialsDto credentialsDto) {
+        var username = credentialsDto.getUsername();
+        var password = credentialsDto.getPassword();
         return ResponseEntity.ok(accountManagementService.changeCredentials(username, password));
     }
 
