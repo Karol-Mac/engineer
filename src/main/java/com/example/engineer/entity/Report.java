@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -19,8 +21,8 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private LocalDate createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private Boolean isDone;
