@@ -39,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
         product.setSeller(owner);
         product.setImageName(imageName);
+        product.setIsHidden(false);
         Product saved = productRepository.save(product);
 
         return productMapper.mapProductToFresh(saved);
