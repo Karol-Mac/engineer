@@ -59,7 +59,7 @@ public class ReportServiceImpl implements ReportService {
             return reportMapper.mapToDto(saved);
         } else if (commentId == 0) {
             var product = productRepository.findById(productId).orElseThrow(
-                    () -> new NotFoundException("Comment", productId));
+                    () -> new NotFoundException("Product", productId));
 
             Report report = Report.builder()
                     .product(product)
