@@ -34,7 +34,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ApiException.class)
     public ResponseEntity<ErrorInfo> handleApiException(ApiException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), ex.getStatus());
     }
 
     @ExceptionHandler({BadRequestException.class, IOException.class})

@@ -2,12 +2,14 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Comment;
 import com.example.engineer.entity.User;
+import com.example.engineer.exceptions.ApiException;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.CommentDto;
 import com.example.engineer.repository.CommentRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.CommentService;
 import com.example.engineer.util.mappers.CommentMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDto addComment(String content){
+
+        var user = getUserFromDB();
+        if(user.getIsBlocked())
+            throw new ApiException("You cannot perform this operation", HttpStatus.CONFLICT);
+
         Comment comment = Comment.builder()
                 .content(content)
                 .isVisible(true)
