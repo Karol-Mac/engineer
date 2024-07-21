@@ -1,0 +1,7 @@
+po zmianie danych użytkownika (change credentials)
+przesyłany jest obiekt z hasłem - zaszyfrowanym, tak jak w bazie XD
+
+user może dawać reporty jeśli jest zablokowany (?)
+
+można reportować produkty, które są hidden - nie powinien ich w ogóle widzieć
+(tak samo z dodawaniem do ulubionych)
