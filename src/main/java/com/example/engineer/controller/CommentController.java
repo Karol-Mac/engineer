@@ -3,7 +3,6 @@ package com.example.engineer.controller;
 import com.example.engineer.payload.CommentDto;
 import com.example.engineer.service.CommentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +24,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getAllComments());
     }
 
-    @PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping
     @PreAuthorize("hasRole(@userRole)")
     public ResponseEntity<CommentDto> createComment(@RequestBody String content){
         return new ResponseEntity<>(commentService.addComment(content), HttpStatus.CREATED);

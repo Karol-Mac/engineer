@@ -44,6 +44,7 @@ public class ProductMapper {
 
     private static boolean isReported(Product product, User user) {
         return user.getReports().stream()
+                .filter(report -> report.getProduct() != null && !report.getIsDone())
                 .anyMatch(report -> report.getProduct().equals(product));
     }
 

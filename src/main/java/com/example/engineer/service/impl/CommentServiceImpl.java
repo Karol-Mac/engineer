@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
         var user = userUtil.getUserFromDB();
         if(user.getIsBlocked())
-            throw new ApiException("You cannot perform this operation", HttpStatus.CONFLICT);
+            throw new ApiException("You cannot perform this operation - you're blocked", HttpStatus.CONFLICT);
 
         Comment comment = Comment.builder()
                 .content(content)

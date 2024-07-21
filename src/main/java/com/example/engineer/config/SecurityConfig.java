@@ -36,13 +36,13 @@ public class SecurityConfig {
                                 //every user should be able to see seller details (when viewing product)
                                 .requestMatchers( HttpMethod.GET,"/api/users/{sellerId}").permitAll()
                                 .requestMatchers( HttpMethod.GET, "/api/images/**").permitAll()
-                                .requestMatchers( HttpMethod.GET, "/api/comments").permitAll()
 
                                 /** Jwt filter need's to be applied on those endpoints,
                                     but at the same time I need's
                                     to be accessible for every user (anonymous too)
                                     this is why I created enum RoleName
                                  */
+                                .requestMatchers( HttpMethod.GET, "/api/comments").hasAnyRole(RoleBeans.getAllRoles())
                                 .requestMatchers( HttpMethod.GET, "/api/products/**").hasAnyRole(RoleBeans.getAllRoles())
                                 .anyRequest().authenticated()
                 )
