@@ -6,7 +6,6 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,23 +24,19 @@ public class FavouritesController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getFavorites() {
 
-        return ResponseEntity.ok(favouritesService.getFavorites(getUserEmail()));
+        return ResponseEntity.ok(favouritesService.getFavorites());
     }
 
     @PostMapping
     public ResponseEntity<ProductDto> addFavorite(@RequestParam long productId)
             throws BadRequestException{
-        return new ResponseEntity<>(favouritesService.updateFavorite(getUserEmail(), productId),
+        return new ResponseEntity<>(favouritesService.updateFavorite(productId),
                                     HttpStatus.CREATED);
     }
 
     @DeleteMapping
     public ResponseEntity<String> removeFavorite(@RequestParam long productId)
             throws BadRequestException{
-        return ResponseEntity.ok(favouritesService.deleteFavorite(getUserEmail(), productId));
-    }
-
-    private String getUserEmail(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(favouritesService.deleteFavorite(productId));
     }
 }

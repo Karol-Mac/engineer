@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface FavouritesService {
 
-    List<ProductDto> getFavorites(String userEmail);
+    List<ProductDto> getFavorites();
 
-    ProductDto updateFavorite(String userEmail, long productId) throws BadRequestException;
+    ProductDto updateFavorite(long productId) throws BadRequestException;
 
-    String deleteFavorite(String userEmail, long productId) throws BadRequestException;
+    String deleteFavorite(long productId) throws BadRequestException;
 }

@@ -10,10 +10,10 @@ import com.example.engineer.payload.RegisterSellerDto;
 import com.example.engineer.payload.RegisterUserDto;
 import com.example.engineer.repository.*;
 import com.example.engineer.service.AccountManagementService;
+import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.AccountMapper;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,24 +30,27 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     private final PasswordEncoder passwordEncoder;
     private final AccountMapper accountMapper;
     private final CommentRepository commentRepository;
+    private final UserUtil userUtil;
 
 
     public AccountManagementServiceImpl(UserRepository userRepository,
                                         SellerRepository sellerRepository,
                                         RoleRepository roleRepository,
                                         PasswordEncoder passwordEncoder,
-                                        AccountMapper accountMapper, CommentRepository commentRepository){
+                                        AccountMapper accountMapper,
+                                        CommentRepository commentRepository, UserUtil userUtil){
         this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.accountMapper = accountMapper;
         this.commentRepository = commentRepository;
+        this.userUtil = userUtil;
     }
 
     @Override
     public RegisterUserDto changeCredentials(String username, String password){
-        User user = getUserFromDB();
+        User user = userUtil.getUserFromDB();
 
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(passwordEncoder.encode(password));
@@ -113,7 +116,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
             return accountMapper.mapToDto(updated);
         } else {
             var seller = sellerRepository.findByEmail(email).orElseThrow(
-                    () -> new BadCredentialsException("User with email " + email + " not found"));
+                    () -> new UsernameNotFoundException("User with email " + email + " not found"));
 
             seller.setIsDeleted(account.getIsDeleted());
             seller.setRole(getRoleByName(account.getRole()));
@@ -140,12 +143,5 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         commentRepository.saveAll(wrotedComments);
 
         return "All user's comments removed successfully";
-    }
-
-    private User getUserFromDB(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new BadCredentialsException("User not found with email: " + email));
     }
 }

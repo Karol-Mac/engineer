@@ -7,12 +7,11 @@ import com.example.engineer.payload.ReportDto;
 import com.example.engineer.repository.CommentRepository;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.repository.ReportRepository;
-import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.ReportService;
 import com.example.engineer.util.AuthorType;
+import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ReportMapper;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,23 +22,22 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
     private final ProductRepository productRepository;
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     private final ReportMapper reportMapper;
+    private final UserUtil userUtil;
 
     public ReportServiceImpl(ReportRepository reportRepository, ProductRepository productRepository,
-                             CommentRepository commentRepository, UserRepository userRepository,
-                             ReportMapper reportMapper) {
+                             CommentRepository commentRepository, ReportMapper reportMapper, UserUtil userUtil) {
         this.reportRepository = reportRepository;
         this.productRepository = productRepository;
         this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
         this.reportMapper = reportMapper;
+        this.userUtil = userUtil;
     }
 
     @Override
     public ReportDto createReport(long productId, long commentId, String message) {
 
-        User reporter = getUserFromDB();
+        User reporter = userUtil.getUserFromDB();
 
         if(productId == 0){
             var comment = commentRepository.findById(commentId).orElseThrow(
@@ -94,12 +92,5 @@ public class ReportServiceImpl implements ReportService {
         var updated = reportRepository.save(report);
 
         return reportMapper.mapToDto(updated);
-    }
-
-    private User getUserFromDB(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new BadCredentialsException("User not found with email: " + email));
     }
 }

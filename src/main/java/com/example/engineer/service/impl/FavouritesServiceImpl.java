@@ -1,16 +1,15 @@
 package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
-import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.FavouritesService;
+import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +22,11 @@ public class FavouritesServiceImpl implements FavouritesService {
     private final UserRepository userRepository;
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
+    private final UserUtil userUtil;
 
     @Override
-    public List<ProductDto> getFavorites(String userEmail){
-        var user = getUserFromDb(userEmail);
+    public List<ProductDto> getFavorites(){
+        var user = userUtil.getUserFromDB();
 
         return user.getFavouriteProducts()
                         .stream()
@@ -35,8 +35,8 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
-    public ProductDto updateFavorite(String userEmail, long productId) throws BadRequestException{
-        var user = getUserFromDb(userEmail);
+    public ProductDto updateFavorite(long productId) throws BadRequestException{
+        var user = userUtil.getUserFromDB();
         var product = getProductFromDB(productId);
 
         if(user.getFavouriteProducts().contains(product))
@@ -49,8 +49,8 @@ public class FavouritesServiceImpl implements FavouritesService {
     }
 
     @Override
-    public String deleteFavorite(String userEmail, long productId) throws BadRequestException{
-        var user = getUserFromDb(userEmail);
+    public String deleteFavorite(long productId) throws BadRequestException{
+        var user = userUtil.getUserFromDB();
         var product = getProductFromDB(productId);
 
         if(!user.getFavouriteProducts().contains(product))
@@ -59,12 +59,6 @@ public class FavouritesServiceImpl implements FavouritesService {
         user.getFavouriteProducts().remove(product);
         userRepository.save(user);
         return "Product removed from favourites";
-    }
-
-    private User getUserFromDb(String email){
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("User with email " + email + " not found")
-        );
     }
 
     private Product getProductFromDB(long id){

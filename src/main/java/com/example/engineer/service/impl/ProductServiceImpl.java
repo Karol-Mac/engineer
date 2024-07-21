@@ -11,9 +11,9 @@ import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
 import com.example.engineer.util.RoleBeans;
+import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ProductMapper;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,15 +28,17 @@ public class ProductServiceImpl implements ProductService {
     private final UserRepository userRepository;
     private final ProductMapper productMapper;
     private final ImageService imageService;
+    private final UserUtil userUtil;
 
     public ProductServiceImpl(ProductRepository productRepository, SellerRepository sellerRepository,
                               UserRepository userRepository, ProductMapper productMapper,
-                              ImageService imageService){
+                              ImageService imageService, UserUtil userUtil){
         this.productRepository = productRepository;
         this.sellerRepository = sellerRepository;
         this.userRepository = userRepository;
         this.productMapper = productMapper;
         this.imageService = imageService;
+        this.userUtil = userUtil;
     }
 
 
@@ -86,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(long productId){
         var product = getProductFromDB(productId);
-        var email = getUserEmail();
+        var email = userUtil.getUserEmail();
         //check if user is admin:
         var admin = userRepository.findByEmail(email).orElse(null);
 
@@ -109,13 +111,11 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
     }
 
-    private String getUserEmail(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
+
 
     private Seller getSellerFromSession(){
 
-        return sellerRepository.findByEmail(getUserEmail()).orElseThrow(
+        return sellerRepository.findByEmail(userUtil.getUserEmail()).orElseThrow(
                 () -> new AccessDeniedException("You have no permission to access this resource"));
     }
 

@@ -1,17 +1,14 @@
 package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Comment;
-import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.ApiException;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.CommentDto;
 import com.example.engineer.repository.CommentRepository;
-import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.CommentService;
+import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.CommentMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +18,13 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
-    private final UserRepository userRepository;
+    private final UserUtil userUtil;
 
-    public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper, UserRepository userRepository){
+    public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper,
+                              UserUtil userUtil){
         this.commentRepository = commentRepository;
         this.commentMapper = commentMapper;
-        this.userRepository = userRepository;
+        this.userUtil = userUtil;
     }
 
     @Override
@@ -40,14 +38,14 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto addComment(String content){
 
-        var user = getUserFromDB();
+        var user = userUtil.getUserFromDB();
         if(user.getIsBlocked())
             throw new ApiException("You cannot perform this operation", HttpStatus.CONFLICT);
 
         Comment comment = Comment.builder()
                 .content(content)
                 .isVisible(true)
-                .user(getUserFromDB())
+                .user(user)
                 .build();
 
         var savedComment = commentRepository.save(comment);
@@ -70,12 +68,5 @@ public class CommentServiceImpl implements CommentService {
         comment.setIsVisible(false);
         commentRepository.save(comment);
         return "Comment deleted successfully";
-    }
-
-    private User getUserFromDB(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new BadCredentialsException("User not found with email: " + email));
     }
 }
