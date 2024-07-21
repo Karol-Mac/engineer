@@ -45,6 +45,7 @@ Struktura wyjątku: {
 |-------------|------------------------------|--------------------|---------------------------|------------------------|
 | PUT         | /api/users                   | username, password | username, email, password | user/admin(swoje dane) |
 | DELETE      | /api/users/{userId}          |                    | komunikat                 | admin                  |
+| GET         | /api/users?name=             |                    | [ACCOUNT]                 | admin                  |
 | PUT         | /api/users/{userId}/block    |                    | boolean                   | admin                  |
 | PUT         | /api/users/{userId}/comments |                    | boolean                   | admin                  |
 
@@ -52,7 +53,7 @@ Struktura wyjątku: {
 | method type | endpoint                       | body | response  | role |
 |-------------|--------------------------------|------|-----------|------|
 | GET         | /api/users/favorites           |      | [PRODUCT] | user |
-| PUT         | /api/users/favorites?productId |      | PRODUCT   | user |
+| POST        | /api/users/favorites?productId |      | PRODUCT   | user |
 | DELETE      | /api/users/favorites?productId |      | komunikat | user |
 
 ### KOMENTARZE
@@ -60,15 +61,15 @@ Struktura wyjątku: {
 |-------------|---------------------------------|---------|-----------|------------|
 | GET         | /api/comments                   |         | [COMMENT] | user/admin |
 | GET         | /api/comments/{commentId}       |         | COMMENT   | admin      |
-| POST        | /api/comments                   | COMMENT | COMMENT   | user       |
+| POST        | /api/comments                   | string  | COMMENT   | user       |
 | DELETE      | /api/users/comments/{commentId} |         | komunikat | admin      |
 
 ### ZGŁOSZENIA
-| method type | endpoint                           | body   | response | role  |
-|-------------|------------------------------------|--------|----------|-------|
-| POST        | /api/reports?productId=&commentId= |        | REPORT   | user  |
-| GET         | /api/reports                       |        | [REPORT] | admin |
-| PUT         | /api/reports/{reportId}            | REPORT | REPORT   | admin |
+| method type | endpoint                           |  body   | response | role  |
+|-------------|------------------------------------|---------|----------|-------|
+| POST        | /api/reports?productId=&commentId= | string  | REPORT   | user  |
+| GET         | /api/reports                       |         | [REPORT] | admin |
+| PUT         | /api/reports/{reportId}            | boolean | REPORT   | admin |
 
 ### POBIERANIE ZDJĘĆ (po image name)
 | method type | endpoint     | body      | response | 
@@ -259,18 +260,10 @@ response:
 }
 ```
 
-##### lista wszystkich użytkowników/sellerów):
-_GET: localhost:8080/api/users_     
-body: **brak**  
-response: `[
-    {ACCOUNT},
-    {ACCOUNT},
-    ...
-]`
-
 #### wyszukanie użytkownika po username:
 _GET: localhost:8080/api/users?name=string_     
-`name` - username/shopName (odpowiednio dla usera/sellera)  
+`name` - username/shopName (odpowiednio dla usera/sellera)    
+jeśli poda się puste - zwraca wszystkich     
 **Username nie jest unikalny, więc zwraca listę**   
 body: **brak**  
 response: `[
