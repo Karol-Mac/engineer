@@ -11,7 +11,7 @@ import com.example.engineer.service.ReportService;
 import com.example.engineer.util.AuthorType;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ReportMapper;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,11 +35,14 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ReportDto createReport(long productId, long commentId, String message) {
+    public ReportDto createReport(long productId, long commentId, String message) throws BadRequestException{
 
         User reporter = userUtil.getUserFromDB();
-
-        if(productId == 0){
+        if((productId == 0 && commentId == 0) || (productId != 0 && commentId != 0)){
+            throw new BadRequestException("productId or commentId - " +
+                                "one of them needs to be in request (not both or zero)");
+        }
+        else if(productId == 0){
             var comment = commentRepository.findById(commentId).orElseThrow(
                     () -> new NotFoundException("Comment", commentId));
 
@@ -55,7 +58,7 @@ public class ReportServiceImpl implements ReportService {
             var saved = reportRepository.save(report);
 
             return reportMapper.mapToDto(saved);
-        } else if (commentId == 0) {
+        } else {
             var product = productRepository.findById(productId).orElseThrow(
                     () -> new NotFoundException("Product", productId));
 
@@ -71,7 +74,7 @@ public class ReportServiceImpl implements ReportService {
             var saved = reportRepository.save(report);
 
             return reportMapper.mapToDto(saved);
-        } else throw new BadCredentialsException("product Id or comment id is wrong");
+        }
     }
 
     @Override
