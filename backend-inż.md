@@ -28,54 +28,55 @@ Struktura wyjątku: {
 | POST        | /api/auth/company/register | shopName, email, password, KRS, imageFile | komunikat | seller     |
 
 ### WYSZUKIWANIE PRODUKTÓW
-| method type | endpoint                  | body | response  |
-|-------------|---------------------------|------|-----------|
-| GET         | /api/products/{productId} |      | PRODUCT   |
-| GET         | /api/products?name=string |      | [PRODUCT] |
+| method type | endpoint                  | body | response  | ROLE |
+|-------------|---------------------------|------|-----------|------|
+| GET         | /api/products/{productId} |      | PRODUCT   | any  |
+| GET         | /api/products?name=string |      | [PRODUCT] | any  |
 
 ### SELLER - PRODUCTS
-| method type | endpoint                  | body          | response      | role         |
-|-------------|---------------------------|---------------|---------------|--------------|
-| POST        | /api/products             | FRESH_PRODUCT | FRESH_PRODUCT | seller       |
-| PUT         | /api/products/{productId} | FRESH_PRODUCT | FRESH_PRODUCT | seller       |
-| DELETE      | /api/products/{productId} |               | komunikat     | seller/admin |
+| method type | endpoint                  | body                     | response      |
+|-------------|---------------------------|--------------------------|---------------|
+| POST        | /api/products             | FRESH_PRODUCT, imageFile | FRESH_PRODUCT |
+| PUT         | /api/products/{productId} | FRESH_PRODUCT            | FRESH_PRODUCT |
+| DELETE      | /api/products/{productId} |                          | komunikat     |
+
 
 ### ZARZĄDANIE KONTEM
-| method type | endpoint                     | body               | response                  | role                   |
-|-------------|------------------------------|--------------------|---------------------------|------------------------|
-| PUT         | /api/users                   | username, password | username, email, password | user/admin(swoje dane) |
-| DELETE      | /api/users/{userId}          |                    | komunikat                 | admin                  |
-| GET         | /api/users?name=             |                    | [ACCOUNT]                 | admin                  |
-| PUT         | /api/users/{userId}/block    |                    | boolean                   | admin                  |
-| PUT         | /api/users/{userId}/comments |                    | boolean                   | admin                  |
+#### prywatnym (private account/admin (swoje dane)):
+| method type | endpoint                        | body               | response                                    | ROLE  |
+|-------------|---------------------------------|--------------------|---------------------------------------------|-------|
+| POST        | /api/accounts                   | username, password | username, email, password                   | user  |
+| GET         | /api/accounts?name=string       |                    | [ACCOUNT]                                   | admin |
+| GET         | /api/accounts/{sellerId}        |                    | {shopName, email, KRS, password, imageName} | any   |
+| PUT         | /api/accounts                   | ACCOUNT            | ACCOUNT                                     | admin |
+| DELETE      | /api/accounts/{userId}/comments |                    | komunikat                                   | admin |
 
 ### LISTA ULUBIONYCH
-| method type | endpoint                       | body | response  | role |
+| method type | endpoint                       | body | response  | ROLE |
 |-------------|--------------------------------|------|-----------|------|
 | GET         | /api/users/favorites           |      | [PRODUCT] | user |
 | POST        | /api/users/favorites?productId |      | PRODUCT   | user |
 | DELETE      | /api/users/favorites?productId |      | komunikat | user |
 
 ### KOMENTARZE
-| method type | endpoint                        | body    | response  | role       |
-|-------------|---------------------------------|---------|-----------|------------|
-| GET         | /api/comments                   |         | [COMMENT] | user/admin |
-| GET         | /api/comments/{commentId}       |         | COMMENT   | admin      |
-| POST        | /api/comments                   | string  | COMMENT   | user       |
-| DELETE      | /api/users/comments/{commentId} |         | komunikat | admin      |
+| method type | endpoint                     | body           | response   | ROLE  |
+|-------------|------------------------------|----------------|------------|-------|
+| GET         | /api/comments                |                | [COMMENT]  | any   |
+| POST        | /api/comments                | string         | COMMENT    | user  |
+| GET         | /api/comments/{commentId}    |                | COMMENT    | admin |
+| DELETE      | /api/comments/{commentId}    |                | komunikat  | admin |
 
 ### ZGŁOSZENIA
-| method type | endpoint                           |  body   | response | role  |
-|-------------|------------------------------------|---------|----------|-------|
-| POST        | /api/reports?productId=&commentId= | string  | REPORT   | user  |
-| GET         | /api/reports                       |         | [REPORT] | admin |
-| PUT         | /api/reports/{reportId}            | boolean | REPORT   | admin |
+| method type | endpoint                           | body                | response  | ROLE  |
+|-------------|------------------------------------|---------------------|-----------|-------|
+| POST        | /api/reports?productId=&commentId= | string (opcjonalne) | komunikat | user  |
+| GET         | /api/reports                       |                     | [REPORT]  | admin |
+| PUT         | /api/reports/{reportId}            | boolean             | REPORT    |       |
 
-### POBIERANIE ZDJĘĆ (po image name)
-| method type | endpoint     | body      | response | 
-|-------------|--------------|-----------|----------|
-| POST        | /api/images  | imageName | File     |
-
+### POBIERANIE ZDJĘĆ
+| method type | endpoint                     | body | response | ROLE |
+|-------------|------------------------------|------|----------|------|
+| GET         | /api/images/{imageName}      |      | File     | any  |
 
 
 ## 3. Dokładny opis endpointów
@@ -223,7 +224,7 @@ response: **komunikat**
 #### prywatnym (private account/admin (swoje dane)):
 
 ##### Aktualizowanie nazwy użytkownika/hasła
-_POST: localhost:8080/api/users_    
+_POST: localhost:8080/api/accounts_    
 body: 
 ```
 {
@@ -252,16 +253,16 @@ response:
     role: string            // USER/SELLER/ADMIN
     
     //pola przydatne do szczegółów konta (niezmieniable):
-    reportsCount: int               //user
-    commentsCount: int              //user
-    reportedComments: int           //user
-    addedProductsCount: int         //seller
-    reportedProductsCount: int      //seller
+    reportsCount: int               //user      (seller ma na 0)
+    commentsCount: int              //user      (seller ma na 0)
+    reportedComments: int           //user      (seller ma na 0)
+    addedProductsCount: int         //seller    (user ma na 0)
+    reportedProductsCount: int      //seller    (user ma na 0)
 }
 ```
 
 #### wyszukanie użytkownika po username:
-_GET: localhost:8080/api/users?name=string_     
+_GET: localhost:8080/api/accounts?name=string_     
 `name` - username/shopName (odpowiednio dla usera/sellera)    
 jeśli poda się puste - zwraca wszystkich     
 **Username nie jest unikalny, więc zwraca listę**   
@@ -274,7 +275,7 @@ response: `[
 
 #### wyszukanie konkretnego sellera :
 Każdy produkt zawiera Id sellera - tutaj można ściągnąć nazwę sklepu, zdjęcie itd       
-_GET: localhost:8080/api/users/{sellerId}_           
+_GET: localhost:8080/api/accounts/{sellerId}_           
 `sellerId` - id sellera którego dane chcemy           
 body: **brak**        
 response: 
@@ -289,13 +290,12 @@ response:
 ```
 
 ##### Zmiana danych usera/sellera:
-_PUT: localhost:8080/api/users_ <br>
+_PUT: localhost:8080/api/accounts_ <br>
 U użytkownika (private user) można zmienić:
  - `isBlocked` - zablokowanie użytkownika
  - `isDeleted` - usunięcie użytkownika
  - `role` - zmiana roli (na SELLER lub ADMIN)     
-_usunięcie wszystkich komentarzy    
-użytkownika dostępne jest pod innym endpointem_
+_usunięcie wszystkich komentarzy użytkownika dostępne jest pod innym endpointem_
 
 U sellera można zmienić:
 - `isDeleted` - usunięcie sellera
@@ -305,7 +305,7 @@ body: {ACCOUNT}     // użytkownik weryfikowany jest po `emailu`
 response: {ACCOUNT}
 
 ##### Usuń wszystkie komentarze
-_DELETE: localhost:8080/api/users/{userId}/comments_    
+_DELETE: localhost:8080/api/accounts/{userId}/comments_    
 body: **brak**      
 response: **komunikat**
 
@@ -321,7 +321,7 @@ response: `[
 ]`
 
 ##### Dodanie do ulubionych:
-_PUT: localhost:8080/api/users/favorites?productId_     
+_POST: localhost:8080/api/users/favorites?productId_     
 `productId` - id produktu do dodania    
 body: **brak**  
 response: {PRODUCT}
