@@ -1,6 +1,5 @@
 package com.example.engineer.service;
 
-import com.example.engineer.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;

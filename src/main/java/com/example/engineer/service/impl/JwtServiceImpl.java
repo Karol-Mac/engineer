@@ -1,12 +1,12 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.exceptions.ApiException;
 import com.example.engineer.service.JwtService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -37,12 +37,24 @@ public class JwtServiceImpl implements JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractClaims(String jwtToken){
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJws(jwtToken)
-                .getBody();
+    private Claims extractClaims(String jwtToken) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new ApiException("Token has expired", HttpStatus.UNAUTHORIZED);
+        } catch (UnsupportedJwtException e) {
+            throw new ApiException("Token is unsupported", HttpStatus.BAD_REQUEST);
+        } catch (MalformedJwtException e) {
+            throw new ApiException("Token is malformed", HttpStatus.NOT_ACCEPTABLE);
+        } catch (SignatureException e) {
+            throw new ApiException("Invalid token signature", HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            throw new ApiException("Token claims string is empty", HttpStatus.BAD_REQUEST);
+        }
     }
 
     private Key getSignKey(){
