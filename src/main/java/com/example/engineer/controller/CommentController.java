@@ -2,6 +2,7 @@ package com.example.engineer.controller;
 
 import com.example.engineer.payload.CommentDto;
 import com.example.engineer.service.CommentService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +27,10 @@ public class CommentController {
 
     @PostMapping
     @PreAuthorize("hasRole(@userRole)")
-    public ResponseEntity<CommentDto> createComment(@RequestBody String content){
+    public ResponseEntity<CommentDto> createComment(@RequestBody String content) throws BadRequestException{
+
+        if(content.isBlank()) throw new BadRequestException("Comment content cannot be empty");
+
         return new ResponseEntity<>(commentService.addComment(content), HttpStatus.CREATED);
     }
 
