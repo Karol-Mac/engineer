@@ -28,7 +28,7 @@ public final class FreshProductDto {
     @NotNull
     private Boolean inGrams;
 
-    @Min(0)
+    @Min(1)
     @NotNull
     private Integer weight;
 
