@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const accessToken = localStorage.getItem('accessToken');
+  const tokenType = localStorage.getItem('tokenType');
   return (
     <div className="App">
       <header className="App-header">
