@@ -6,9 +6,9 @@ const Header = () => {
 
     useEffect(() => {
         const fetchLoginInformation = async () => {
-            try{
-                const response = await fetch("http://localhost:8000/api/login");
-            }
+            // try{
+            //     const response = await fetch("http://localhost:8000/api/login");
+            // }
 
         }
     }, []);
