@@ -37,7 +37,10 @@ public class AuthServiceImpl implements AuthService {
         if(userRepository.existsByEmail(registerUserDto.getEmail()))
                     throw new BadCredentialsException("User with given email (" + registerUserDto.getEmail() +") already exist");
 
-        Role role = roleRepository.findByName("ROLE_USER").get();
+
+        Role role = roleRepository.findByName("ROLE_USER").get(); //causes error: "Full authentication is required to access this resource"
+//      Role role = roleRepository.findByName("ROLE_USER")
+//            .orElseThrow(() -> new BadCredentialsException("Role 'ROLE_USER' not found"));
 
         var user = User.builder()
                 .username(registerUserDto.getUsername())

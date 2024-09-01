@@ -4,18 +4,37 @@ import RollbackPage from "../components/generic/RollbackPage";
 const Login = () => {
     const [loginData, setLoginData] = useState({ email: "", password: "" });
 
+    // false - login to user/admin Account
+    // true - login to company Account
+    var isLoggingToCompany = false;
+
     const handleChange = ({ currentTarget: input }) => {
         setLoginData({ ...loginData, [input.name]: input.value });
     };
+
+    const setPrivateLogging = () => {
+        isLoggingToCompany = false;
+    }
+    const setCompanyLogging = () => {
+        isLoggingToCompany = true;
+    }
 
     const handleLogin = async(e) =>{
         e.preventDefault();
 
         try {
-            const loginUrl = "/api/auth/login";
+            var loginUrl;
+            if(isLoggingToCompany){
+                //logging to Company account
+                loginUrl = "/api/auth/company/login";
+
+            }else{
+                //logging to User/Admin account
+                loginUrl = "/api/auth/login";
+            }
             const {loginData: res} = await axios.post(loginUrl, loginData);
-            localStorage.setItem("accessToken", JSON.stringify(res));
-            localStorage.setItem("tokenType", JSON.stringify(res));
+            localStorage.setItem("accessToken", res.accessToken);
+            localStorage.setItem("tokenType", res.tokenType);
             localStorage.setItem("user", JSON.stringify(res.data.user));
         }catch (error) {
             if (
@@ -31,6 +50,10 @@ const Login = () => {
     return (
         <div>
             <div id="leftVertical" class="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
+                <div id="LoginType">
+                    <button id="privateAccountLogin" onClick={setPrivateLogging}/>
+                    <button id="companyAccountLogin" onClick={setCompanyLogging}/>
+                </div>
                 <h2>Login</h2>
                 <form onSubmit={handleLogin} method="post">
                     <label for="login"/>
