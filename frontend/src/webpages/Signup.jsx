@@ -1,68 +1,127 @@
 import { useEffect, useState } from "react";
 import RollbackPage from "../components/generic/RollbackPage";
 import {LoginFunctions} from "../components/generic/LoginFunctions";
-import Login from "./Login";
+import {NavigateFunctions} from "../components/generic/NavigateFunctions";
 
 
 const Signup = () => {
-    const [loginData, setLoginData] = useState({ email: "", password: "" });
+    const {handleLogin,handlePrivateSignup, handleCompanySignup} = LoginFunctions();
+    const {refreshPage} = NavigateFunctions();
 
     // false - login to user/admin Account
     // true - login to company Account
-    var isLoggingToCompany = false;
+    const [isLoggingToCompany,setIsLoggingToCompany] = useState(false);
+    const [signupData, setSignupData] = useState({
+        email: "",
+        password: "",
+        username: "",
+        shopname:"",
+        KRS:""
+    });
 
     const handleChange = ({ currentTarget: input }) => {
-        setLoginData({ ...loginData, [input.name]: input.value });
+        setSignupData({ ...signupData, [input.name]: input.value });
     };
 
-    const setPrivateLogging = () => {
-        isLoggingToCompany = false;
+    const setPrivateSignup = () => {
+        setIsLoggingToCompany(false);
+        console.log("set up private Signup");
+        displayAccountTypeSignup();
     }
-    const setCompanyLogging = () => {
-        isLoggingToCompany = true;
+    const setCompanySignup = () => {
+        setIsLoggingToCompany(true);
+        console.log("set up company Signup");
+        displayAccountTypeSignup();
     }
 
-    const {handleLogin,handlePrivateSignup, handleCompanySignup} = LoginFunctions();
+    const handleSingupAndLogin = (e)=> {
+        if(isLoggingToCompany){
+            handleCompanySignup(e,signupData.shopname, signupData.email, signupData.password, signupData.KRS);
+        }else{
+            handlePrivateSignup(e,signupData.username, signupData.email, signupData.password);
+        }
+        handleLogin(e, signupData.email, signupData.password, isLoggingToCompany);
+    }
+
+    const displayAccountTypeSignup = () => {
+        if(isLoggingToCompany) {
+            return (
+                <form onSubmit={handleSingupAndLogin} method="post">
+                    <label htmlFor="shopname">Company name</label>
+                    <input
+                        type="text"
+                        name="shopname"
+                        onChange={handleChange}
+                        value={signupData.shopname}/>
+                    <br/>
+                    <label htmlFor="email">Email or login</label>
+                    <input
+                        type="text"
+                        name="email"
+                        onChange={handleChange}
+                        value={signupData.email}/>
+                    <br/>
+                    <label htmlFor={"password"}>Password</label>
+                    <input
+                        type="text"
+                        name="password"
+                        onChange={handleChange}
+                        value={signupData.password}/>
+                    <br/>
+                    <label htmlFor={"KRS"}>KRS number</label>
+                    <input
+                        type="text"
+                        name="KRS"
+                        onChange={handleChange}
+                        value={signupData.KRS}/>
+
+                    <input type="submit" value="Submit" />
+                </form>
+            );
+        }else{
+            return (
+                <form onSubmit={handleSingupAndLogin} method="post">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        onChange={handleChange}
+                        value={signupData.username}/>
+                    <br/>
+                    <label htmlFor="email">Email or login</label>
+                    <input
+                        type="text"
+                        name="email"
+                        onChange={handleChange}
+                        value={signupData.email}/>
+                    <br/>
+                    <label htmlFor={"password"}>Password</label>
+                    <input
+                        type="text"
+                        name="password"
+                        onChange={handleChange}
+                        value={signupData.password}/>
+
+                    <input type="submit" value="Submit" />
+                </form>
+            );
+        }
+    }
+
 
         return (
             <div>
-                <div id="leftVertical" class="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
+                <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                     <div id="LoginType">
-                        <button id="privateAccountLogin" onClick={setPrivateLogging}/>
-                        <button id="companyAccountLogin" onClick={setCompanyLogging}/>
+                        <button id="privateAccountLogin" onClick={setPrivateSignup}>Private Account</button>
+                        <button id="companyAccountLogin" onClick={setCompanySignup}>Company Account</button>
                     </div>
-                    <h2>Login</h2>
-                    <form onSubmit={handleLogin} method="post">
-                        <label for="login"/>
-                        <input
-                            type="text"
-                            name="login"
-                            hint="login"
-                            onChange={handleChange}
-                            value={loginData.email}>
-                            Email or login
-                        </input>
-
-                        <label for={"password"}/>
-                        <input
-                            type="text"
-                            name="password"
-                            hint="password"
-                            onChange={handleChange}
-                            value={loginData.password}>
-                            Password
-                        </input>
-
-                    </form>
+                    <h2>Signup</h2>
+                    {displayAccountTypeSignup()}
                 </div>
-                <div id="rightVertical" class="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
-                    <h2>Doesn't have an account?</h2>
-                    <a href={"/signup"}>Create an account</a>
-                    <h6>why is it worth to have an account on PLACEHOLDER NAME</h6>
-                    <img src={"img1"} alt={"img1Placeholder"}/>
-                    <img src={"img2"} alt={"img2Placeholder"}/>
-                    <img src={"img3"} alt={"img3Placeholder"}/>
-                    <img src={"img4"} alt={"img4Placeholder"}/>
+                <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
+                    <h2>Already have an account?</h2>
+                    <a href={"/signup"}>Login to an existing account</a>
                 </div>
                 <RollbackPage/>
             </div>

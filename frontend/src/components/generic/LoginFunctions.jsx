@@ -22,7 +22,7 @@ export const LoginFunctions = () => {
 
             }else{
                 //logging to User/Admin account
-                loginUrl = "/api/auth/login";
+                loginUrl = "http://localhost:8080/api/auth/login";
             }
             const loginData = {email,password}
 

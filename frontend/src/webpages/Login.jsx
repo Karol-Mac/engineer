@@ -3,6 +3,8 @@ import RollbackPage from "../components/generic/RollbackPage";
 import {LoginFunctions} from "../components/generic/LoginFunctions";
 
 const Login = () => {
+    const {handleLogin} = LoginFunctions()
+
     const [loginData, setLoginData] = useState({ email: "", password: "" });
 
     // false - login to user/admin Account
@@ -20,40 +22,36 @@ const Login = () => {
         isLoggingToCompany = true;
     }
 
-    const {handleLogin} = LoginFunctions()
 
     return (
         <div>
-            <div id="leftVertical" class="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
+            <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                 <div id="LoginType">
-                    <button id="privateAccountLogin" onClick={setPrivateLogging}/>
-                    <button id="companyAccountLogin" onClick={setCompanyLogging}/>
+                    <button id="privateAccountLogin" onClick={setPrivateLogging}>Private Account</button>
+                    <button id="companyAccountLogin" onClick={setCompanyLogging}>Company Account</button>
                 </div>
                 <h2>Login</h2>
-                <form onSubmit={handleLogin} method="post">
-                    <label for="login"/>
+                <form onSubmit={(e) => handleLogin(e, loginData.email, loginData.password, isLoggingToCompany)} method="post">
+                    <label htmlFor="email">Email or login</label>
                         <input
                             type="text"
-                            name="login"
-                            hint="login"
+                            name="email"
                             onChange={handleChange}
-                            value={loginData.email} >
-                            Email or login
-                        </input>
-
-                    <label for={"password"}/>
+                            value={loginData.email}
+                            placeholder="Email or login" />
+                    <br/>
+                    <label htmlFor={"password"}>Password</label>
                         <input
                             type="text"
                             name="password"
-                            hint="password"
                             onChange={handleChange}
-                            value={loginData.password} >
-                            Password
-                        </input>
-
+                            value={loginData.password}
+                            placeholder="Password"/>
+                    <br/>
+                    <input type="submit" value="Submit" />
                 </form>
             </div>
-            <div id="rightVertical" class="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
+            <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                 <h2>Doesn't have an account?</h2>
                 <a href={"/signup"}>Create an account</a>
                 <h6>why is it worth to have an account on PLACEHOLDER NAME</h6>

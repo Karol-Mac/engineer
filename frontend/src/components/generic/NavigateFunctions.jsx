@@ -7,6 +7,10 @@ export const NavigateFunctions = () => {
         navigate(-1);
     }
 
+    const refreshPage = () => {
+        window.location.reload();
+    }
+
 
     const openComparePage = () =>{
        window.open("/compare"); //if doesn't work check if the path is correct
@@ -20,6 +24,7 @@ export const NavigateFunctions = () => {
         returnToPreviousPage,
         openComparePage,
         openSpecificPage,
+        refreshPage
     };
 };
 
