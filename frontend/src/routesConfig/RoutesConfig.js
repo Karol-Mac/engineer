@@ -1,9 +1,9 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 
-import Homepage from './webpages/Homepage';
-import Login from './webpages/Login';
-import Signup from './webpages/Signup';
+import Homepage from '../webpages/Homepage';
+import Login from '../webpages/Login';
+import Signup from '../webpages/Signup';
 
 const RoutesConfig = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -23,5 +23,7 @@ const RoutesConfig = () => {
 
 
 }
+
+export default RoutesConfig;
 
 

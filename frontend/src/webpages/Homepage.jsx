@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-
-
 const Homepage = () => {
 
     return (
