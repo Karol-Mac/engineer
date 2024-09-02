@@ -1,10 +1,8 @@
-//placeholder name this element will be used when there are items selected to be compared
-// will be displayed at the bottom of webpage : Homepage,Searchpage
-
-
-
+import {CompareFunctions} from "../functions/CompareFunctions";
 
 const CompareProducts = () => {
+
+
     return(
         <button onClick={returnToPreviousPage} id="ReturnButton">Return</button>
     );

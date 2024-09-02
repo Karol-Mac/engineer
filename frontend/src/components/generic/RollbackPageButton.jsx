@@ -2,9 +2,9 @@
 //Jest to górny pasek zawierający logo, oraz przyciski do ulubionych produktów, logowania , rejesracji , profilu i wyświetlenia menu zarządzania profilu
 
 import {useEffect, useSTate} from "react";
-import {NavigateFunctions} from "./NavigateFunctions" //not imported as default therefore it has to be in curly brackets
+import {NavigateFunctions} from "../functions/NavigateFunctions" //not imported as default therefore it has to be in curly brackets
 
-const RollbackPage = () => {
+const RollbackPageButton = () => {
     const {returnToPreviousPage} = NavigateFunctions();
 
     return(
@@ -12,5 +12,5 @@ const RollbackPage = () => {
     );
 };
 
-export default RollbackPage;
+export default RollbackPageButton;
 

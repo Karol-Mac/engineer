@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import RollbackPage from "../components/generic/RollbackPage";
-import {LoginFunctions} from "../components/generic/LoginFunctions";
+import RollbackPageButton from "../components/generic/RollbackPageButton";
+import {LoginFunctions} from "../components/functions/LoginFunctions";
 
-const Login = () => {
+const Loginpage = () => {
     const {handleLogin} = LoginFunctions()
 
     const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -60,7 +60,7 @@ const Login = () => {
                 <img src={"img3"} alt={"img3Placeholder"}/>
                 <img src={"img4"} alt={"img4Placeholder"}/>
             </div>
-            <RollbackPage/>
+            <RollbackPageButton/>
         </div>
 
 )
@@ -68,4 +68,4 @@ const Login = () => {
 
 };
 
-export default Login;
+export default Loginpage;

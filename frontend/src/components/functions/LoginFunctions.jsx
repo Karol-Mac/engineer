@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const LoginFunctions = () => {
-
     const [error, setError] = useState("");
+
 
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
@@ -79,11 +79,17 @@ export const LoginFunctions = () => {
         }
     }
 
+    const isUserLogged = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return accessToken ? true : false;
+    };
+
     return {
         handleLogout,
         handleLogin,
         handlePrivateSignup,
-        handleCompanySignup
+        handleCompanySignup,
+        isUserLogged,
     };
 };
 

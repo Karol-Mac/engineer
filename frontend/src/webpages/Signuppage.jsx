@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import RollbackPage from "../components/generic/RollbackPage";
-import {LoginFunctions} from "../components/generic/LoginFunctions";
-import {NavigateFunctions} from "../components/generic/NavigateFunctions";
+import RollbackPageButton from "../components/generic/RollbackPageButton";
+import {LoginFunctions} from "../components/functions/LoginFunctions";
+import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
 
-const Signup = () => {
+const Signuppage = () => {
     const {handleLogin,handlePrivateSignup, handleCompanySignup} = LoginFunctions();
-    const {refreshPage} = NavigateFunctions();
 
     // false - login to user/admin Account
     // true - login to company Account
@@ -25,12 +24,12 @@ const Signup = () => {
 
     const setPrivateSignup = () => {
         setIsLoggingToCompany(false);
-        console.log("set up private Signup");
+        console.log("set up private Signuppage");
         displayAccountTypeSignup();
     }
     const setCompanySignup = () => {
         setIsLoggingToCompany(true);
-        console.log("set up company Signup");
+        console.log("set up company Signuppage");
         displayAccountTypeSignup();
     }
 
@@ -123,10 +122,10 @@ const Signup = () => {
                     <h2>Already have an account?</h2>
                     <a href={"/signup"}>Login to an existing account</a>
                 </div>
-                <RollbackPage/>
+                <RollbackPageButton/>
             </div>
 
         );
 };
 
-export default Signup;
+export default Signuppage;
