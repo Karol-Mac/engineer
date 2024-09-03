@@ -2,7 +2,6 @@ import {useState} from "react";
 import Header from "../generic/Header";
 import Footer from "../generic/Footer";
 import axios from "axios";
-import {NavigateFunctions} from "../functions/NavigateFunctions";
 
 //{givenProductName, givenPrice} if id
 export function LatestProductsElement ({givenProductID}) {
@@ -12,8 +11,6 @@ export function LatestProductsElement ({givenProductID}) {
     const [price, setPrice] = useState(null);
     const [sellerID, setSellerID] = useState(null);
     const [sellerImageName, setSellerImageName] = useState(null);
-
-    const {openComparepage, openProductRaportpage} = NavigateFunctions();
     const handlePrivateSignup = async(e,givenProductID) =>{
         e.preventDefault();
 
@@ -42,19 +39,12 @@ export function LatestProductsElement ({givenProductID}) {
     }
 
     return (
-        <div id="LatestProductElement">
-            <div> {/* lewa pionowa kolumna nazwa + obrazek zdjecia*/}
-                <h1>Site title</h1>
-                <img src={productImageName} alt={"ProductImageNameID"+givenProductID} id="ProductImg"/>
-            </div>
-            <div>{/* prawa pionowa kolumna PorownywarkaBtn, raportBtn, cena, obrazek firmy*/}
+        //
+        <div>
+            <h1>Site title</h1>
             <a href="" onClick={openComparepage} id="CompareImg">
                 <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>
             </a>
-            <a href="" onClick={openProductRaportpage(givenProductID)} id="RaportImg">
-                <img src="RaportLogoImg.jpg" alt="RaportLogoImg.jpg" id="RaportLogoImg"/>
-            </a>
-            </div>
         </div>
 
     );

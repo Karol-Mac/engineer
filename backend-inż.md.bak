@@ -71,7 +71,7 @@ Struktura wyjątku: {
 |-------------|------------------------------------|---------------------|-----------|-------|
 | POST        | /api/reports?productId=&commentId= | string (opcjonalne) | komunikat | user  |
 | GET         | /api/reports                       |                     | [REPORT]  | admin |
-| PUT         | /api/reports/{reportId}            | boolean             | REPORT    |       | // tylko do isHidden 
+| PUT         | /api/reports/{reportId}            | boolean             | REPORT    |       | // tylko do isHidden
 
 ### POBIERANIE ZDJĘĆ
 | method type | endpoint                     | body | response | ROLE |
