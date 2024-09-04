@@ -43,13 +43,14 @@ Struktura wyjątku: {
 
 ### ZARZĄDANIE KONTEM
 #### prywatnym (private account/admin (swoje dane)):
-| method type | endpoint                        | body               | response                                    | ROLE  |
-|-------------|---------------------------------|--------------------|---------------------------------------------|-------|
-| POST        | /api/accounts                   | username, password | username, email, password                   | user  |
-| GET         | /api/accounts?name=string       |                    | [ACCOUNT]                                   | admin |
-| GET         | /api/accounts/{sellerId}        |                    | {shopName, email, KRS, password, imageName} | any   |
-| PUT         | /api/accounts                   | ACCOUNT            | ACCOUNT                                     | admin |
-| DELETE      | /api/accounts/{userId}/comments |                    | komunikat                                   | admin |
+| method type | endpoint                        | body               | response                                             | ROLE  |
+|-------------|---------------------------------|--------------------|------------------------------------------------------|-------|
+| POST        | /api/accounts                   | username, password | username, email, password                            | user  |
+| GET         | /api/accounts?name=string       |                    | [ACCOUNT]                                            | admin |
+| GET         | /api/accounts/{sellerId}        |                    | {shopName, email, KRS, password, imageName}          | any   |
+| GET         | /api/accounts/sellers           |                    | [{shopName, email, KRS, password, imageName}, {...}] | any   |
+| PUT         | /api/accounts                   | ACCOUNT            | ACCOUNT                                              | admin |
+| DELETE      | /api/accounts/{userId}/comments |                    | komunikat                                            | admin |
 
 ### LISTA ULUBIONYCH
 | method type | endpoint                       | body | response  | ROLE |
