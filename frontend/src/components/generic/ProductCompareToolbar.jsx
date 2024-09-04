@@ -1,8 +1,10 @@
 import {CompareFunctions} from "../functions/CompareFunctions";
 import {useEffect, useState} from "react";
+import {CustomEventsControler} from "../functions/CustomEventsControler";
 
 const ProductCompareToolbar = () => {
     const {toggleProductInComparisonList, isProductToCompareSelected } = CompareFunctions();
+    const {addListenerDispatchOnCompareUpdate,removeListenerDispatchOnCompareUpdate} = CustomEventsControler();
     const [isProductCompareToolbarVisible, setIsProductCompareToolbarVisible] = useState(false);
 
 
@@ -11,14 +13,18 @@ const ProductCompareToolbar = () => {
     }
 
     useEffect(() => {
-        window.addEventListener("onCompareUpdate", handleCompareStorageChange);
+        addListenerDispatchOnCompareUpdate(handleCompareStorageChange);
         handleCompareStorageChange();
+
+        return () => { //kiedy komponent przestaje dzialac usuwany jest listener
+            removeListenerDispatchOnCompareUpdate(handleCompareStorageChange);
+        }
     }, []);
 
 
     return(
         <div>
-        // <a href="" onClick={toggleProductInComparisonList()} id="CompareImg">
+        <a href="" id="CompareImg">
         {isProductCompareToolbarVisible ? (
                 <div>
                     <p>Compare is visible</p>

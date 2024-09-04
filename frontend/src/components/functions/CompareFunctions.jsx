@@ -1,4 +1,7 @@
+import {CustomEventsControler} from "./CustomEventsControler";
+
 export const CompareFunctions = () => {
+    const {invokeOnCompareUpdateEvent} = CustomEventsControler();
     const localStorageListName = "compareProductList";
 
 
@@ -16,7 +19,7 @@ export const CompareFunctions = () => {
 
         if(existingComparisonList.inclues(givenProductID)){
             existingComparisonList.push(givenProductID);
-
+            invokeOnCompareUpdateEvent();
             localStorage.setItem(localStorageListName, JSON.stringify(existingComparisonList));
             console.log("Added product with ID" + givenProductID + "to be compared");
         }else{
@@ -30,7 +33,7 @@ export const CompareFunctions = () => {
         const productIndex = existingComparisonList.indexOf(givenProductID);
         if(productIndex > 0){
             existingComparisonList.splice(givenProductID,1);
-
+            invokeOnCompareUpdateEvent();
             localStorage.setItem(localStorageListName, JSON.stringify(existingComparisonList));
             console.log("Removed product with ID" + givenProductID + "from comparison");
         }else{
@@ -39,26 +42,29 @@ export const CompareFunctions = () => {
     }
 
     const toggleProductInComparisonList = (givenProductID) => { //if doesnt work check if React. Strict mode doesnt mess it up
+        const productId = typeof givenProductID === 'object' ? givenProductID.givenProductID : givenProductID;
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageListName));
+        const productIndex = existingComparisonList.findIndex(obj => obj.givenProductID===productId);
+        console.log("product index for givenProductID("+productId+" ==" + productIndex);
 
-        const productIndex = existingComparisonList.indexOf(givenProductID);
-        if(productIndex > 0){
-            existingComparisonList.splice(givenProductID,1);
-
+        if(productIndex >= 0){
+            existingComparisonList.splice(existingComparisonList.indexOf(givenProductID),1);
             localStorage.setItem(localStorageListName, JSON.stringify(existingComparisonList));
+            invokeOnCompareUpdateEvent();
+
             console.log("TOOGLED: Removed product with ID" + givenProductID + "from comparison");
         }else{existingComparisonList.push(givenProductID);
-
             localStorage.setItem(localStorageListName, JSON.stringify(existingComparisonList));
-            console.log("TOOGLED: Added product with ID" + givenProductID + "to be compared");
+            invokeOnCompareUpdateEvent();
 
+            console.log("TOOGLED: Added product with ID" + givenProductID + "to be compared");
         }
     }
 
     const isProductToCompareSelected = () => {
         const areProductsToCompare = JSON.parse(localStorage.getItem(localStorageListName));
         console.log(areProductsToCompare);
-        return !Object.keys(areProductsToCompare).length ? true : false;
+        return Object.keys(areProductsToCompare).length ? true : false;
     }
 
     return {
