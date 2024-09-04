@@ -90,15 +90,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         Seller seller = sellerRepository.findById(sellerId)
                 .orElseThrow( () -> new UsernameNotFoundException("Seller with id: " + sellerId + " not found"));
 
-        var sellerDto = new RegisterSellerDto();
-        sellerDto.setId(seller.getId());
-        sellerDto.setShopName(seller.getShopName());
-        sellerDto.setEmail(seller.getEmail());
-        sellerDto.setPassword(seller.getPassword());
-        sellerDto.setKrsNumber(seller.getKRS());
-        sellerDto.setImageName(seller.getImageName());
-
-        return sellerDto;
+        return mapToDto(seller);
     }
 
     @Override
@@ -125,11 +117,6 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         }
     }
 
-    private Role getRoleByName(String roleName) throws BadRequestException {
-        return roleRepository.findByName("ROLE_" + roleName.toUpperCase())
-                .orElseThrow(() -> new BadRequestException("Role name is incorrect"));
-    }
-
 
     @Override
     public String removeAllComments(long id) throws BadRequestException {
@@ -143,5 +130,27 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         commentRepository.saveAll(wrotedComments);
 
         return "All user's comments removed successfully";
+    }
+
+    @Override
+    public List<RegisterSellerDto> getSellers(){
+        return sellerRepository.findAll().stream().map(this::mapToDto).toList();
+    }
+
+    private Role getRoleByName(String roleName) throws BadRequestException {
+        return roleRepository.findByName("ROLE_" + roleName.toUpperCase())
+                .orElseThrow(() -> new BadRequestException("Role name is incorrect"));
+    }
+
+    private RegisterSellerDto mapToDto(Seller seller){
+        var sellerDto = new RegisterSellerDto();
+        sellerDto.setId(seller.getId());
+        sellerDto.setShopName(seller.getShopName());
+        sellerDto.setEmail(seller.getEmail());
+        sellerDto.setPassword(seller.getPassword());
+        sellerDto.setKrsNumber(seller.getKRS());
+        sellerDto.setImageName(seller.getImageName());
+
+        return sellerDto;
     }
 }
