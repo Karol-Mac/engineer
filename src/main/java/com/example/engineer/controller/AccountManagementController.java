@@ -28,6 +28,11 @@ public class AccountManagementController {
         return ResponseEntity.ok(accountManagementService.getSellerById(sellerId));
     }
 
+    @GetMapping("/sellers")
+    public ResponseEntity<List<RegisterSellerDto>> getAllSellers(){
+        return ResponseEntity.ok(accountManagementService.getSellers());
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
     public ResponseEntity<RegisterUserDto> changeCredentials(
