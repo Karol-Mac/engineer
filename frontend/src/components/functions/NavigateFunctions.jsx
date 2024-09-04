@@ -40,6 +40,11 @@ export const NavigateFunctions = () => {
         navigate("/comments");
     }
 
+    const openSearchpage = (searchedProductName) => { //pass json with searchedProductName : PRODUCTNAME
+        // window.open("/comments"); //if doesn't work check if the path is correct
+        const queryParams = new URLSearchParams(searchedProductName).toString();
+        navigate(`/search?${queryParams}`);
+    }
     const openAccountSettingpage = () =>{
         // window.open("/account"); //if doesn't work check if the path is correct
         navigate("/account");
@@ -55,10 +60,13 @@ export const NavigateFunctions = () => {
         navigate("/productRaport/"+reportedProductID);
     }
 
-    const openSpecificpage = (name) => {
+    const openSpecificpage = ({name}) => {
         navigate(name);
     }
 
+    const openSpecificpageWithParams = ({name, param}) => {
+        navigate(name);
+    }
     const openNewTabSpecificpage = (name) => {
         window.open(name);
     }
@@ -75,6 +83,7 @@ export const NavigateFunctions = () => {
         openCommentspage,
         openAccountSettingpage,
         openContactpage,
+        openSearchpage,
         openProductRaportpage
     };
 };

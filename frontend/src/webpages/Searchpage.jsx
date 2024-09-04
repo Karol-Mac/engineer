@@ -1,11 +1,13 @@
 import Header from "../components/generic/Header";
+import Footer from "../components/generic/Footer";
 
-const Searchpage = () => {
+const Searchpage = ({searchedName}) => {
 
     return (
         <div>
             <Header/>
-            <h1>Temp</h1>
+            <h1>Temp {searchedName}</h1>
+            <Footer/>
         </div>
 
     );

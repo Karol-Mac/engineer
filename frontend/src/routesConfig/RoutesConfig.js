@@ -7,6 +7,8 @@ import Signuppage from '../webpages/Signuppage';
 import Favouritepage from '../webpages/Favouritepage';
 import Accountpage from "../webpages/Accountpage";
 import ContactUspage from "../webpages/Contactpage";
+import Comparepage from "../webpages/Comparepage";
+import Searchpage from "../webpages/Searchpage";
 
 const RoutesConfig = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -23,6 +25,11 @@ const RoutesConfig = () => {
             <Route path="/favourite" exact element={<Favouritepage/>} />
             <Route path="/account" exact element={<Accountpage/>} />
             <Route path="/contact" exact element={<ContactUspage/>} />
+
+            <Route path="/search" exact element={<Searchpage/>} />
+            <Route path="/compare" exact element={<Comparepage/>} />
+
+
 
         </Routes>
     )

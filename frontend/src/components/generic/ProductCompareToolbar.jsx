@@ -3,13 +3,14 @@ import {useEffect, useState} from "react";
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 
 const ProductCompareToolbar = () => {
-    const {toggleProductInComparisonList, isProductToCompareSelected } = CompareFunctions();
+    const {isAnyProductToCompareSelected } = CompareFunctions();
     const {addListenerDispatchOnCompareUpdate,removeListenerDispatchOnCompareUpdate} = CustomEventsControler();
     const [isProductCompareToolbarVisible, setIsProductCompareToolbarVisible] = useState(false);
 
 
     const handleCompareStorageChange = () => {
-        setIsProductCompareToolbarVisible(isProductToCompareSelected())
+        console.log("Event: CompareStorage has been updated");
+        setIsProductCompareToolbarVisible(isAnyProductToCompareSelected())
     }
 
     useEffect(() => {
@@ -28,6 +29,7 @@ const ProductCompareToolbar = () => {
         {isProductCompareToolbarVisible ? (
                 <div>
                     <p>Compare is visible</p>
+                {/*add images of products to compare + button to the webpage*/}
                 </div>
             ) : (
                 <div>
@@ -35,7 +37,7 @@ const ProductCompareToolbar = () => {
                 </div>
             )}
             <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>
-        // </a>
+        </a>
         </div>
     );
 };

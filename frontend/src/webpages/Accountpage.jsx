@@ -2,7 +2,7 @@ const Accountpage = () => {
 
     return (
         <div>
-            <h1>Temp</h1>
+            <h1>Temp Accountpage</h1>
         </div>
 
     );

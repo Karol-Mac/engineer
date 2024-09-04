@@ -2,7 +2,7 @@ const Favouritepage = () => {
 
     return (
         <div>
-            <h1>Temp</h1>
+            <h1>Temp Favouritepage</h1>
         </div>
 
     );
