@@ -27,12 +27,12 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
-        return ResponseEntity.ok(authService.login(loginDto));
+        return ResponseEntity.ok(authService.login(loginDto, false));
     }
 
     @PostMapping("/company/login")
     public ResponseEntity<JwtAuthResponse> loginCompany(@RequestBody LoginDto loginDto){
-        return ResponseEntity.ok(authService.loginCompany(loginDto));
+        return ResponseEntity.ok(authService.login(loginDto, true));
     }
 
     @PostMapping("/register")

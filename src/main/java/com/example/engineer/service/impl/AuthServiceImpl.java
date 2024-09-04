@@ -12,16 +12,15 @@ import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.AuthService;
 import com.example.engineer.service.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
@@ -30,6 +29,17 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final SellerRepository sellerRepository;
+
+    public AuthServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
+                           PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager,
+                           JwtService jwtService, SellerRepository sellerRepository){
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        this.sellerRepository = sellerRepository;
+    }
 
     @Override
     public String register(RegisterUserDto registerUserDto) throws BadCredentialsException{
@@ -55,22 +65,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtAuthResponse login(LoginDto loginDto){
-            var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginDto.getEmail(), loginDto.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            var user = userRepository.findByEmail(loginDto.getEmail()).get();
-
-            //returning generated token (when user is authenticated)
-            JwtAuthResponse authResponse = new JwtAuthResponse();
-            authResponse.setAccessToken(jwtService.generateToken(user));
-
-            return authResponse;
-    }
-
-
-    @Override
     public String registerCompany(RegisterSellerDto registerSellerDto) throws BadCredentialsException{
         if(sellerRepository.existsByEmail(registerSellerDto.getEmail()))
             throw new BadCredentialsException("Seller with given email (" + registerSellerDto.getEmail() +") already exist");
@@ -93,16 +87,36 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtAuthResponse loginCompany(LoginDto loginDto){
-        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword()));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+    public JwtAuthResponse login(LoginDto loginDto, boolean isSeller) {
+        authenticate(loginDto);
 
-        var seller = sellerRepository.findByEmail(loginDto.getEmail()).get();
+        UserDetails user;
+        if(isSeller) {
+            if(!sellerRepository.existsByEmail(loginDto.getEmail()))
+                throw new BadCredentialsException("Seller's email (" + loginDto.getEmail() +") does not exist");
+            user = sellerRepository.findByEmail(loginDto.getEmail()).get();
+        } else {
+            if(!userRepository.existsByEmail(loginDto.getEmail()))
+                throw new BadCredentialsException("User's email (" + loginDto.getEmail() +") does not exist");
+            user = userRepository.findByEmail(loginDto.getEmail()).get();
+        }
+
+        var role = user.getAuthorities().stream()
+                                        .findFirst()
+                                        .get()
+                                        .getAuthority()
+                                        .substring(5);
 
         JwtAuthResponse authResponse = new JwtAuthResponse();
-        authResponse.setAccessToken(jwtService.generateToken(seller));
+        authResponse.setAccessToken(jwtService.generateToken(user));
+        authResponse.setTokenType(role);
 
         return authResponse;
+    }
+
+    private void authenticate(LoginDto loginDto){
+        var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getEmail(), loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.security.core.AuthenticationException;
 
 public interface AuthService {
 
-    JwtAuthResponse login(LoginDto loginDto);
+    JwtAuthResponse login(LoginDto loginDto, boolean isSeller);
     String register(RegisterUserDto loginDto) throws AuthenticationException;
 
     String registerCompany(RegisterSellerDto registerSellerDto) throws AuthenticationException;
 
-    JwtAuthResponse loginCompany(LoginDto loginDto);
+//    JwtAuthResponse loginCompany(LoginDto loginDto);
 }
