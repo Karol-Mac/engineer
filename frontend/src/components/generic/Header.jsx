@@ -6,7 +6,6 @@ import SideMenu from "../loginpage/SideMenu";
 import {NavigateFunction} from "react-router-dom";
 const Header = () => { //pass Token if token is null than display login + Register else display
     const {openFavouritepage, openHomepage, openLoginpage, openSignuppage} = NavigateFunctions();
-    const {refreshPage} = NavigateFunctions();
 
     const [isSideMenuOpened,setIsSideMenuOpened] = useState(false);
     const openSideMenu = () => {

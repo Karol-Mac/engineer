@@ -20,7 +20,7 @@ const ProductCompareToolbar = () => {
         return () => { //kiedy komponent przestaje dzialac usuwany jest listener
             removeListenerDispatchOnCompareUpdate(handleCompareStorageChange);
         }
-    }, []);
+    }, []); //Pozbycie się ", []" usuwa warning ale w konsoli pokazane jest jakby dwukrotnie wywołana była ta funkcja. tak czy inaczej działa
 
 
     return(
