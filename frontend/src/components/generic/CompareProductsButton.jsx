@@ -6,10 +6,11 @@ const CompareProductsButton = ({givenProductID}) => {
     const {toggleProductInComparisonList,isSpecificProductToCompareSelected} = CompareFunctions();
     const {invokeOnCompareUpdateEvent} = CustomEventsControler();
 
+    console.log("giventProductID as prop "+givenProductID+ " is type"+ typeof givenProductID);
     const [productSelectedToCompare, setProductSelectedToCompare] = useState(isSpecificProductToCompareSelected(givenProductID));
     //zaznaczenie produktu w menu głównym przeniesie sie do wyszukiwarki
 
-    const handleCompareImgClick = () => {
+    const handleClick = () => {
         console.log("givenProductID is "+givenProductID);
         toggleProductInComparisonList(givenProductID);
         invokeOnCompareUpdateEvent();
@@ -17,7 +18,7 @@ const CompareProductsButton = ({givenProductID}) => {
     }
 
     return(
-        <a href="" onClick={handleCompareImgClick} id="CompareImg">
+        <div onClick={handleClick} id="CompareImg">
             {productSelectedToCompare ? (
                 <>
                     <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> {/* Ustawic przekreslona wage (produkt jest juz porownywany */}
@@ -27,7 +28,7 @@ const CompareProductsButton = ({givenProductID}) => {
                 <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> {/* Ustawic normalną wage (produkt NIE jest porownywany */}
                 </>
             )}
-        </a>
+        </div>
     );
 };
 

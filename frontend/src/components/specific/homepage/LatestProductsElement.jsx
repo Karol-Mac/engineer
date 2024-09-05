@@ -1,6 +1,6 @@
 import {useState} from "react";
-import Header from "../generic/Header";
-import Footer from "../generic/Footer";
+import Header from "../../generic/Header";
+import Footer from "../../generic/Footer";
 import axios from "axios";
 
 //{givenProductName, givenPrice} if id

@@ -14,7 +14,7 @@ export const CompareFunctions = () => {
     };
     initializeProductComparisonList();
 
-    const addProductComparisonList = (givenProductID) => { //to be updated
+    const addProductComparisonList = ({givenProductID}) => { //to be updated
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
 
         if(existingComparisonList.inclues(givenProductID)){
@@ -41,7 +41,7 @@ export const CompareFunctions = () => {
         }
     }
 
-    const toggleProductInComparisonList = ({givenProductID}) => { //if doesnt work check if React. Strict mode doesnt mess it up
+    const toggleProductInComparisonList = (givenProductID) => { //if doesnt work check if React. Strict mode doesnt mess it up
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
         const productIndex = existingComparisonList.findIndex((obj) => obj ===givenProductID);
         console.log("product index for givenProductID("+givenProductID+") ==" + productIndex);
@@ -66,11 +66,13 @@ export const CompareFunctions = () => {
         return Object.keys(areProductsToCompare).length ? true : false;
     }
 
-    const isSpecificProductToCompareSelected = ({givenProductID}) => {
+    const isSpecificProductToCompareSelected = (givenProductID) => {
+        console.log("givenProductID "+givenProductID);
         const productId = typeof givenProductID === 'object' ? givenProductID.givenProductID : givenProductID;
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
+        console.log("productID "+productId + ", existingComparisonList"+ existingComparisonList);
         const productIndex = existingComparisonList.findIndex(obj => obj.givenProductID===productId);
-        return productIndex === -1 ? false : true;
+        return productIndex === -1 || productIndex === null ? false : true;
     }
 
     return {

@@ -2,7 +2,7 @@ import { CompareFunctions } from "../functions/CompareFunctions";
 import {ReportFunctions} from "../functions/ReportFunctions"
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 
-const AddReportButton = (givenReportedID, reportType) => {
+const ReportButton = (givenReportedID, reportType) => {
     const { checkReportTypeProduct,reportComment,reportProduct } = ReportFunctions();
     const {invokeReportOverlay} = CustomEventsControler();
 
@@ -35,4 +35,4 @@ const AddReportButton = (givenReportedID, reportType) => {
     );
 };
 
-export default AddReportButton;
+export default ReportButton;
