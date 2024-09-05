@@ -29,7 +29,7 @@ const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than dis
     }
     return(
         <div id="SideMenu">
-            <div  onClick={openComparepage} id="CompareImg">
+            <div onClick={openComparepage} id="CompareImg">
                 <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>
                 <p>Compare</p>
             </div>

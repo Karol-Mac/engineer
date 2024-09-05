@@ -18,7 +18,7 @@ export const LoginFunctions = () => {
             var loginUrl;
             if(isLoggingToCompany){
                 //logging to Company account
-                loginUrl = "/api/auth/company/login";
+                loginUrl = "http://localhost:8080/api/auth/company/login";
 
             }else{
                 //logging to User/Admin account

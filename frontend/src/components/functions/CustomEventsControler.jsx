@@ -2,9 +2,9 @@ export const CustomEventsControler = () => {
 
     const onCompareUpdate = "onCompareUpdate";
     //Event który zostaje odpalony w momencie dodania nowego lub usuniecia starego produtku z porównywarki
-    const onCompareUpdateEvemt = new Event("onCompareUpdate");
+    const onCompareUpdateEvent = new Event("onCompareUpdate");
     const invokeOnCompareUpdateEvent = () => {
-        window.dispatchEvent(onCompareUpdateEvemt);
+        window.dispatchEvent(onCompareUpdateEvent);
     }
 
     const addListenerDispatchOnCompareUpdate = (functionParam) => {

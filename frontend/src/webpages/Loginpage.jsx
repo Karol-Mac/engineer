@@ -62,10 +62,7 @@ const Loginpage = () => {
             </div>
             <RollbackPageButton/>
         </div>
-
-)
-    ;
-
+    );
 };
 
 export default Loginpage;
