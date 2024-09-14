@@ -6,7 +6,7 @@ const CompareProductsButton = ({givenProductID}) => {
     const {toggleProductInComparisonList,isSpecificProductToCompareSelected} = CompareFunctions();
     const {invokeOnCompareUpdateEvent} = CustomEventsControler();
 
-    console.log("giventProductID as prop "+givenProductID+ " is type"+ typeof givenProductID);
+    // console.log("giventProductID as prop "+givenProductID+ " is type"+ typeof givenProductID);
     const [productSelectedToCompare, setProductSelectedToCompare] = useState(isSpecificProductToCompareSelected(givenProductID));
     //zaznaczenie produktu w menu głównym przeniesie sie do wyszukiwarki
 

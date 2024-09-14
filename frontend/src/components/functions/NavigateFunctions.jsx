@@ -43,6 +43,7 @@ export const NavigateFunctions = () => {
     const openSearchpage = (searchedProductName) => { //pass json with searchedProductName : PRODUCTNAME
         // window.open("/comments"); //if doesn't work check if the path is correct
         const queryParams = new URLSearchParams(searchedProductName).toString();
+        console.log("queryParams = "+queryParams);
         navigate(`/search?${queryParams}`);
     }
     const openAccountSettingpage = () =>{

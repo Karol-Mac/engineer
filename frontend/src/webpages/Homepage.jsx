@@ -13,13 +13,14 @@ const Homepage = () => {
     const [searchName, setSearchName] = useState("");
 
     const handleSearchClick = () =>{
-        console.log("Open Searchpage with search: "+searchName);
-        openSearchpage(searchName);
+        const searchedProductName = {string: searchName}
+        console.log("Open Searchpage with search: "+searchedProductName);
+        openSearchpage(searchedProductName);
     };
     initializeProductComparisonList();
     const handleSearchChange = (e) => {
         setSearchName(e.target.value);
-        console.log("seachName updated"+searchName)
+        // console.log("seachName updated"+searchName)
     };
 
     return (

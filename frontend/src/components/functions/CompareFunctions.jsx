@@ -67,10 +67,10 @@ export const CompareFunctions = () => {
     }
 
     const isSpecificProductToCompareSelected = (givenProductID) => {
-        console.log("givenProductID "+givenProductID);
+        // console.log("givenProductID "+givenProductID);
         const productId = typeof givenProductID === 'object' ? givenProductID.givenProductID : givenProductID;
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
-        console.log("productID "+productId + ", existingComparisonList"+ existingComparisonList);
+        // console.log("productID "+productId + ", existingComparisonList"+ existingComparisonList);
         const productIndex = existingComparisonList.findIndex(obj => obj.givenProductID===productId);
         return productIndex === -1 || productIndex === null ? false : true;
     }
