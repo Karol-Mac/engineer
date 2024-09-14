@@ -68,7 +68,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String registerCompany(RegisterSellerDto registerSellerDto) throws BadCredentialsException{
         if(sellerRepository.existsByEmail(registerSellerDto.getEmail()))
-            throw new BadCredentialsException("Seller with given email (" + registerSellerDto.getEmail() +") already exist");
+//            throw new BadCredentialsException("Seller with given email (" + registerSellerDto.getEmail() +") already exist");
+            throw new BadCredentialsException("Seller with given email already exist");
 
         Role role = roleRepository.findByName("ROLE_SELLER").get();
 

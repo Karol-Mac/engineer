@@ -5,10 +5,20 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
 const Loginpage = () => {
     const {handleLogin} = LoginFunctions()
-    const {openSignuppage} = NavigateFunctions();
+    const {openSignuppage, openHomepage} = NavigateFunctions();
 
+    const isLoggingToCompanyItemName = "isSigningToCompany";
+    const [isLoggingToCompany, setIsLoggingToCompany] = useState(JSON.parse(localStorage.getItem(isLoggingToCompanyItemName)) === true);
     const [loginData, setLoginData] = useState({ email: "", password: "" });
-    const [isLoggingToCompany, setIsLoggingToCompany] = useState(false);
+    const [responseMessage, setResponseMessage] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem(isLoggingToCompanyItemName, JSON.stringify(isLoggingToCompany));
+
+        return () =>{
+            localStorage.removeItem(isLoggingToCompanyItemName);
+        }
+    }, [isLoggingToCompany]);
 
     const handleChange = ({ currentTarget: input }) => {
         setLoginData({ ...loginData, [input.name]: input.value });
@@ -27,6 +37,7 @@ const Loginpage = () => {
         if(response.success){
             console.log("Login successful");
         }else{
+            setResponseMessage(response.message);
             console.log("Login Failed"+response.message);
         }
     }
@@ -58,6 +69,8 @@ const Loginpage = () => {
                             placeholder="Password"/>
                     <br/>
                     <input type="submit" value="Submit" />
+                    <br/>
+                    <p>{responseMessage}</p>
                 </form>
             </div>
             <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {NavigateFunctions} from "./NavigateFunctions";
 
 export const LoginFunctions = () => {
-    const [requestUrl, setRequestUrl] = useState("");
-
+    const {openHomepage} = NavigateFunctions();
 
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
@@ -11,6 +11,8 @@ export const LoginFunctions = () => {
         localStorage.removeItem("user");
         window.location.reload();
     };
+
+
 
     const handleLogin = async(e, email, password, isLoggingToCompany)=>{
         e.preventDefault();
@@ -41,6 +43,7 @@ export const LoginFunctions = () => {
 
             });
 
+            openHomepage();
             return{ success: true};
         }catch (error) {
             let errorMessage;
@@ -65,7 +68,6 @@ export const LoginFunctions = () => {
             var signupUrl = "http://localhost:8080/api/auth/register";
             const signupData = {username,email,password}
 
-
             const {loginData: res} = await axios.post(signupUrl, signupData);
             return{ success: true};
         }catch (error) {
@@ -78,6 +80,7 @@ export const LoginFunctions = () => {
                 errorMessage = error.response.data.message || "Unknown error";
             }
 
+            // console.log("(PRIVATE) setResponseMessage: "+ errorMessage);
             return{ success: false, message: errorMessage};
         }
     };
@@ -90,6 +93,7 @@ export const LoginFunctions = () => {
         try {
             var signupUrl = "http://localhost:8080/api/auth/company/register";
             const signupData = {shopName: shopName,email: email,password: password,krsNumber: KRS}
+
             formData.append('company', new Blob([JSON.stringify(signupData)], { type: 'application/json' }));
             formData.append("file", sellerImage);
 
@@ -110,11 +114,12 @@ export const LoginFunctions = () => {
                 errorMessage = error.response.data.message || "Unknown error";
             }
 
+            // console.log("(Company) setResponseMessage: "+ errorMessage);
             return{ success: false, message: errorMessage};
         }
     };
 
-    const isUserLogged = async () => {
+    const isUserLogged = () => {
         const accessToken = localStorage.getItem("accessToken");
         return accessToken ? true : false;
     };

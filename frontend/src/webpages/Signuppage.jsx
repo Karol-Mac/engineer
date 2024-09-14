@@ -7,10 +7,12 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 const Signuppage = () => {
     const {handleLogin,handlePrivateSignup, handleCompanySignup} = LoginFunctions();
     const {openLoginpage} = NavigateFunctions();
+    const [responseMessage, setResponseMessage] = useState("");
 
     // false - login to user/admin Account
     // true - login to company Account
-    const [isLoggingToCompany,setIsLoggingToCompany] = useState(false);
+    const isSigningToCompanyItemName = "isSigningToCompany";
+    const [isSigningToCompany,setIsSigningToCompany] = useState(JSON.parse(localStorage.getItem(isSigningToCompanyItemName)) === true);
     const [signupData, setSignupData] = useState({
         email: "",
         password: "",
@@ -18,8 +20,17 @@ const Signuppage = () => {
         shopname:"",
         KRS:""
     });
-
     const [sigupDataImage, setSignupDataImage] = useState(null)
+
+    useEffect(() => {
+        localStorage.setItem(isSigningToCompanyItemName, JSON.stringify(isSigningToCompany));
+
+        return () =>{
+            localStorage.removeItem(isSigningToCompanyItemName);
+        }
+    }, [isSigningToCompany]);
+
+
 
     const handleChange = ({ currentTarget: input }) => {
         setSignupData({ ...signupData, [input.name]: input.value });
@@ -33,97 +44,82 @@ const Signuppage = () => {
     }
 
     const setPrivateSignup = () => {
-        setIsLoggingToCompany(false);
+        setIsSigningToCompany(false);
         console.log("set up private Signuppage");
         displayAccountTypeSignup();
     }
     const setCompanySignup = () => {
-        setIsLoggingToCompany(true);
+        setIsSigningToCompany(true);
         console.log("set up company Signuppage");
         displayAccountTypeSignup();
     }
 
-    const handleSingupAndLogin = (e)=> {
-        if(isLoggingToCompany){
-            handleCompanySignup(e,signupData.shopname, signupData.email, signupData.password, signupData.KRS, sigupDataImage);
+    const handleSingupAndLogin = async(e)=> {
+        let response;
+        if(isSigningToCompany){
+            response = await handleCompanySignup(e,signupData.shopname, signupData.email, signupData.password, signupData.KRS, sigupDataImage);
         }else{
-            handlePrivateSignup(e,signupData.username, signupData.email, signupData.password);
+            response = await handlePrivateSignup(e,signupData.username, signupData.email, signupData.password);
         }
 
-        handleLogin(e, signupData.email, signupData.password, isLoggingToCompany);
+        if(response.success){
+            handleLogin(e, signupData.email, signupData.password, isSigningToCompany);
+        }else{
+            setResponseMessage(response.message);
+        }
+
     }
 
     const displayAccountTypeSignup = () => {
-        if(isLoggingToCompany) {
-            return (
-                <form onSubmit={handleSingupAndLogin} method="post">
-                    <label htmlFor="shopname">Company name</label>
-                    <input
-                        type="text"
-                        name="shopname"
-                        onChange={handleChange}
-                        value={signupData.shopname}/>
-                    <br/>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="text"
-                        name="email"
-                        onChange={handleChange}
-                        value={signupData.email}/>
-                    <br/>
-                    <label htmlFor={"password"}>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        value={signupData.password}/>
-                    <br/>
-                    <label htmlFor={"KRS"}>KRS number</label>
-                    <input
-                        type="text"
-                        name="KRS"
-                        onChange={handleChange}
-                        value={signupData.KRS}/>
-                    <br/>
-                    <label htmlFor={"sellerImage"}>Seller image</label>
-                    <input
-                        type="file"
-                        name="sellerImage"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                    />
-                    <br/>
-                    <input type="submit" value="Submit" />
-                </form>
-            );
-        }else{
-            return (
-                <form onSubmit={handleSingupAndLogin} method="post">
-                    <label htmlFor="username">Username</label>
-                    <input
-                        type="text"
-                        name="username"
-                        onChange={handleChange}
-                        value={signupData.username}/>
-                    <br/>
-                    <label htmlFor="email">Email or login</label>
-                    <input
-                        type="text"
-                        name="email"
-                        onChange={handleChange}
-                        value={signupData.email}/>
-                    <br/>
-                    <label htmlFor={"password"}>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        onChange={handleChange}
-                        value={signupData.password}/>
-
-                    <input type="submit" value="Submit" />
-                </form>
-            );
-        }
+        return (
+            <form onSubmit={handleSingupAndLogin} method="post">
+                {isSigningToCompany ? (
+                <div>
+                <label htmlFor="shopname">Company name</label>
+                <input
+                    type="text"
+                    name="shopname"
+                    onChange={handleChange}
+                    value={signupData.shopname}/>
+                <br/>
+                <label htmlFor="email">Email</label>
+                </div>
+                ) : (<div></div>)}
+                <input
+                    type="text"
+                    name="email"
+                    onChange={handleChange}
+                    value={signupData.email}/>
+                <br/>
+                <label htmlFor={"password"}>Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    value={signupData.password}/>
+                <br/>
+                {isSigningToCompany ? (
+                    <div>
+                        <label htmlFor={"KRS"}>KRS number</label>
+                        <input
+                            type="text"
+                            name="KRS"
+                            onChange={handleChange}
+                            value={signupData.KRS}/>
+                        <br/>
+                        <label htmlFor={"sellerImage"}>Seller image</label>
+                        <input
+                            type="file"
+                            name="sellerImage"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                        />
+                    </div>) : (<div></div>)}
+                <br/>
+                <input type="submit" value="Submit" />
+                <p>{responseMessage}</p>
+            </form>
+        );
     }
 
 
