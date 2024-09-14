@@ -6,6 +6,7 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
 const Signuppage = () => {
     const {handleLogin,handlePrivateSignup, handleCompanySignup} = LoginFunctions();
+    const {openLoginpage} = NavigateFunctions();
 
     // false - login to user/admin Account
     // true - login to company Account
@@ -18,9 +19,18 @@ const Signuppage = () => {
         KRS:""
     });
 
+    const [sigupDataImage, setSignupDataImage] = useState(null)
+
     const handleChange = ({ currentTarget: input }) => {
         setSignupData({ ...signupData, [input.name]: input.value });
     };
+
+    const handleImageUpload = (uploadEvent) =>{
+        const uploadedFile = uploadEvent.target.files[0];
+        const fileURL = URL.createObjectURL(uploadedFile);
+
+        setSignupDataImage(uploadedFile);
+    }
 
     const setPrivateSignup = () => {
         setIsLoggingToCompany(false);
@@ -35,10 +45,11 @@ const Signuppage = () => {
 
     const handleSingupAndLogin = (e)=> {
         if(isLoggingToCompany){
-            handleCompanySignup(e,signupData.shopname, signupData.email, signupData.password, signupData.KRS);
+            handleCompanySignup(e,signupData.shopname, signupData.email, signupData.password, signupData.KRS, sigupDataImage);
         }else{
             handlePrivateSignup(e,signupData.username, signupData.email, signupData.password);
         }
+
         handleLogin(e, signupData.email, signupData.password, isLoggingToCompany);
     }
 
@@ -53,7 +64,7 @@ const Signuppage = () => {
                         onChange={handleChange}
                         value={signupData.shopname}/>
                     <br/>
-                    <label htmlFor="email">Email or login</label>
+                    <label htmlFor="email">Email</label>
                     <input
                         type="text"
                         name="email"
@@ -62,7 +73,7 @@ const Signuppage = () => {
                     <br/>
                     <label htmlFor={"password"}>Password</label>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         onChange={handleChange}
                         value={signupData.password}/>
@@ -73,7 +84,15 @@ const Signuppage = () => {
                         name="KRS"
                         onChange={handleChange}
                         value={signupData.KRS}/>
-
+                    <br/>
+                    <label htmlFor={"sellerImage"}>Seller image</label>
+                    <input
+                        type="file"
+                        name="sellerImage"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                    />
+                    <br/>
                     <input type="submit" value="Submit" />
                 </form>
             );
@@ -96,7 +115,7 @@ const Signuppage = () => {
                     <br/>
                     <label htmlFor={"password"}>Password</label>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         onChange={handleChange}
                         value={signupData.password}/>
@@ -120,7 +139,7 @@ const Signuppage = () => {
                 </div>
                 <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                     <h2>Already have an account?</h2>
-                    <a href={"/signup"}>Login to an existing account</a>
+                    <p onClick={openLoginpage}>Login to an existing account</p>
                 </div>
                 <RollbackPageButton/>
             </div>
