@@ -71,6 +71,10 @@ export const NavigateFunctions = () => {
         window.open(name);
     }
 
+    const openFacebook = () => {
+        window.open("https://www.facebook.com", "_blank");
+    }
+
     return {
         returnToPreviousPage,
         refreshPage,
@@ -84,7 +88,7 @@ export const NavigateFunctions = () => {
         openAccountSettingpage,
         openContactpage,
         openSearchpage,
-        openProductRaportpage
+        openProductRaportpage,
     };
 };
 
