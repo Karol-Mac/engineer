@@ -1,5 +1,4 @@
 import {NavigateFunctions} from "../functions/NavigateFunctions"
-import AddCompareButton from "./AddCompareButton";
 import CompareProductsButton from "./CompareProductsButton";
 const Footer = () => {
     const {openContactpage} = NavigateFunctions();
