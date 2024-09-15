@@ -3,10 +3,11 @@ import {useEffect, useState} from "react";
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 
 const ProductCompareToolbar = () => {
-    const {isAnyProductToCompareSelected } = CompareFunctions();
+    const {isAnyProductToCompareSelected,initializeProductComparisonList} = CompareFunctions();
     const {addListenerDispatchOnCompareUpdate,removeListenerDispatchOnCompareUpdate} = CustomEventsControler();
     const [isProductCompareToolbarVisible, setIsProductCompareToolbarVisible] = useState(false);
 
+    initializeProductComparisonList();
 
     const handleCompareStorageChange = () => {
         console.log("Event: CompareStorage has been updated");

@@ -1,4 +1,3 @@
-import { CompareFunctions } from "../functions/CompareFunctions";
 import {ReportFunctions} from "../functions/ReportFunctions"
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 

@@ -6,26 +6,29 @@ import {NavigateFunctions} from "../functions/NavigateFunctions";
 const ProductSearchbar = ({SearchbarID}) => {
     const {openSearchpage} = NavigateFunctions();
 
-    const [searchedProductName, setSearchedProductName] = useState({ searchedProductName: "", password: "" });
+    const [searchName, setSearchName] = useState("");
 
-    const handleClick = () =>{
-        openSearchpage(searchedProductName)
+    const handleSearchClick = () =>{
+        const searchedProductName = {string: searchName}
+        console.log("Open Searchpage with search: "+searchedProductName);
+        openSearchpage(searchedProductName);
     };
 
-    const handleChange = ({ currentTarget: input }) => {
-        setSearchedProductName({ ...searchedProductName, [input.name]: input.value });
+    const handleSearchChange = (e) => {
+        setSearchName(e.target.value);
+        // console.log("seachName updated"+searchName)
     };
 
     return(
-        <div id={SearchbarID}>
+        <div id="SearchbarID">
             <input type="text"
                    className="Searchbar"
                    id="homepageSearchBar"
                    placeholder="Search.."
-                   onChange={handleChange}/>
+                   onChange={handleSearchChange}/>
 
-            <button onClick={handleClick} id="CompareImg">
-                <img src="CompareLogoImg.jpg" alt="CompareLogoImg" id="CompareLogoImg2" />
+            <button onClick={handleSearchClick} id="CompareImg">
+                <span>Search</span>
             </button>
         </div>
     );

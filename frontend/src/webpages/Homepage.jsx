@@ -4,9 +4,9 @@ import {useState} from "react";
 import ProductCompareToolbar from "../components/generic/ProductCompareToolbar";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 import {CompareFunctions} from "../components/functions/CompareFunctions";
+import ProductSearchbar from "../components/generic/ProductSearchbar";
 
 const Homepage = () => {
-    const {initializeProductComparisonList} = CompareFunctions();
     const {openSearchpage} = NavigateFunctions();
 
     const [homepageImages, setHomepageImages] = useState(null);
@@ -17,7 +17,6 @@ const Homepage = () => {
         console.log("Open Searchpage with search: "+searchedProductName);
         openSearchpage(searchedProductName);
     };
-    initializeProductComparisonList();
     const handleSearchChange = (e) => {
         setSearchName(e.target.value);
         // console.log("seachName updated"+searchName)
@@ -27,10 +26,10 @@ const Homepage = () => {
         <div>
             <Header/>
             <h1>Site title</h1>
-            <input onChange={handleSearchChange} className="Searchbar" id="homepageSearchBar" placeholder="Search.."/>
-            <button onClick={handleSearchClick} id="CompareImg">
-                <span>Search</span>
-            </button>
+            <ProductSearchbar/>
+            {/*image carousel*/}
+            {/* last updated products div (using last updatedProductElement)*/}
+            {/*Our partners div (using static images in React in frontend/public/images/partners)*/}
             <ProductCompareToolbar/>
             <Footer/>
         </div>

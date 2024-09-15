@@ -7,7 +7,7 @@ import Signuppage from '../webpages/Signuppage';
 import Favouritepage from '../webpages/Favouritepage';
 import Accountpage from "../webpages/Accountpage";
 import ContactUspage from "../webpages/Contactpage";
-import Comparepage from "../webpages/Comparepage";
+import CompareProductpage from "../webpages/CompareProductpage";
 import Searchpage from "../webpages/Searchpage";
 import Productpage from "../webpages/Productpage";
 
@@ -28,7 +28,7 @@ const RoutesConfig = () => {
             <Route path="/contact" exact element={<ContactUspage/>} />
 
             <Route path="/search" exact element={<Searchpage/>} />
-            <Route path="/compare" exact element={<Comparepage/>} />
+            <Route path="/compare" exact element={<CompareProductpage/>} />
             <Route path="/product/:id" exact element={<Productpage/>} />
 
 
