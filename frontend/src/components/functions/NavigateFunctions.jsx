@@ -13,51 +13,41 @@ export const NavigateFunctions = () => {
 
 
     const openComparepage = () =>{
-       // window.open("/compare"); //if doesn't work check if the path is correct
         navigate("/compare");
     }
 
     const openFavouritepage = () =>{
-        // window.open("/favourite"); //if doesn't work check if the path is correct
         navigate("/favourite");
     }
     const openLoginpage = () =>{
-        // window.open("/login"); //if doesn't work check if the path is correct
         navigate("/login");
     }
 
     const openSignuppage = () =>{
-        // window.open("/signup"); //if doesn't work check if the path is correct
         navigate("/signup");
     }
 
     const openHomepage = () =>{
-        // window.open("/"); //if doesn't work check if the path is correct but this path is rather correct :)
         navigate("/");
     }
     const openCommentspage = () =>{
-        // window.open("/comments"); //if doesn't work check if the path is correct
         navigate("/comments");
     }
 
     const openSearchpage = (searchedProductName) => { //pass json with searchedProductName : PRODUCTNAME
-        // window.open("/comments"); //if doesn't work check if the path is correct
         const queryParams = new URLSearchParams(searchedProductName).toString();
-        console.log("queryParams = "+queryParams);
+        // console.log("queryParams = "+queryParams);
         navigate(`/search?${queryParams}`);
     }
     const openAccountSettingpage = () =>{
-        // window.open("/account"); //if doesn't work check if the path is correct
         navigate("/account");
     }
 
     const openContactpage = () =>{
-        // window.open("/account"); //if doesn't work check if the path is correct
         navigate("/contact");
     }
 
     const openProductRaportpage = ({reportedProductID}) =>{
-        // window.open("/account"); //if doesn't work check if the path is correct
         navigate("/productRaport/"+reportedProductID);
     }
 
