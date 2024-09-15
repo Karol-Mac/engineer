@@ -9,6 +9,7 @@ import Accountpage from "../webpages/Accountpage";
 import ContactUspage from "../webpages/Contactpage";
 import Comparepage from "../webpages/Comparepage";
 import Searchpage from "../webpages/Searchpage";
+import Productpage from "../webpages/Productpage";
 
 const RoutesConfig = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -28,6 +29,7 @@ const RoutesConfig = () => {
 
             <Route path="/search" exact element={<Searchpage/>} />
             <Route path="/compare" exact element={<Comparepage/>} />
+            <Route path="/product/:id" exact element={<Productpage/>} />
 
 
 

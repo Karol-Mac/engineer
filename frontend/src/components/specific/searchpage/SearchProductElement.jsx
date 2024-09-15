@@ -4,9 +4,11 @@ import CompareProductsButton from "../../generic/CompareProductsButton";
 import ReportButton from "../../generic/ReportButton";
 import {ReportFunctions} from "../../functions/ReportFunctions";
 import FavouriteButton from "../../generic/FavouriteButton";
+import {NavigateFunctions} from "../../functions/NavigateFunctions";
 
 function SearchProductElement ({productData}) {
     const {setReportTypeProduct} = ReportFunctions();
+    const {openProductpage} = NavigateFunctions();
 
     const [productID, setProductID] = useState(productData.productID);
     const [productName, setProductName] = useState(productData.productName);
@@ -16,8 +18,12 @@ function SearchProductElement ({productData}) {
     const [sellerName, setSellerName] = useState("");  //trzeba wziasc nazwe sprzedawcy po id
     const [sellerImageName, setSellerImageName] = useState("");
 
+    const handleClick = () =>{
+        openProductpage({productID});
+    }
+
     return (
-        <div className="searchedProductItem">
+        <div className="searchedProductItem" onClick={handleClick}>
             <img src={productImageName} alt={productImageName} className="foundProductImg"/>
             {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
             <div>

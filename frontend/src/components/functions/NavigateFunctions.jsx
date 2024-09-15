@@ -51,6 +51,10 @@ export const NavigateFunctions = () => {
         navigate("/productRaport/"+reportedProductID);
     }
 
+    const openProductpage = ({productID}) => {
+        navigate("/product/"+productID, {state: productID});
+    }
+
     const openSpecificpage = ({name}) => {
         navigate(name);
     }
@@ -80,6 +84,7 @@ export const NavigateFunctions = () => {
         openContactpage,
         openSearchpage,
         openProductRaportpage,
+        openProductpage,
     };
 };
 
