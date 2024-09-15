@@ -3,57 +3,35 @@ import axios from "axios";
 import CompareProductsButton from "../../generic/CompareProductsButton";
 import ReportButton from "../../generic/ReportButton";
 import {ReportFunctions} from "../../functions/ReportFunctions";
+import FavouriteButton from "../../generic/FavouriteButton";
 
-//{givenProductName, givenPrice} if id
-function SearchProductElement (productData) {
+function SearchProductElement ({productData}) {
     const {setReportTypeProduct} = ReportFunctions();
 
-    const [productID, setProductID] = useState(null);
-    const [productName, setProductName] = useState("");
-    const [productImageName, setProductImageName] = useState("");
-    const [productPrice, setProductPrice] = useState(0);
-    const [sellerID, setSellerID] = useState(null);
+    const [productID, setProductID] = useState(productData.productID);
+    const [productName, setProductName] = useState(productData.productName);
+    const [productImageName, setProductImageName] = useState(productData.productImageName);
+    const [productPrice, setProductPrice] = useState(productData.productPrice);
+    const [sellerID, setSellerID] = useState(productData.SellerID);
     const [sellerName, setSellerName] = useState("");  //trzeba wziasc nazwe sprzedawcy po id
     const [sellerImageName, setSellerImageName] = useState("");
-    const handlePrivateSignup = async(e,givenProductID) =>{
-        e.preventDefault();
-
-        try {
-            var productDataUrl = "/api/products/"+givenProductID;
-            const {productData: resProduct} = await axios.get(productDataUrl);
-
-            setProductName(resProduct.name);
-            setProductPrice(resProduct.price);
-            setProductImageName(resProduct.imageName);
-            setSellerID(resProduct.sellerID)
-
-            var sellerDataUrl = "/api/accounts/{sellerId}";
-            const {sellerData: resSeller} = await axios.get(sellerDataUrl);
-
-            setSellerImageName(resSeller.imageName);
-        }catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
-            }
-        }
-    }
 
     return (
-        <div id="SearchProductElementDiv">
-            <img src={productImageName} alt="ProductImage.jpg" className="SeachProductImage"/>
-            <CompareProductsButton givenProductID={productID}/>
-            <ReportButton  givenReportedID={productID} reportType={setReportTypeProduct}/>
-            <h1>{productName}</h1>
-            <h3>Company: PLACEHOLDER</h3>
-            {/*<div onClick={openComparepage} id="SearchProductSeller" className="SearchProductSellerDiv">  /!*Open Company page by id ? *!/*/}
-            <img src={sellerImageName} alt="SearchProductSellerImg.jpg" id="SearchProductSellerImg"/>
-            {/*</div>*/}
-            {/*    Open favourites button */}
-            <h2>{productPrice}</h2>
+        <div className="searchedProductItem">
+            <img src={productImageName} alt={productImageName} className="foundProductImg"/>
+            {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
+            <div>
+                <CompareProductsButton givenProductID={productID}/>
+                <ReportButton givenProductID={productID} reportType={setReportTypeProduct}></ReportButton>
+                <FavouriteButton/>
+            </div>
+            <div>
+                {/*{/*add company image component + function to give it data*/}
+            </div>
+            <div>
+                <h3 className="searchedProductName">{productName}</h3>
+                <h5 className="searchedProductPrice">{productPrice}</h5>
+            </div>
         </div>
 
     );

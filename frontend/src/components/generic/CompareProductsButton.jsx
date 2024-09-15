@@ -3,18 +3,18 @@ import {CustomEventsControler} from "../functions/CustomEventsControler";
 import {useState} from "react";
 
 const CompareProductsButton = ({givenProductID}) => {
-    const {toggleProductInComparisonList,isSpecificProductToCompareSelected} = CompareFunctions();
+    const {toggleProductInComparisonList,isSpecificProductSelectedToCompare} = CompareFunctions();
     const {invokeOnCompareUpdateEvent} = CustomEventsControler();
 
     // console.log("giventProductID as prop "+givenProductID+ " is type"+ typeof givenProductID);
-    const [productSelectedToCompare, setProductSelectedToCompare] = useState(isSpecificProductToCompareSelected(givenProductID));
+    const [productSelectedToCompare, setProductSelectedToCompare] = useState(isSpecificProductSelectedToCompare(givenProductID));
     //zaznaczenie produktu w menu głównym przeniesie sie do wyszukiwarki
 
     const handleClick = () => {
         console.log("givenProductID is "+givenProductID);
         toggleProductInComparisonList(givenProductID);
         invokeOnCompareUpdateEvent();
-        setProductSelectedToCompare(isSpecificProductToCompareSelected(givenProductID));
+        setProductSelectedToCompare(isSpecificProductSelectedToCompare(givenProductID));
     }
 
     return(

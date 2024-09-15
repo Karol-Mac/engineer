@@ -8,13 +8,13 @@ export const SearchProductFunctions = () => {
                 errorMessage = "product name not given";
                 return{ success: false, message: errorMessage};
             }
-            
+
             console.log("productName= " +productName);
             let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
 
             const response = await axios.get(getProductsByNameUrl);
             const products = response.data;
-            console.log("found "+JSON.stringify(products.length)+"items by name: at location :"+getProductsByNameUrl);
+            console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getProductsByNameUrl);
 
             if(products.length <= 0){
                 errorMessage = "No product with similar name found";

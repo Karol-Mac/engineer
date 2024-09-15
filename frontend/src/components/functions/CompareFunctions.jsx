@@ -66,7 +66,7 @@ export const CompareFunctions = () => {
         return Object.keys(areProductsToCompare).length ? true : false;
     }
 
-    const isSpecificProductToCompareSelected = (givenProductID) => {
+    const isSpecificProductSelectedToCompare = (givenProductID) => {
         // console.log("givenProductID "+givenProductID);
         const productId = typeof givenProductID === 'object' ? givenProductID.givenProductID : givenProductID;
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
@@ -75,12 +75,17 @@ export const CompareFunctions = () => {
         return productIndex === -1 || productIndex === null ? false : true;
     }
 
+    const isSpecificProductSelectedAsFavourite = (givenProductID) => {
+        //FIX
+    }
+
+
     return {
         initializeProductComparisonList, //don't think it should really be used outside but just in case it is shared
         addProductComparisonList,
         removeProductComparisonList,
         toggleProductInComparisonList,
         isAnyProductToCompareSelected,
-        isSpecificProductToCompareSelected,
+        isSpecificProductSelectedToCompare,
     };
 };

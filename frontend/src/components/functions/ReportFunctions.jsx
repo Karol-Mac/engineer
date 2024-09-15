@@ -17,7 +17,7 @@ export const ReportFunctions = () => {
     }
 
     const reportProduct = async({productID, raportText}) => {
-        e.preventDefault();
+
 
         try {
             var raportURL = "http://localhost:8080/api/reports?productId="+productID;
@@ -36,7 +36,7 @@ export const ReportFunctions = () => {
     };
 
     const reportComment = async({commendID, raportText}) => {
-        e.preventDefault();
+
 
         try {
             var raportURL = "http://localhost:8080/api/reports?productId="+commendID;
