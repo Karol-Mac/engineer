@@ -1,53 +1,45 @@
 import {useState} from "react";
-import Header from "../../generic/Header";
-import Footer from "../../generic/Footer";
-import axios from "axios";
+import {ReportFunctions} from "../../functions/ReportFunctions";
+import {NavigateFunctions} from "../../functions/NavigateFunctions";
+import CompareProductsButton from "../../generic/CompareProductsButton";
+import ReportButton from "../../generic/ReportButton";
+import FavouriteButton from "../../generic/FavouriteButton";
 
-//{givenProductName, givenPrice} if id
-export function LatestProductsElement ({givenProductID}) {
+export function LatestProductsElement ({latestProductData}) {
+    const {setReportTypeProduct} = ReportFunctions();
+    const {openProductpage} = NavigateFunctions();
 
-    const [productName, setProductName] = useState(null);
-    const [productImageName, setProductImageName] = useState(null);
-    const [price, setPrice] = useState(null);
-    const [sellerID, setSellerID] = useState(null);
-    const [sellerImageName, setSellerImageName] = useState(null);
-    const handlePrivateSignup = async(e,givenProductID) =>{
-        e.preventDefault();
+    const [productID, setProductID] = useState(latestProductData.productID);
+    const [productName, setProductName] = useState(latestProductData.productName);
+    const [productImageName, setProductImageName] = useState(latestProductData.productImageName);
+    const [productPrice, setProductPrice] = useState(latestProductData.productPrice);
+    const [productUpdateDate, setProductUpdateDate] = useState(latestProductData.productUpdateDate);
+    const [sellerID, setSellerID] = useState(latestProductData.SellerID);
+    const [sellerName, setSellerName] = useState("");  //trzeba wziasc nazwe sprzedawcy po id
+    const [sellerImageName, setSellerImageName] = useState("");
 
-        try {
-            var productDataUrl = "/api/products/"+givenProductID;
-            const {productData: resProduct} = await axios.get(productDataUrl);
-
-            setProductName(resProduct.name);
-            setPrice(resProduct.price);
-            setProductImageName(resProduct.imageName);
-            setSellerID(resProduct.sellerID)
-
-            var sellerDataUrl = "/api/accounts/{sellerId}";
-            const {sellerData: resSeller} = await axios.get(sellerDataUrl);
-
-            setSellerImageName(resSeller.imageName);
-        }catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
-            }
-        }
+    const handleClick = () =>{
+        openProductpage({productID});
     }
 
     return (
-        //
-        <div>
-            <h1>Site title</h1>
-            <a href="" onClick={openComparepage} id="CompareImg">
-                <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>
-            </a>
+        <div className="searchedProductItem" onClick={handleClick}>
+            <img src={productImageName} alt={productImageName} className="foundProductImg"/>
+            {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
+            <div>
+                <CompareProductsButton givenProductID={productID}/>
+                <ReportButton givenProductID={productID} reportType={setReportTypeProduct}></ReportButton>
+                <FavouriteButton/>
+            </div>
+            <div>
+                {/*{/*add company image component + function to give it data*/}
+            </div>
+            <div>
+                <h3 className="latestProductName">{productName}</h3>
+                <h5 className="latestProductPrice">{productPrice}</h5>
+                <h5 className="latestProductUpdateDate">{productUpdateDate}</h5>
+            </div>
         </div>
 
     );
-
-
 }

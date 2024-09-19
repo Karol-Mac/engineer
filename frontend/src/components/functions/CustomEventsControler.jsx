@@ -2,7 +2,7 @@ export const CustomEventsControler = () => {
 
     const onCompareUpdate = "onCompareUpdate";
     //Event który zostaje odpalony w momencie dodania nowego lub usuniecia starego produtku z porównywarki
-    const onCompareUpdateEvent = new Event("onCompareUpdate");
+    const onCompareUpdateEvent = new Event(onCompareUpdate);
     const invokeOnCompareUpdateEvent = () => {
         window.dispatchEvent(onCompareUpdateEvent);
     }
@@ -35,6 +35,22 @@ export const CustomEventsControler = () => {
         window.removeEventListener(onLoadReportOverlay, functionParam);
     };
 
+
+    const onLoadingProducts = "onLoadingProducts";
+    const onLoadingProductsEvent = new Event(onLoadingProducts);
+    const invokeOnLoadingProducts = () => {
+        window.dispatchEvent(onLoadingProductsEvent);
+    }
+
+    const addListenerOnLoadingProducts = (functionParam) => {
+        window.addEventListener(onLoadingProducts, functionParam);
+    };
+
+    const removeListenerOnLoadingProducts = (functionParam) => {
+        window.removeEventListener(onLoadingProducts, functionParam);
+    };
+
+
     return {
         invokeOnCompareUpdateEvent,
         addListenerDispatchOnCompareUpdate,
@@ -44,6 +60,8 @@ export const CustomEventsControler = () => {
         addListenerLoadReportOverlay,
         removeListenerLoadReportOverlay,
 
-
+        invokeOnLoadingProducts,
+        addListenerOnLoadingProducts,
+        removeListenerOnLoadingProducts
     };
 };

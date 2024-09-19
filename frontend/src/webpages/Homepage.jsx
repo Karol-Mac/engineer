@@ -5,6 +5,7 @@ import ProductCompareToolbar from "../components/generic/ProductCompareToolbar";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 import {CompareFunctions} from "../components/functions/CompareFunctions";
 import ProductSearchbar from "../components/generic/ProductSearchbar";
+import LatestProductsElementsContainer from "../components/specific/homepage/LatestProductsElementsContainer";
 
 const Homepage = () => {
     const {openSearchpage} = NavigateFunctions();
@@ -29,6 +30,7 @@ const Homepage = () => {
             <ProductSearchbar/>
             {/*image carousel*/}
             {/* last updated products div (using last updatedProductElement)*/}
+            <LatestProductsElementsContainer/>
             {/*Our partners div (using static images in React in frontend/public/images/partners)*/}
             <ProductCompareToolbar/>
             <Footer/>
