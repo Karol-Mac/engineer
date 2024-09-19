@@ -13,8 +13,8 @@ export function LatestProductsElement ({latestProductData}) {
     const [productName, setProductName] = useState(latestProductData.productName);
     const [productImageName, setProductImageName] = useState(latestProductData.productImageName);
     const [productPrice, setProductPrice] = useState(latestProductData.productPrice);
-    const [productUpdateDate, setProductUpdateDate] = useState(latestProductData.productUpdateDate);
     const [sellerID, setSellerID] = useState(latestProductData.SellerID);
+    const [productUpdateDate, setProductUpdateDate] = useState(new Date(latestProductData.productUpdateDate).toLocaleDateString('en-GB'));
     const [sellerName, setSellerName] = useState("");  //trzeba wziasc nazwe sprzedawcy po id
     const [sellerImageName, setSellerImageName] = useState("");
 
