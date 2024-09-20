@@ -9,12 +9,12 @@ export const SellerAccountFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("productID= " +sellerID);
+            // console.log("productID= " +sellerID);
             let getSellerByIDUrl= "http://localhost:8080/api/accounts/"+sellerID;
 
             const response = await axios.get(getSellerByIDUrl);
             const seller = response.data;
-            console.log("found "+JSON.stringify(seller.length)+" items by ID: at location :"+getSellerByIDUrl);
+            // console.log("found "+JSON.stringify(seller.length)+" items by ID: at location :"+getSellerByIDUrl);
 
             if(seller == null){
                 errorMessage = "No product with given ID found";

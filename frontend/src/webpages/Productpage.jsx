@@ -21,7 +21,7 @@ const Productpage = () => {
     const [sellerImage, setSellerImage] = useState(null);
 
     useEffect(() => {
-        const fetchProductDetails = async () => {
+        const fetchAllProductDetails = async () => {
             await getProductInformation({productID: id}).then(
                async (result) => {
                     if (result.success) {
@@ -57,9 +57,9 @@ const Productpage = () => {
             )
         }
 
-        fetchProductDetails();
+        fetchAllProductDetails();
     },[id]);
-    
+
     if(productDetails == null || sellerDetails == null || productImage == null || sellerImage == null){
         return <div>
             <p>LOADING</p>

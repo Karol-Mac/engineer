@@ -9,7 +9,7 @@ export const ImagesFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("imageName= " +imageName);
+            // console.log("imageName= " +imageName);
             let getImageByNameUrl= "http://localhost:8080/api/images/"+imageName;
 
             const response = await axios.get(getImageByNameUrl, { responseType: 'blob' });

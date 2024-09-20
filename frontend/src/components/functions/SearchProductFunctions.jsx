@@ -9,12 +9,12 @@ export const SearchProductFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("productName= " +productName);
+            // console.log("productName= " +productName);
             let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
 
             const response = await axios.get(getProductsByNameUrl);
             const products = response.data;
-            console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getProductsByNameUrl);
+            // console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getProductsByNameUrl);
 
             if(products.length <= 0){
                 errorMessage = "No product with similar name found";
@@ -45,12 +45,12 @@ export const SearchProductFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("productID= " +productID);
+            // console.log("productID= " +productID);
             let getProductsByIDUrl= "http://localhost:8080/api/products/"+productID;
 
             const response = await axios.get(getProductsByIDUrl);
             const product = response.data;
-            console.log("found "+JSON.stringify(product.length)+" items by ID: at location :"+getProductsByIDUrl);
+            // console.log("found "+JSON.stringify(product.length)+" items by ID: at location :"+getProductsByIDUrl);
 
             if(product == null){
                 errorMessage = "No product with given ID found";
@@ -86,7 +86,7 @@ export const SearchProductFunctions = () => {
 
             const response = await axios.get(getLatestProductsByNameUrl);
             let products = response.data;
-            console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getLatestProductsByNameUrl);
+            // console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getLatestProductsByNameUrl);
 
             if(products.length <= 0){
                 errorMessage = "No product were found";
