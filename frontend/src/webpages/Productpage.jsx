@@ -3,6 +3,9 @@ import {useParams} from "react-router-dom";
 import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
+import ProductCompareToolbar from "../components/generic/ProductCompareToolbar";
+import CompareProductsButton from "../components/generic/CompareProductsButton";
+import FavouriteButton from "../components/generic/FavouriteButton";
 
 const Productpage = () => {
     const{getProductInformation} = SearchProductFunctions();
@@ -20,17 +23,32 @@ const Productpage = () => {
     useEffect(() => {
         const fetchProductDetails = async () => {
             await getProductInformation({productID: id}).then(
-                (result) => {
+               async (result) => {
                     if (result.success) {
                         setProductDetails(result.productDetails);
+                        setProductUnit(result.productDetails.inGrams ? "g" : "ml");
+
                         const roundedValue = Number(result.productDetails.price * (result.productDetails.weight/1000.0)).toFixed(2);
                         setValuePer100Units(roundedValue);
 
-                        if(result.productDetails.inGrams){
-                            setProductUnit("g");
-                        }else{
-                            setProductUnit("ml");
+
+                        const [sellerResult, productImageResult] = await Promise.all([
+                            getSellerInformation({sellerID: result.productDetails.sellerId}),
+                            getImageByName({imageName: result.productDetails.imageName}),
+                        ]);
+
+                        if (productImageResult.success){
+                            setProductImage(productImageResult.image);
                         }
+
+                        if (sellerResult.success) {
+                            setSellerDetails(sellerResult.sellerDetails);
+                            const sellerImageResults = await getImageByName({imageName: sellerResult.sellerDetails.imageName});
+                            if (sellerImageResults.success) {
+                                setSellerImage(sellerImageResults.image);
+                            }
+                        }
+
                         console.log("Products:", result.productDetails);
                     } else {
                         console.log("Error fetching products:", result.message);
@@ -38,63 +56,10 @@ const Productpage = () => {
                 }
             )
         }
+
         fetchProductDetails();
     },[id]);
-
-    useEffect(() => {
-        if(productDetails && productDetails.sellerId) {
-            const fetchSellerDetails = async () => {
-                await getSellerInformation({sellerID: productDetails.sellerId}).then(
-                    (result) => {
-                        if (result.success) {
-                            setSellerDetails(result.sellerDetails);
-                            console.log("Products:", result.sellerDetails);
-                        } else {
-                            console.log("Error fetching products:", result.message);
-                        }
-                    }
-                )
-            }
-
-            fetchSellerDetails();
-        }
-    },[productDetails]);
-
-    useEffect(() => {
-        if(productDetails && sellerDetails) {
-            const fetchProductImage = async() => {
-                await getImageByName({imageName: productDetails.imageName}).then(
-                    (result) => {
-                        if (result.success) {
-                            setProductImage(result.image);
-                        } else {
-                            console.log("Error fetching image:", result.message);
-                        }
-                    }
-                )
-            }
-
-            const fetchSellerImage = async() => {
-                await getImageByName({imageName: sellerDetails.imageName}).then(
-                    (result) => {
-                        if (result.success) {
-                            setSellerImage(result.image);
-                            console.log("Seller:", result.image);
-                        } else {
-                            console.log("Error fetching Seller:", result.message);
-                        }
-                    }
-                )
-            }
-
-            fetchProductImage();
-            fetchSellerImage();
-        }
-    },[sellerDetails])
-
-
-
-    // console.log("productID: "+id);
+    
     if(productDetails == null || sellerDetails == null || productImage == null || sellerImage == null){
         return <div>
             <p>LOADING</p>
@@ -109,6 +74,10 @@ const Productpage = () => {
                 <br/>
                 <img className="ProductPageSellerImage" src={sellerImage} alt={sellerDetails.imageName}/>
             </div>
+            <div>
+                <CompareProductsButton givenProductID={productDetails.id}/>
+                <FavouriteButton />
+            </div>
 
            <div>
                <h2>{productDetails.name}</h2>
@@ -122,8 +91,8 @@ const Productpage = () => {
             <p>fiber {productDetails.fiber}</p>
             <p>salt {productDetails.salt}</p>
             <p>protein {productDetails.protein}</p>
+            <ProductCompareToolbar/>
         </div>
-
     );
 
 };

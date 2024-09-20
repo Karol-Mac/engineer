@@ -26,7 +26,7 @@ const ProductCompareToolbar = () => {
 
     return(
         <div>
-        <a href="" id="CompareImg">
+        <a id="CompareImg">
         {isProductCompareToolbarVisible ? (
                 <div>
                     <p>Compare is visible</p>
@@ -37,7 +37,7 @@ const ProductCompareToolbar = () => {
                     <p>Compare is NOT visible</p>
                 </div>
             )}
-            <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>
+            {/*<img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>*/}
         </a>
         </div>
     );

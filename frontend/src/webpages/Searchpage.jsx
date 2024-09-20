@@ -27,7 +27,7 @@ const Searchpage = () => {
         const handleFoundProducts = async () =>{
             // console.log("Looking for "+searchedProduct);
             await getSearchedProducts({productName: searchedProduct}).then(
-                (result)=>{
+                async (result)=> {
                     if (result.success) {
                         setFoundProducts(result.foundProducts);
                         console.log("Products:", result.foundProducts);
@@ -42,6 +42,7 @@ const Searchpage = () => {
 
         handleFoundProducts();
     }, [searchedProduct]);
+
 
 
     if(foundProducts == null){
