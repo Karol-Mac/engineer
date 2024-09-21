@@ -10,11 +10,11 @@ export function LatestProductsElement ({latestProductData}) {
     const {openProductpage} = NavigateFunctions();
 
     const [productID, setProductID] = useState(latestProductData.productID);
-    const [productName, setProductName] = useState(latestProductData.productName);
+    const [productName, setProductName] = useState(latestProductData.name);
     const [productImageName, setProductImageName] = useState(latestProductData.productImageName);
-    const [productPrice, setProductPrice] = useState(latestProductData.productPrice);
+    const [productPrice, setProductPrice] = useState(latestProductData.price);
     const [sellerID, setSellerID] = useState(latestProductData.SellerID);
-    const [productUpdateDate, setProductUpdateDate] = useState(new Date(latestProductData.productUpdateDate).toLocaleDateString('en-GB'));
+    const [productUpdateDate, setProductUpdateDate] = useState(new Date(latestProductData.updatedAt).toLocaleDateString('en-GB'));
     const [sellerName, setSellerName] = useState("");  //trzeba wziasc nazwe sprzedawcy po id
     const [sellerImageName, setSellerImageName] = useState("");
 
