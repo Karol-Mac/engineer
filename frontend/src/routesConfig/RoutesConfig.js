@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 
 import Homepage from '../webpages/Homepage';
 import Loginpage from '../webpages/Loginpage';
@@ -14,7 +14,7 @@ import Productpage from "../webpages/Productpage";
 const RoutesConfig = () => {
     const accessToken = localStorage.getItem("accessToken");
     const tokenType = localStorage.getItem("tokenType");
-
+    
 
     return (
         <Routes>
@@ -23,7 +23,9 @@ const RoutesConfig = () => {
 
             <Route path="/login" exact element={<Loginpage/>} />
             <Route path="/signup" exact element={<Signuppage/>} />
-            <Route path="/favourite" exact element={<Favouritepage/>} />
+            {accessToken && <Route path="/favourite" exact element={<Favouritepage/>} /> }
+            <Route path="/favourite" element={<Navigate replace to="/login" />} />
+
             <Route path="/account" exact element={<Accountpage/>} />
             <Route path="/contact" exact element={<ContactUspage/>} />
 

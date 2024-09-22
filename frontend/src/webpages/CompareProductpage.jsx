@@ -18,11 +18,6 @@ const CompareProductpage = () => {
     const [isLoading,setIsLoading] = useState(true);
 
     const [productComparisonDetails, setProductComparisonDetails] = useState(null);
-    // const [productImage, setProductImage] = useState(null);
-    // const [valuePer100Units, setValuePer100Units] = useState(null);
-    // const [productUnit, setProductUnit] = useState("");
-    // const [sellerDetails, setSellerDetails] = useState(null);
-    // const [sellerImage, setSellerImage] = useState(null);
     console.log("CompareProducts: ", CompareProducts);
 
 

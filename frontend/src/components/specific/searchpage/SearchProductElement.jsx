@@ -32,7 +32,7 @@ function SearchProductElement ({productData}) {
             <div>
                 <CompareProductsButton givenProductID={productID}/>
                 <ReportButton givenProductID={productID} reportType={setReportTypeProduct}></ReportButton>
-                <FavouriteButton/>
+                <FavouriteButton givenProductID={productID} isInFavourite={productData.isFavourite}/>
             </div>
             <div>
                 {/*{/*add company image component + function to give it data*/}

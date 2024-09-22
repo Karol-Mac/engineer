@@ -80,6 +80,7 @@ const LatestProductsElementsContainer =() => {
                     return (
                         //div-s are temprorary so that I can make more space between found elements
                         <div key={product.id}>
+                            {console.log("latestProduct data = ",product)}
                             <LatestProductsElement latestProductData={product}/>
                             <br/>
                             <br/>

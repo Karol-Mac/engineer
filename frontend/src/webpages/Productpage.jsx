@@ -16,7 +16,6 @@ const Productpage = () => {
     const [productDetails, setProductDetails] = useState(null);
     const [productImage, setProductImage] = useState(null);
     const [valuePer100Units, setValuePer100Units] = useState(null);
-    const [productUnit, setProductUnit] = useState("");
     const [sellerDetails, setSellerDetails] = useState(null);
     const [sellerImage, setSellerImage] = useState(null);
 
@@ -26,7 +25,6 @@ const Productpage = () => {
                async (result) => {
                     if (result.success) {
                         setProductDetails(result.productDetails);
-                        setProductUnit(result.productDetails.inGrams ? "g" : "ml");
 
                         const roundedValue = Number(result.productDetails.price * (result.productDetails.weight/1000.0)).toFixed(2);
                         setValuePer100Units(roundedValue);
@@ -76,13 +74,13 @@ const Productpage = () => {
             </div>
             <div>
                 <CompareProductsButton givenProductID={productDetails.id}/>
-                <FavouriteButton />
+                <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
             </div>
 
            <div>
                <h2>{productDetails.name}</h2>
                <h2>Price: {productDetails.price} zł</h2>
-               <h3>Price per 100 {productUnit}: {valuePer100Units}</h3>
+               <h3>Price per 100 {productDetails.inGrams ? "g" : "ml"}: {valuePer100Units}</h3>
                <p>Seller {sellerDetails.shopName}</p>
            </div>
             <p>weight {productDetails.weight} {productDetails.inGrams ? "g" : "ml"}</p>

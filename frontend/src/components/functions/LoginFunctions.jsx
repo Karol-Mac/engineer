@@ -42,8 +42,23 @@ export const LoginFunctions = () => {
                 // console.log("user Item: "+JSON.stringify(res.data.user));
 
             });
+            function parseJwt(token) {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
 
+                return JSON.parse(jsonPayload);
+            }
+
+            const token = localStorage.getItem("accessToken");
+            const decoded = parseJwt(token);
+            console.log("Decoded accessToken",decoded);
             openHomepage();
+
+
+
             return{ success: true};
         }catch (error) {
             let errorMessage;
@@ -123,6 +138,8 @@ export const LoginFunctions = () => {
         const accessToken = localStorage.getItem("accessToken");
         return accessToken ? true : false;
     };
+
+
 
     return {
         handleLogout,
