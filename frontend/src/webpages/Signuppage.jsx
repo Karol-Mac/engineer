@@ -38,7 +38,6 @@ const Signuppage = () => {
 
     const handleImageUpload = (uploadEvent) =>{
         const uploadedFile = uploadEvent.target.files[0];
-        const fileURL = URL.createObjectURL(uploadedFile);
 
         setSignupDataImage(uploadedFile);
     }
@@ -62,6 +61,7 @@ const Signuppage = () => {
             response = await handlePrivateSignup(e,signupData.username, signupData.email, signupData.password);
         }
 
+        console.log("logging type company account: ",isSigningToCompany," response ",response.success);
         if(response.success){
             handleLogin(e, signupData.email, signupData.password, isSigningToCompany);
         }else{
@@ -84,7 +84,17 @@ const Signuppage = () => {
                 <br/>
                 <label htmlFor="email">Email</label>
                 </div>
-                ) : (<div></div>)}
+                ) : (
+                    <div>
+                        <label htmlFor="username">username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            onChange={handleChange}
+                            value={signupData.username}/>
+                        <br/>
+                    </div>
+                )}
                 <input
                     type="text"
                     name="email"

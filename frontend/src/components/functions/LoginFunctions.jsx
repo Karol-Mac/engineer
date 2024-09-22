@@ -16,7 +16,7 @@ export const LoginFunctions = () => {
 
     const handleLogin = async(e, email, password, isLoggingToCompany)=>{
         e.preventDefault();
-
+        console.log("Attempting to log in");
         try {
             let loginUrl;
             if(isLoggingToCompany){
@@ -42,23 +42,8 @@ export const LoginFunctions = () => {
                 // console.log("user Item: "+JSON.stringify(res.data.user));
 
             });
-            function parseJwt(token) {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
 
-                return JSON.parse(jsonPayload);
-            }
-
-            const token = localStorage.getItem("accessToken");
-            const decoded = parseJwt(token);
-            console.log("Decoded accessToken",decoded);
             openHomepage();
-
-
-
             return{ success: true};
         }catch (error) {
             let errorMessage;
@@ -78,12 +63,13 @@ export const LoginFunctions = () => {
 
     const handlePrivateSignup = async(e,username, email, password) =>{
         e.preventDefault();
-
+        console.log("Signup Data: ", username,email, password);
         try {
             var signupUrl = "http://localhost:8080/api/auth/register";
             const signupData = {username,email,password}
 
-            const {loginData: res} = await axios.post(signupUrl, signupData);
+            const res = await axios.post(signupUrl, signupData);
+            console.log("Private account is created \""+res.data.message+"\"");
             return{ success: true};
         }catch (error) {
             let errorMessage;
@@ -107,17 +93,17 @@ export const LoginFunctions = () => {
 
         try {
             var signupUrl = "http://localhost:8080/api/auth/company/register";
-            const signupData = {shopName: shopName,email: email,password: password,krsNumber: KRS}
+            const signupData = {shopName, email, password,krsNumber: KRS}
 
             formData.append('company', new Blob([JSON.stringify(signupData)], { type: 'application/json' }));
             formData.append("file", sellerImage);
 
-            await axios.post(signupUrl, formData, {
+            const res = await axios.post(signupUrl, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },}).then((res)=>{
+                }});
 
-            });
+            console.log("Company account is created \""+res.data.message+"\"");
             return{ success: true};
         }catch (error) {
             let errorMessage;
