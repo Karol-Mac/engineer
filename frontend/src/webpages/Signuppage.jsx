@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import RollbackPageButton from "../components/generic/RollbackPageButton";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
+import Footer from "../components/generic/Footer";
+import HeaderSimple from "../components/generic/HeaderSimple";
 
 
 const Signuppage = () => {
@@ -82,11 +84,10 @@ const Signuppage = () => {
                     onChange={handleChange}
                     value={signupData.shopname}/>
                 <br/>
-                <label htmlFor="email">Email</label>
                 </div>
                 ) : (
                     <div>
-                        <label htmlFor="username">username</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             type="text"
                             name="username"
@@ -95,6 +96,7 @@ const Signuppage = () => {
                         <br/>
                     </div>
                 )}
+                <label htmlFor={"email"}>Email</label>
                 <input
                     type="text"
                     name="email"
@@ -105,6 +107,13 @@ const Signuppage = () => {
                 <input
                     type="password"
                     name="password"
+                    onChange={handleChange}
+                    value={signupData.password}/>
+                <br/>
+                <label htmlFor={"confirmPassword"}>Confirm Password</label>
+                <input
+                    type="password"
+                    name="confirmPassword"
                     onChange={handleChange}
                     value={signupData.password}/>
                 <br/>
@@ -133,21 +142,24 @@ const Signuppage = () => {
     }
 
 
-        return (
-            <div>
+        return (<div>
+                <HeaderSimple/>
+            <div id="signupContainer">
                 <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                     <div id="LoginType">
                         <button id="privateAccountLogin" onClick={setPrivateSignup}>Private Account</button>
                         <button id="companyAccountLogin" onClick={setCompanySignup}>Company Account</button>
                     </div>
-                    <h2>Signup</h2>
+                    <h2>Signup to {isSigningToCompany? "Company" : "Private account"}</h2>
                     {displayAccountTypeSignup()}
                 </div>
                 <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                     <h2>Already have an account?</h2>
-                    <p onClick={openLoginpage}>Login to an existing account</p>
+                    <button onClick={openLoginpage} className="createAccountButton">Login to an existing account</button>
                 </div>
+            </div>
                 <RollbackPageButton/>
+                <Footer/>
             </div>
 
         );

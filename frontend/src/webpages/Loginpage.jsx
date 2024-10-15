@@ -3,6 +3,11 @@ import RollbackPageButton from "../components/generic/RollbackPageButton";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
+import "../css/generalVisuals.css";
+import Header from "../components/generic/Header";
+import Footer from "../components/generic/Footer";
+import HeaderSimple from "../components/generic/HeaderSimple";
+
 const Loginpage = () => {
     const {handleLogin} = LoginFunctions()
     const {openSignuppage, openHomepage} = NavigateFunctions();
@@ -45,6 +50,8 @@ const Loginpage = () => {
 
     return (
         <div>
+        <HeaderSimple/>
+        <div id="loginContainer">
             <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                 <div id="LoginType">
                     <button id="privateAccountLogin" onClick={setPrivateLogging}>Private Account</button>
@@ -68,21 +75,25 @@ const Loginpage = () => {
                             value={loginData.password}
                             placeholder="Password"/>
                     <br/>
-                    <input type="submit" value="Submit" />
+                    <input type="submit" value="Login" />
                     <br/>
                     <p>{responseMessage}</p>
                 </form>
             </div>
             <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
                 <h2>Doesn't have an account?</h2>
-                <p onClick={openSignuppage}>Create an account</p>
-                <h6>why is it worth to have an account on PLACEHOLDER NAME</h6>
-                <img src={"img1"} alt={"img1Placeholder"}/>
-                <img src={"img2"} alt={"img2Placeholder"}/>
-                <img src={"img3"} alt={"img3Placeholder"}/>
-                <img src={"img4"} alt={"img4Placeholder"}/>
+                <button onClick={openSignuppage} className="createAccountButton">Create an Account</button>
+                <h4>why is it worth to have an account on Nutrinexus:</h4>
+                <div className="reasonContainer">
+                    <img src="/images/icons/FavouriteImg.png" alt={"FavouriteImg.png"} className="reasonImages"/> <p className="reasonText">    Save your favourite products</p>
+                </div>
+                <div className="reasonContainer">
+                    <img src="/images/icons/PreferenceImg.png" alt={"PreferenceImg.png"} className="reasonImages"/> <p className="reasonText">  Save your preferences</p>
+                </div>
             </div>
+        </div>
             <RollbackPageButton/>
+            <Footer/>
         </div>
     );
 };

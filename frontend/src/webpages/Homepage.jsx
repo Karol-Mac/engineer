@@ -7,6 +7,9 @@ import {CompareFunctions} from "../components/functions/CompareFunctions";
 import ProductSearchbar from "../components/generic/ProductSearchbar";
 import LatestProductsElementsContainer from "../components/specific/homepage/LatestProductsElementsContainer";
 
+import "../css/generalVisuals.css";
+
+
 const Homepage = () => {
     const {openSearchpage} = NavigateFunctions();
 
