@@ -1,43 +1,45 @@
 package com.example.engineer.service.impl;
 
-import com.example.engineer.entity.Product;
-import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.ProductDto;
-import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.FavouritesService;
 import com.example.engineer.util.UserUtil;
-import com.example.engineer.util.mappers.ProductMapper;
-import lombok.RequiredArgsConstructor;
+import com.example.engineer.util.ProductUtils;
 import org.apache.coyote.BadRequestException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@PreAuthorize("hasRole(@userRole)")
 public class FavouritesServiceImpl implements FavouritesService {
 
 
     private final UserRepository userRepository;
-    private final ProductMapper productMapper;
-    private final ProductRepository productRepository;
+    private final ProductUtils productUtils;
     private final UserUtil userUtil;
 
+    public FavouritesServiceImpl(UserRepository userRepository, ProductUtils productUtils, UserUtil userUtil) {
+        this.userRepository = userRepository;
+        this.productUtils = productUtils;
+        this.userUtil = userUtil;
+    }
+
     @Override
-    public List<ProductDto> getFavorites(){
-        var user = userUtil.getUserFromDB();
+    public List<ProductDto> getFavorites(String email){
+        var user = userUtil.getUser(email);
 
         return user.getFavouriteProducts()
                         .stream()
-                        .map(productMapper::mapProductToDto)
+                        .map(p -> productUtils.mapProductToDto(p, email))
                         .toList();
     }
 
     @Override
-    public ProductDto updateFavorite(long productId) throws BadRequestException{
-        var user = userUtil.getUserFromDB();
-        var product = getProductFromDB(productId);
+    public ProductDto updateFavorite(long productId, String email) throws BadRequestException{
+        var user = userUtil.getUser(email);
+        var product = productUtils.getProductFromDB(productId);
 
         if(user.getFavouriteProducts().contains(product))
             throw new BadRequestException("product is already favourite");
@@ -45,13 +47,13 @@ public class FavouritesServiceImpl implements FavouritesService {
         user.getFavouriteProducts().add(product);
 
         userRepository.save(user);
-        return productMapper.mapProductToDto(product);
+        return productUtils.mapProductToDto(product, email);
     }
 
     @Override
-    public String deleteFavorite(long productId) throws BadRequestException{
-        var user = userUtil.getUserFromDB();
-        var product = getProductFromDB(productId);
+    public String deleteFavorite(long productId, String email) throws BadRequestException{
+        var user = userUtil.getUser(email);
+        var product = productUtils.getProductFromDB(productId);
 
         if(!user.getFavouriteProducts().contains(product))
             throw new BadRequestException("product is not on favourite list");
@@ -59,11 +61,5 @@ public class FavouritesServiceImpl implements FavouritesService {
         user.getFavouriteProducts().remove(product);
         userRepository.save(user);
         return "Product removed from favourites";
-    }
-
-    private Product getProductFromDB(long id){
-        return productRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Product", id)
-        );
     }
 }
