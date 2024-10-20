@@ -2,18 +2,14 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Seller;
-import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
-import com.example.engineer.repository.SellerRepository;
-import com.example.engineer.repository.UserRepository;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
-import com.example.engineer.util.RoleBeans;
+import com.example.engineer.util.ProductUtils;
 import com.example.engineer.util.UserUtil;
-import com.example.engineer.util.mappers.ProductMapper;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,106 +20,80 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final SellerRepository sellerRepository;
-    private final UserRepository userRepository;
-    private final ProductMapper productMapper;
+    private final ProductUtils productUtils;
     private final ImageService imageService;
     private final UserUtil userUtil;
 
-    public ProductServiceImpl(ProductRepository productRepository, SellerRepository sellerRepository,
-                              UserRepository userRepository, ProductMapper productMapper,
-                              ImageService imageService, UserUtil userUtil){
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductUtils productUtils, ImageService imageService, UserUtil userUtil) {
         this.productRepository = productRepository;
-        this.sellerRepository = sellerRepository;
-        this.userRepository = userRepository;
-        this.productMapper = productMapper;
+        this.productUtils = productUtils;
         this.imageService = imageService;
         this.userUtil = userUtil;
     }
 
 
     @Override
-    public FreshProductDto addProduct(FreshProductDto freshProduct, MultipartFile imageFile) throws IOException{
+    @PreAuthorize("hasRole(@sellerRole)")
+    public FreshProductDto addProduct(FreshProductDto freshProduct,
+                                      MultipartFile imageFile,
+                                      String email) throws IOException {
 
-        Product product = productMapper.mapToEntity(freshProduct);
-
-        Seller owner = getSellerFromSession();
+        Product product = productUtils.mapToEntity(freshProduct);
+        Seller loggedIn = userUtil.getSeller(email);
         String imageName = imageService.saveImage(imageFile);
 
-        product.setSeller(owner);
+        product.setSeller(loggedIn);
         product.setImageName(imageName);
         product.setIsHidden(false);
         Product saved = productRepository.save(product);
 
-        return productMapper.mapProductToFresh(saved);
+        return productUtils.mapProductToFresh(saved);
     }
 
     @Override
-    public List<ProductDto> getAllProducts(String productName){
+    public List<ProductDto> getAllProducts(String productName, final String email) {
 
         List<Product> products = productRepository.findByNameContaining(productName);
 
-        return products.stream().map(productMapper::mapProductToDto).toList();
+        return products.stream().map(p -> productUtils.mapProductToDto(p, email)).toList();
     }
 
     @Override
-    public ProductDto getProductById(long productId){
+    public ProductDto getProductById(long productId, final String email) {
 
-        Product product = getProductFromDB(productId);
-        return productMapper.mapProductToDto(product);
+        Product product = productUtils.getProductFromDB(productId);
+        return productUtils.mapProductToDto(product, email);
     }
 
     @Override
-    public FreshProductDto updateProduct(FreshProductDto freshProductDto, long productId){
-        Product actual = getProductFromDB(productId);
+    @PreAuthorize("hasRole(@sellerRole)")               //add logic to check if seller is the owner.
+    public FreshProductDto updateProduct(FreshProductDto freshProductDto, long productId, String email) {
+        Product actual = productUtils.getProductFromDB(productId);
 
-        getOwner(actual.getSeller().getId(), getSellerFromSession());
-
-        productMapper.copyCommonFields(freshProductDto, actual);
+        productUtils.copyCommonFields(freshProductDto, actual);
         actual.setId(productId);
 
-        return productMapper.mapProductToFresh(productRepository.save(actual));
+        return productUtils.mapProductToFresh(productRepository.save(actual));
     }
 
     @Override
-    public String deleteProduct(long productId){
-        var product = getProductFromDB(productId);
-        var email = userUtil.getUserEmail();
-        //check if user is admin:
-        var admin = userRepository.findByEmail(email).orElse(null);
+    @PreAuthorize("hasAnyRole(@sellerRole, @adminRole)")    //add logic to check if seller is the owner.
+    public String deleteProduct(long productId, String email) {
+        var product = productUtils.getProductFromDB(productId);
 
-        //if no - check if it's a seller
-        if (admin == null || !admin.getRole().getName().contains(RoleBeans.ADMIN)) {
-            getOwner(product.getSeller().getId(), getSellerFromSession());
-        }
-        return deleteProduct(product);
-    }
-
-    private String deleteProduct(Product product){
         product.setIsHidden(true);
         productRepository.save(product);
         return "Product deleted succesfully";
     }
 
 
-    private Product getProductFromDB(long productId){
-        return productRepository.findById(productId)
-                .orElseThrow(()->new NotFoundException(Product.class.getSimpleName(), productId));
-    }
-
-
-
-    private Seller getSellerFromSession(){
-
-        return sellerRepository.findByEmail(userUtil.getUserEmail()).orElseThrow(
-                () -> new AccessDeniedException("You have no permission to access this resource"));
-    }
-
-    private void getOwner(long sellerId, Seller loggedIn){
-        var owner = sellerRepository.findById(sellerId).orElseThrow(
-                () -> new NotFoundException("Seller", sellerId));
-
-        if(!owner.equals(loggedIn))
-            throw new AccessDeniedException("You are not the owner of this product");
-    }
+//    //FIXME: wtf ?!
+//    private void getOwner(long sellerId, Seller loggedIn) {
+//        var owner = sellerRepository.findById(sellerId).orElseThrow(
+//                () -> new NotFoundException("Seller", sellerId));
+//
+//        if (!owner.equals(loggedIn))
+//            throw new AccessDeniedException("You are not the owner of this product");
+//    }
 }

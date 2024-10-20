@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface ProductService {
     FreshProductDto addProduct(FreshProductDto freshProduct,
-                               MultipartFile imageFile) throws IOException;
+                               MultipartFile imageFile, String email) throws IOException;
 
-    List<ProductDto> getAllProducts(String productName);
+    List<ProductDto> getAllProducts(String productName, final String email);
 
-    ProductDto getProductById(long productId);
+    ProductDto getProductById(long productId, final String email);
 
-    FreshProductDto updateProduct(FreshProductDto product, long productId);
+    FreshProductDto updateProduct(FreshProductDto product, long productId, String email);
 
-    String deleteProduct(long productId);
+    String deleteProduct(long productId, String email);
 }
