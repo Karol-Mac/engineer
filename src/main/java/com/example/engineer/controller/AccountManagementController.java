@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -36,10 +37,10 @@ public class AccountManagementController {
     @PostMapping
     @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
     public ResponseEntity<RegisterUserDto> changeCredentials(
-            @RequestBody @Valid ChangeUserCredentialsDto credentialsDto) {
+            @RequestBody @Valid ChangeUserCredentialsDto credentialsDto, Principal principal) {
         var username = credentialsDto.getUsername();
         var password = credentialsDto.getPassword();
-        return ResponseEntity.ok(accountManagementService.changeCredentials(username, password));
+        return ResponseEntity.ok(accountManagementService.changeCredentials(username, password, principal.getName()));
     }
 
     @GetMapping

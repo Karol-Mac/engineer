@@ -9,7 +9,7 @@ import org.apache.coyote.BadRequestException;
 import java.util.List;
 
 public interface AccountManagementService {
-    RegisterUserDto changeCredentials(String username, String password);
+    RegisterUserDto changeCredentials(String username, String password, String email);
 
     List<AccountDto> getAllUsers();
     List<AccountDto> getAccountsByName(String name);

@@ -5,9 +5,9 @@ import com.example.engineer.payload.CommentDto;
 import java.util.List;
 
 public interface CommentService {
-    List<CommentDto> getAllComments();
+    List<CommentDto> getAllComments(String email);
 
-    CommentDto addComment(String content);
+    CommentDto addComment(String content, String email);
 
     CommentDto getCommentById(long id);
 

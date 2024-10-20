@@ -49,8 +49,8 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
-    public RegisterUserDto changeCredentials(String username, String password){
-        User user = userUtil.getUser();
+    public RegisterUserDto changeCredentials(String username, String password, String email){
+        User user = userUtil.getUser(email);
 
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(passwordEncoder.encode(password));
@@ -99,7 +99,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
         var email = account.getEmail();
         if(userRepository.existsByEmail(email)){
-            var user = userRepository.findByEmail(email).get();
+            var user = userUtil.getUser(email);
 
             user.setIsBlocked(account.getIsBlocked());
             user.setIsDeleted(account.getIsDeleted());

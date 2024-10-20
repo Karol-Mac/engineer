@@ -3,22 +3,18 @@ package com.example.engineer.util.mappers;
 import com.example.engineer.entity.Comment;
 import com.example.engineer.entity.User;
 import com.example.engineer.payload.CommentDto;
-import com.example.engineer.repository.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.example.engineer.util.UserUtil;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommentMapper {
+    private final UserUtil userUtil;
 
-    private final UserRepository userRepository;
-
-    public CommentMapper(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public CommentMapper(UserUtil userUtil) {
+        this.userUtil = userUtil;
     }
 
-
-    public CommentDto mapToDto(Comment comment) {
+    public CommentDto mapToDto(Comment comment, String email) {
         CommentDto commentDto = new CommentDto();
         commentDto.setId(comment.getId());
         commentDto.setContent(comment.getContent());
@@ -26,7 +22,7 @@ public class CommentMapper {
         commentDto.setIsVisible(comment.getIsVisible());
 
         //checking wether user reported exact comment
-        var user = getUserFromDB();
+        var user = userUtil.getUserOrNull(email);
         if (user == null) commentDto.setIsReported(false);
         else commentDto.setIsReported(isReported(comment, user));
 
@@ -37,17 +33,5 @@ public class CommentMapper {
         return user.getReports().stream()
                 .filter(report -> report.getComment() != null && !report.getIsDone())
                 .anyMatch(report -> report.getComment().equals(comment));
-    }
-
-    private User getUserFromDB(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        /** If a user is anonymous, or it's a seller (which can't add products to favourite either)
-         then return null (set isFav & isRep to false)*/
-        if(email.equals("anonymousUser")) return null;
-        else {
-            return userRepository.findByEmail(email).orElseThrow(
-                    () -> new UsernameNotFoundException("User with email: " + email + " not found"));
-        }
     }
 }

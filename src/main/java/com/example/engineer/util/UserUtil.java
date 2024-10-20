@@ -5,7 +5,6 @@ import com.example.engineer.entity.User;
 import com.example.engineer.repository.SellerRepository;
 import com.example.engineer.repository.UserRepository;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
@@ -20,13 +19,8 @@ public class UserUtil {
         this.sellerRepository = sellerRepository;
     }
 
-    public User getUser() {
-        String email = getUserEmail();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-    }
-
-    public User getUser(String email) {
+    public User getUser(
+String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
@@ -39,9 +33,4 @@ public class UserUtil {
     public User getUserOrNull(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
-
-    public String getUserEmail(){
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
 }
-

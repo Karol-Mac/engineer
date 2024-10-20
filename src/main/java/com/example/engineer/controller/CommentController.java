@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,27 +22,25 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentDto>> getAllComments(){
-        return ResponseEntity.ok(commentService.getAllComments());
+    public ResponseEntity<List<CommentDto>> getAllComments(Principal principal){
+
+        return ResponseEntity.ok(commentService.getAllComments(principal == null ? "" : principal.getName()));
     }
 
     @PostMapping
-    @PreAuthorize("hasRole(@userRole)")
-    public ResponseEntity<CommentDto> createComment(@RequestBody String content) throws BadRequestException{
+    public ResponseEntity<CommentDto> createComment(@RequestBody String content, Principal principal) throws BadRequestException{
 
         if(content.isBlank()) throw new BadRequestException("Comment content cannot be empty");
 
-        return new ResponseEntity<>(commentService.addComment(content), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentService.addComment(content, principal.getName()), HttpStatus.CREATED);
     }
 
     @GetMapping("/{commentId}")
-    @PreAuthorize("hasRole(@adminRole)")
     public ResponseEntity<CommentDto> getSingleComment(@PathVariable long commentId){
         return ResponseEntity.ok(commentService.getCommentById(commentId));
     }
 
     @DeleteMapping("/{commentId}")
-    @PreAuthorize("hasRole(@adminRole)")
     public ResponseEntity<String> deleteComment(@PathVariable long commentId){
         return ResponseEntity.ok(commentService.deleteComment(commentId));
     }

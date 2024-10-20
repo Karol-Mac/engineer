@@ -9,6 +9,7 @@ import com.example.engineer.service.CommentService;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.CommentMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,17 +29,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> getAllComments(){
+    public List<CommentDto> getAllComments(final String email) {
         return commentRepository.findAll()
                 .stream()
-                .map(commentMapper::mapToDto)
+                .map(c -> commentMapper.mapToDto(c, email))
                 .toList();
     }
 
     @Override
-    public CommentDto addComment(String content){
+    @PreAuthorize("hasRole(@userRole)")
+    public CommentDto addComment(String content, String email){
 
-        var user = userUtil.getUser();
+        var user = userUtil.getUser(email);
         if(user.getIsBlocked())
             throw new ApiException("You cannot perform this operation - you're blocked", HttpStatus.CONFLICT);
 
@@ -49,18 +51,20 @@ public class CommentServiceImpl implements CommentService {
                 .build();
 
         var savedComment = commentRepository.save(comment);
-        return commentMapper.mapToDto(savedComment);
+        return commentMapper.mapToDto(savedComment, email);
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public CommentDto getCommentById(long id){
         Comment comment = commentRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Comment", id));
 
-        return  commentMapper.mapToDto(comment);
+        return commentMapper.mapToDto(comment, "");
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public String deleteComment(long id){
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Comment", id));
