@@ -1,5 +1,7 @@
 package com.example.engineer.service.impl;
 
+import com.example.engineer.entity.Comment;
+import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Report;
 import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
@@ -12,6 +14,7 @@ import com.example.engineer.util.AuthorType;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ReportMapper;
 import org.apache.coyote.BadRequestException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,9 +38,10 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public ReportDto createReport(long productId, long commentId, String message) throws BadRequestException{
+    @PreAuthorize("hasRole(@userRole)")
+    public ReportDto createReport(long productId, long commentId, String message, String email) throws BadRequestException {
 
-        User reporter = userUtil.getUserFromDB();
+        User reporter = userUtil.getUserFromDB(email);
         if((productId == 0 && commentId == 0) || (productId != 0 && commentId != 0)){
             throw new BadRequestException("productId or commentId - " +
                                 "one of them needs to be in request (not both or zero)");
@@ -46,38 +50,22 @@ public class ReportServiceImpl implements ReportService {
             var comment = commentRepository.findById(commentId).orElseThrow(
                     () -> new NotFoundException("Comment", commentId));
 
-            Report report = Report.builder()
-                    .comment(comment)
-                    .message(message)
-                    .authorId(comment.getUser().getId())
-                    .reporter(reporter)
-                    .isDone(false)
-                    .authorType(AuthorType.USER)
-                    .build();
-
+            Report report = createReport(message, comment, reporter);
             var saved = reportRepository.save(report);
-
             return reportMapper.mapToDto(saved);
         } else {
             var product = productRepository.findById(productId).orElseThrow(
                     () -> new NotFoundException("Product", productId));
 
-            Report report = Report.builder()
-                    .product(product)
-                    .message(message)
-                    .authorId(product.getSeller().getId())
-                    .reporter(reporter)
-                    .isDone(false)
-                    .authorType(AuthorType.SELLER)
-                    .build();
-
+            Report report = createReport(message, product, reporter);
             var saved = reportRepository.save(report);
-
             return reportMapper.mapToDto(saved);
         }
     }
 
+
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public List<ReportDto> getAllReports() {
         return reportRepository.findAll()
                         .stream()
@@ -86,6 +74,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public ReportDto updateReport(long reportId, boolean isDone) {
 
         var report = reportRepository.findById(reportId).orElseThrow(
@@ -95,5 +84,27 @@ public class ReportServiceImpl implements ReportService {
         var updated = reportRepository.save(report);
 
         return reportMapper.mapToDto(updated);
+    }
+
+    private static Report createReport(String message, Product product, User reporter) {
+        return Report.builder()
+                .product(product)
+                .message(message)
+                .authorId(product.getSeller().getId())
+                .reporter(reporter)
+                .isDone(false)
+                .authorType(AuthorType.SELLER)
+                .build();
+    }
+
+    private static Report createReport(String message, Comment comment, User reporter) {
+        return Report.builder()
+                .comment(comment)
+                .message(message)
+                .authorId(comment.getUser().getId())
+                .reporter(reporter)
+                .isDone(false)
+                .authorType(AuthorType.USER)
+                .build();
     }
 }

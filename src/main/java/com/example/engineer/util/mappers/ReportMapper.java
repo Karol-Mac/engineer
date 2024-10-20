@@ -21,30 +21,26 @@ public class ReportMapper {
 
 
     public ReportDto mapToDto(Report report) {
-        ReportDto dto = new ReportDto();
-        dto.setId(report.getId());
-        dto.setMessage(report.getMessage());
-        dto.setIsDone(report.getIsDone());
-        dto.setReporterName(report.getReporter().getRealUsername());
-        dto.setAuthorName(getAuthorName(report));
-        dto.setCreatedAt(report.getCreatedAt());
-        dto.setCommentId(report.getComment() == null ? null : report.getComment().getId());
-        dto.setProductId(report.getProduct() == null ? null : report.getProduct().getId());
-
-        return dto;
+        return ReportDto.builder()
+                .id(report.getId())
+                .message(report.getMessage())
+                .isDone(report.getIsDone())
+                .reporterName(report.getReporter().getRealUsername())
+                .authorName(getAuthorName(report))
+                .createdAt(report.getCreatedAt())
+                .commentId(report.getComment() == null ? null : report.getComment().getId())
+                .productId(report.getProduct() == null ? null : report.getProduct().getId())
+                .build();
     }
 
     public String getAuthorName(Report report) {
-
         if(report.getAuthorType() == AuthorType.SELLER) {
             var seller = sellerRepository.findById(report.getAuthorId()).orElseThrow(
                     () -> new NotFoundException("Seller", report.getAuthorId()));
-
             return seller.getShopName();
         } else {
             var user = userRepository.findById(report.getAuthorId()).orElseThrow(
                     () -> new NotFoundException("User", report.getAuthorId()));
-
             return user.getRealUsername();
         }
     }

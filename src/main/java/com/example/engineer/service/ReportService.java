@@ -6,7 +6,7 @@ import org.apache.coyote.BadRequestException;
 import java.util.List;
 
 public interface ReportService {
-    ReportDto createReport(long productId, long commentId, String message) throws BadRequestException;
+    ReportDto createReport(long productId, long commentId, String message, String email) throws BadRequestException;
 
     List<ReportDto> getAllReports();
 
