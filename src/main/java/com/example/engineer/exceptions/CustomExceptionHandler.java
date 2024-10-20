@@ -12,8 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -25,26 +23,10 @@ import java.util.Map;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({AccessDeniedException.class, AuthenticationException.class})
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public ResponseEntity<ErrorInfo> handleAccessDeniedException(RuntimeException ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorInfo> handleAccessDeniedException(RuntimeException ex,
+                                                                 HttpServletRequest request) {
         ErrorInfo errorInfo = new ErrorInfo(request.getRequestURI(),  ex);
         return new ResponseEntity<>(errorInfo, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<ErrorInfo> handleApiException(ApiException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), ex.getStatus());
-    }
-
-    @ExceptionHandler({BadRequestException.class, IOException.class})
-    public ResponseEntity<ErrorInfo> handleBadRequestException(IOException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorInfo> handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
-        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -60,6 +42,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         });
 
         return new ResponseEntity<>(errors, status);
+    }
+
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErrorInfo> handleApiException(ApiException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), ex.getStatus());
+    }
+
+    @ExceptionHandler({BadRequestException.class, IOException.class})
+    public ResponseEntity<ErrorInfo> handleBadRequestException(IOException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(new ErrorInfo(request.getRequestURI(), ex), HttpStatus.NOT_FOUND);
     }
 
     //FIXME: in the future this might cause problems
