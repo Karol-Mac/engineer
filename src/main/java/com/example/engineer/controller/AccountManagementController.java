@@ -8,7 +8,6 @@ import com.example.engineer.service.AccountManagementService;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -35,7 +34,6 @@ public class AccountManagementController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
     public ResponseEntity<RegisterUserDto> changeCredentials(
             @RequestBody @Valid ChangeUserCredentialsDto credentialsDto, Principal principal) {
         var username = credentialsDto.getUsername();
@@ -44,7 +42,6 @@ public class AccountManagementController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole(@adminRole)")
     public ResponseEntity<List<AccountDto>> getAccounts(
                             @RequestParam(defaultValue = "") String name) {
 
@@ -54,14 +51,12 @@ public class AccountManagementController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole(@adminRole)")
     public ResponseEntity<AccountDto> editAccount(
             @RequestBody AccountDto accountDto) throws BadRequestException {
         return ResponseEntity.ok(accountManagementService.updateUser(accountDto));
     }
 
     @DeleteMapping("/{userId}/comments")
-    @PreAuthorize("hasRole(@adminRole)")
     public ResponseEntity<String> deleteUserComments(@PathVariable Long userId) throws BadRequestException {
         return ResponseEntity.ok(accountManagementService.removeAllComments(userId));
     }

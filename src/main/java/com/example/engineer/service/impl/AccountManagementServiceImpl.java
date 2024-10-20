@@ -13,6 +13,7 @@ import com.example.engineer.service.AccountManagementService;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.AccountMapper;
 import org.apache.coyote.BadRequestException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,6 +50,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
     public RegisterUserDto changeCredentials(String username, String password, String email){
         User user = userUtil.getUser(email);
 
@@ -64,6 +66,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public List<AccountDto> getAllUsers(){
         var users = userRepository.findAll()
                 .stream()
@@ -76,6 +79,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public List<AccountDto> getAccountsByName(String name) {
 
         return getAllUsers()
@@ -94,6 +98,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public AccountDto updateUser(AccountDto account)
             throws BadCredentialsException, BadRequestException {
 
@@ -119,6 +124,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
 
     @Override
+    @PreAuthorize("hasRole(@adminRole)")
     public String removeAllComments(long id) throws BadRequestException {
         if( id <= 0) throw new BadRequestException("Id must be greater than 0");
         User user = userRepository.findById(id)
