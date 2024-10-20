@@ -1,27 +1,26 @@
-package com.example.engineer.util.mappers;
+package com.example.engineer.util;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.User;
+import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
-import com.example.engineer.repository.SellerRepository;
-import com.example.engineer.repository.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.example.engineer.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductMapper {
+public class ProductUtils {
 
-    private final UserRepository userRepository;
-    private final SellerRepository sellerRepository;
+    private final UserUtil userUtil;
+    private final ProductRepository productRepository;
 
-    public ProductMapper(UserRepository userRepository, SellerRepository sellerRepository) {
-        this.userRepository = userRepository;
-        this.sellerRepository = sellerRepository;
+    public ProductUtils(UserUtil userUtil, ProductRepository productRepository) {
+        this.userUtil = userUtil;
+        this.productRepository = productRepository;
     }
 
-    public ProductDto mapProductToDto(Product product) {
+
+    public ProductDto mapProductToDto(Product product, String email) {
         if (product == null) throw new NullPointerException("Product cannot be null");
 
         ProductDto productDto = new ProductDto();
@@ -30,8 +29,7 @@ public class ProductMapper {
         productDto.setUpdatedAt(product.getUpdatedAt());
         productDto.setIsHidden(product.getIsHidden());
 
-        var user = getUserFromDB();
-
+        var user = userUtil.getUserOrNull(email);
         if (user != null) {
             productDto.setIsFavourite(isFavourite(product, user));
             productDto.setIsReported(isReported(product, user));
@@ -113,15 +111,9 @@ public class ProductMapper {
         target.setImageName(source.getImageName());
     }
 
-    private User getUserFromDB(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        /** If a user is anonymous, or it's a seller (which can't add products to favourite either)
-                      then return null (set isFav & isRep to false)*/
-        if(email.equals("anonymousUser") || sellerRepository.existsByEmail(email)) return null;
-        else {
-            return userRepository.findByEmail(email).orElseThrow(
-                    () -> new UsernameNotFoundException("User with email: " + email + " not found"));
-        }
+    public Product getProductFromDB(long id){
+        return productRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Product", id)
+        );
     }
 }

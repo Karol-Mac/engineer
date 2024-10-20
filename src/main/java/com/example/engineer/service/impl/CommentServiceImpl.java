@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentDto addComment(String content){
 
-        var user = userUtil.getUserFromDB();
+        var user = userUtil.getUser();
         if(user.getIsBlocked())
             throw new ApiException("You cannot perform this operation - you're blocked", HttpStatus.CONFLICT);
 

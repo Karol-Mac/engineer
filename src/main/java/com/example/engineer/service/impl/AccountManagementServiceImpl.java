@@ -50,7 +50,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     @Override
     public RegisterUserDto changeCredentials(String username, String password){
-        User user = userUtil.getUserFromDB();
+        User user = userUtil.getUser();
 
         if(username != null) user.setUsername(username);
         if(password != null) user.setPassword(passwordEncoder.encode(password));

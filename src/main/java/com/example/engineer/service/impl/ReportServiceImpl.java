@@ -41,7 +41,7 @@ public class ReportServiceImpl implements ReportService {
     @PreAuthorize("hasRole(@userRole)")
     public ReportDto createReport(long productId, long commentId, String message, String email) throws BadRequestException {
 
-        User reporter = userUtil.getUserFromDB(email);
+        User reporter = userUtil.getUser(email);
         if((productId == 0 && commentId == 0) || (productId != 0 && commentId != 0)){
             throw new BadRequestException("productId or commentId - " +
                                 "one of them needs to be in request (not both or zero)");
