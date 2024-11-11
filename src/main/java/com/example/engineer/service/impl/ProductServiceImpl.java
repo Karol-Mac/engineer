@@ -87,13 +87,12 @@ public class ProductServiceImpl implements ProductService {
         return "Product deleted succesfully";
     }
 
-
-//    //FIXME: wtf ?!
-//    private void getOwner(long sellerId, Seller loggedIn) {
-//        var owner = sellerRepository.findById(sellerId).orElseThrow(
-//                () -> new NotFoundException("Seller", sellerId));
-//
-//        if (!owner.equals(loggedIn))
-//            throw new AccessDeniedException("You are not the owner of this product");
-//    }
+    @Override
+    @PreAuthorize("hasRole(@sellerRole)")
+    public List<FreshProductDto> getSellerProducts(String email){
+        var products = productRepository.findBySellerEmail(email);
+        return products.stream()
+                       .map(productUtils::mapProductToFresh)
+                       .toList();
+    }
 }

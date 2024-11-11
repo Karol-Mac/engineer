@@ -34,11 +34,12 @@ Struktura wyjątku: {
 | GET         | /api/products?name=string |      | [PRODUCT] | any  |
 
 ### SELLER - PRODUCTS
-| method type | endpoint                  | body                     | response      |
-|-------------|---------------------------|--------------------------|---------------|
-| POST        | /api/products             | FRESH_PRODUCT, imageFile | FRESH_PRODUCT |
-| PUT         | /api/products/{productId} | FRESH_PRODUCT            | FRESH_PRODUCT |
-| DELETE      | /api/products/{productId} |                          | komunikat     |
+| method type | endpoint                  | body                     | response        |
+|-------------|---------------------------|--------------------------|-----------------|
+| POST        | /api/products             | FRESH_PRODUCT, imageFile | FRESH_PRODUCT   |
+| GET         | /api/products/seller      |                          | [FRESH_PRODUCT] |
+| PUT         | /api/products/{productId} | FRESH_PRODUCT            | FRESH_PRODUCT   |
+| DELETE      | /api/products/{productId} |                          | komunikat       |
 
 
 ### ZARZĄDANIE KONTEM
@@ -209,6 +210,11 @@ _POST: localhost:8080/api/products_
             // id opcjonalne    
 body: {FRESH_PRODUCT}, file (plik ze zdjęciem)  
 response: {FRESH_PRODUCT}
+
+##### Lista produktów sellera:
+_POST: localhost:8080/api/products/seller_     
+body: **brak**  
+response: [FRESH_PRODUCT]
 
 ##### Aktualizowanie produktu:
 _PUT: localhost:8080/api/products/{productId}_  
