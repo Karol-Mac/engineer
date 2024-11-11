@@ -50,6 +50,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts(name, principal == null ? null : principal.getName()));
     }
 
+    @GetMapping("/seller")
+    public ResponseEntity<List<FreshProductDto>> getSellerProducts(Principal principal){
+        return ResponseEntity.ok(productService.getSellerProducts(principal.getName()));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<FreshProductDto> updateProduct(@PathVariable long id,
                                                          @RequestBody @Valid FreshProductDto product,

@@ -18,4 +18,6 @@ public interface ProductService {
     FreshProductDto updateProduct(FreshProductDto product, long productId, String email);
 
     String deleteProduct(long productId, String email);
+
+    List<FreshProductDto> getSellerProducts(String email);
 }
