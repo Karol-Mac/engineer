@@ -2,60 +2,52 @@ import axios from "axios";
 
 export const GenericAccountFunctions = () => {
 
-    const updateAccount = async(e, newCredential) => {
+    const CREDENTIALTYPES = {
+        username: "username",
+        password: "password"
+    };
+
+    const updateCredential = async(e, credentialType, credentialValue) => {
         e.preventDefault();
 
+        try{
+            const updateCredentialUrl = "http://localhost:8080/api/products";
+            const payload = {};
 
-    }
-
-    const addNewProduct = async(e, newProductData, newProductImage)=>{
-        e.preventDefault();
-
-        const formData = new FormData();
-        const AuthorizationToken = localStorage.getItem("accessToken");
-        const modifiedProductData = {
-            ...newProductData,
-            name: newProductData.productName,
-        };
-        delete modifiedProductData.productName;
-
-        console.log("add mod product: ",modifiedProductData);
-
-        try {
-            let addNewProductUrl = "http://localhost:8080/api/products";
-            console.log("mod Product data: ",modifiedProductData);
-            // formData.append('fresh_product', newProductData, {type: 'application/json'});
-            formData.append('product', new Blob([JSON.stringify(modifiedProductData)], { type: 'application/json' }));
-            formData.append("file", newProductImage);
-
-            const res = await axios.post(addNewProductUrl, formData, {
-                headers: {
-                    Authorization: `Bearer ${AuthorizationToken}`
-                    // 'Content-Type': 'multipart/form-data',
+            switch(credentialType){
+                case CREDENTIALTYPES.username:{
+                    payload.username = credentialValue;
+                    break;
                 }
-            });
-            // const freshproduct = res.data.FRESH_PRODUCT;
-
-            console.log("Product has been added \""+res.data.message+"\"");
-            return{ success: true};
-        }catch (error){
-            let errorMessage;
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                errorMessage = error.response.data.message || "Unknown error";
+                case CREDENTIALTYPES.password:{
+                    payload.password = credentialValue;
+                    break;
+                }
+                default:{
+                    throw new Error("Invalid field type. credentialType is of value "+credentialType.toString());
+                }
             }
 
-            // console.log("(Company) setResponseMessage: "+ errorMessage);
-            return{ success: false, message: errorMessage};
+            const res = await axios.post(updateCredentialUrl, payload, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`
+                }
+            });
+            console.log("Update successful:", response.data);
+            return response.data;
+        } catch (error) {
+            console.error("Error updating credential:", error.message);
+            throw error;
         }
     }
 
+    const getCredentialTypes = () =>{
+        return CREDENTIALTYPES;
+    }
+
     return {
-        getSellerInformation,
-        addNewProduct
+        updateCredential,
+        getCredentialTypes
     };
 };
 

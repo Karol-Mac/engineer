@@ -1,17 +1,19 @@
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
+import {GenericAccountFunctions} from "../components/functions/GenericAccountFunctions";
+import {useState} from "react";
 
 const AccountSettingpage = () => {
 
-    const FIELDTYPES = {
-        username: "username",
-        password: "password"
-    };
+    const {updateCredential, getCredentialTypes} = GenericAccountFunctions();
+
+    const FIELDTYPES = getCredentialTypes();
 
     const [editingField, setEditingField] = useState(null);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [warningMessage, setWarningMessage] = useState("");
 
     const selectEditField = (fieldType) => {
         switch(fieldType){
@@ -31,6 +33,32 @@ const AccountSettingpage = () => {
         }
     }
 
+    const handleClick = (e) => {
+        switch(fieldType){
+            case FIELDTYPES.username: {
+                updateCredential(e,editingField,username);
+                break;
+            }
+
+            case FIELDTYPES.password:{
+                if(password !== confirmPassword){
+                    displayErrorOutput("Passwords don't match");
+                }
+                updateCredential(e,editingField,password);
+                break;
+            }
+
+            default:{
+                displayErrorOutput("Tried to update null field");
+                setEditingField(null);
+            }
+        }
+    }
+
+    const displayErrorOutput = (message) => {
+        setWarningMessage(message);
+    }
+
     const displayEditField = (editField) => {
         switch(editingField){
             case editField.username: {
@@ -39,7 +67,10 @@ const AccountSettingpage = () => {
                         type="text"
                         value={username}
                         placeholder="Enter new username"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                            setWarningMessage(null);
+                        }}
                     />
                     <button onClick={() => handleSave(FIELDTYPES.username)}>Save New Username</button>
                 </div>
@@ -51,13 +82,21 @@ const AccountSettingpage = () => {
                         type="password"
                         value={password}
                         placeholder="Enter new password"
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                                setPassword(e.target.value);
+                                setWarningMessage(null);
+                            }
+                        }
                     />
                     <input
                         type="password"
                         value={confirmPassword}
                         placeholder="Enter new password"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={(e) => {
+                                setConfirmPassword(e.target.value)
+                                setWarningMessage(null);
+                            }
+                        }
                     />
                     <button onClick={() => handleSave(FIELDTYPES.password)}>Save New Password</button>
                 </div>
@@ -78,6 +117,8 @@ const AccountSettingpage = () => {
 
             <h2>change password</h2>
             {displayEditField(FIELDTYPES.password)}
+
+            {warningMessage && <p>{warningMessage}</p>}
         </div>
 
     );
