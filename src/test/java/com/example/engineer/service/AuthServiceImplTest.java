@@ -5,6 +5,7 @@ import com.example.engineer.entity.Seller;
 import com.example.engineer.entity.User;
 import com.example.engineer.payload.JwtAuthResponse;
 import com.example.engineer.payload.LoginDto;
+import com.example.engineer.payload.ProductDto;
 import com.example.engineer.payload.RegisterSellerDto;
 import com.example.engineer.repository.RoleRepository;
 import com.example.engineer.repository.SellerRepository;
@@ -19,6 +20,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

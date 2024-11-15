@@ -1,0 +1,124 @@
+/* AddProduct.css */
+.form-container {
+    width: 650px;
+    margin: 0 auto;
+    padding: 25px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-container {
+    margin: 30px auto;
+    width: 850px;
+}
+/*V1*/
+/*.weight-container {*/
+/*    display: flex;             !* Use flexbox to keep items on the same line *!*/
+/*    align-items: center;      !* Center align vertically *!*/
+/*    gap: 5px;                !* Adjust space between items, modify as needed *!*/
+/*    white-space: nowrap;     !* Prevent items from wrapping *!*/
+/*}*/
+
+/*.checkbox-container {*/
+/*    display: flex;            !* Keep the label and checkbox together *!*/
+/*    flex-direction: column;     !* Arrange label and checkbox vertically *!*/
+/*    align-items: center;      !* Center vertically *!*/
+/*}*/
+
+/*.checkbox-container label {*/
+/*    margin-right: 5px;       !* Space between the label and checkbox *!*/
+/*    margin-bottom: 0;        !* Remove bottom margin to avoid extra space *!*/
+/*}*/
+
+
+.weight-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.checkbox-container label {
+    margin-left: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #333;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-field label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-field input, .form-field textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-field input:focus, .form-field textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.form-submit {
+    display: flex;
+    justify-content: center;
+}
+
+.form-submit button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-submit button:hover {
+    background-color: #0056b3;
+}
+
+
+.product-form {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.weight-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.is-gram-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.is-gram-container input {
+    margin-left: 5px;
+}
