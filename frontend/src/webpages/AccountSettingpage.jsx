@@ -114,7 +114,6 @@ const AccountSettingpage = () => {
             <h2>change user name</h2>
             {displayEditField(FIELDTYPES.username)}
 
-
             <h2>change password</h2>
             {displayEditField(FIELDTYPES.password)}
 

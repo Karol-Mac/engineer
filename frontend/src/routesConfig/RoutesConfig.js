@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 
 import Homepage from '../webpages/Homepage';
@@ -14,9 +14,9 @@ import Productpage from "../webpages/Productpage";
 import Reportpage from "../webpages/Reportpage";
 
 const RoutesConfig = () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const tokenType = localStorage.getItem("tokenType");
-    
+
+    const accessToken = useState(localStorage.getItem("accessToken"));
+    const tokenType = useState(localStorage.getItem("tokenType"));
 
     return (
         <Routes>
@@ -30,7 +30,9 @@ const RoutesConfig = () => {
             <Route path="/add" exact element={<AddProductpage/>} />
             <Route path="/report/:reportType/:reportID" exact element={<Reportpage />} />
 
-            <Route path="/account" exact element={<Accountpage/>} />
+            {accessToken && <Route path="/account" exact element={<Accountpage/>} />}
+            <Route path="/account" element={<Navigate replace to="/login" />} />
+
             <Route path="/contact" exact element={<ContactUspage/>} />
 
             <Route path="/search" exact element={<Searchpage/>} />
