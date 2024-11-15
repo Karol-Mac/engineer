@@ -72,7 +72,7 @@ const AccountSettingpage = () => {
                             setWarningMessage(null);
                         }}
                     />
-                    <button onClick={() => handleSave(FIELDTYPES.username)}>Save New Username</button>
+                    <button onClick={(e) => handleClick(e)}>Save New Username</button>
                 </div>
             }
 
@@ -98,7 +98,7 @@ const AccountSettingpage = () => {
                             }
                         }
                     />
-                    <button onClick={() => handleSave(FIELDTYPES.password)}>Save New Password</button>
+                    <button onClick={(e) => handleClick(e)}>Save New Password</button>
                 </div>
             }
 
