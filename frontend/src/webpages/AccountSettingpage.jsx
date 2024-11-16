@@ -70,7 +70,7 @@ const AccountSettingpage = () => {
 
     const displayEditField = (editField) => {
         switch(editingField){
-            case editField === FIELDTYPES.username: {
+            case editField === FIELDTYPES.username && editingField === FIELDTYPES.username: {
                 return <div>
                     <input
                         type="text"
@@ -85,7 +85,7 @@ const AccountSettingpage = () => {
                 </div>
             }
 
-            case editField=== FIELDTYPES.password:{
+            case editField=== FIELDTYPES.password && editingField === FIELDTYPES.password: {
                 return <div>
                     <input
                         type="password"
@@ -170,20 +170,6 @@ const AccountSettingpage = () => {
         <div>
             <h2 onClick={() => selectEditField(FIELDTYPES.username)}>change user name</h2>
             {renderEditField(FIELDTYPES.username)}
-            {/*{editingField === FIELDTYPES.username && (
-                <div>
-                    <input
-                        type="text"
-                        value={username}
-                        placeholder="Enter new username"
-                        onChange={(e) => {
-                            setUsername(e.target.value);
-                            setWarningMessage(null);
-                        }}
-                    />
-                    <button onClick={handleClick}>Save New Username</button>
-                </div>
-            )}*/}
 
             <h2 onClick={() => selectEditField(FIELDTYPES.password)}>change password</h2>
             {renderEditField(FIELDTYPES.password)}
@@ -191,8 +177,6 @@ const AccountSettingpage = () => {
             {warningMessage && <p>{warningMessage}</p>}
         </div>
     );
-
-
 };
 
 export default AccountSettingpage;
