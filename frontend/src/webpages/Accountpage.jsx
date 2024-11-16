@@ -22,7 +22,9 @@ const Accountpage = () => {
             }
 
             case accountTypes.ADMIN :{
-                return <h3>Admin panel</h3>
+                return  <div>
+                            <h3>Admin report panel</h3>
+                        </div>
             }
 
             default:{
