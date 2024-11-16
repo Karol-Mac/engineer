@@ -1,7 +1,7 @@
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {GenericAccountFunctions} from "../components/functions/GenericAccountFunctions";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const AccountSettingpage = () => {
 
@@ -15,7 +15,16 @@ const AccountSettingpage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [warningMessage, setWarningMessage] = useState("");
 
+    useEffect(() => {
+
+    }, [editingField]);
+
     const selectEditField = (fieldType) => {
+        if(fieldType === editingField){
+            setEditingField(null);
+            return;
+        }
+
         switch(fieldType){
             case FIELDTYPES.username: {
                 setEditingField(fieldType);
@@ -34,7 +43,7 @@ const AccountSettingpage = () => {
     }
 
     const handleClick = (e) => {
-        switch(fieldType){
+        switch(editingField){
             case FIELDTYPES.username: {
                 updateCredential(e,editingField,username);
                 break;
@@ -61,7 +70,7 @@ const AccountSettingpage = () => {
 
     const displayEditField = (editField) => {
         switch(editingField){
-            case editField.username: {
+            case editField === FIELDTYPES.username: {
                 return <div>
                     <input
                         type="text"
@@ -76,7 +85,7 @@ const AccountSettingpage = () => {
                 </div>
             }
 
-            case editField.password:{
+            case editField=== FIELDTYPES.password:{
                 return <div>
                     <input
                         type="password"
@@ -103,24 +112,86 @@ const AccountSettingpage = () => {
             }
 
             default:{
-                setEditingField(null);
+                return null;
+                // setEditingField(null);
             }
         }
     }
 
+    const renderEditField = (fieldType) => {
+        if (fieldType === FIELDTYPES.username && editingField === FIELDTYPES.username) {
+            return (
+                <div>
+                    <input
+                        type="text"
+                        value={username}
+                        placeholder="Enter new username"
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                            setWarningMessage(null);
+                        }}
+                    />
+                    <button onClick={handleClick}>Save New Username</button>
+                </div>
+            );
+        }
+
+        if (fieldType === FIELDTYPES.password && editingField === FIELDTYPES.password) {
+            return (
+                <div>
+                    <input
+                        type="password"
+                        value={password}
+                        placeholder="Enter new password"
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                            setWarningMessage(null);
+                        }}
+                    />
+                    <input
+                        type="password"
+                        value={confirmPassword}
+                        placeholder="Confirm new password"
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+                            setWarningMessage(null);
+                        }}
+                    />
+                    <button onClick={handleClick}>Save New Password</button>
+                </div>
+            );
+        }
+
+        return null;
+    };
+
 
     return (
         <div>
-            <h2>change user name</h2>
-            {displayEditField(FIELDTYPES.username)}
+            <h2 onClick={() => selectEditField(FIELDTYPES.username)}>change user name</h2>
+            {renderEditField(FIELDTYPES.username)}
+            {/*{editingField === FIELDTYPES.username && (
+                <div>
+                    <input
+                        type="text"
+                        value={username}
+                        placeholder="Enter new username"
+                        onChange={(e) => {
+                            setUsername(e.target.value);
+                            setWarningMessage(null);
+                        }}
+                    />
+                    <button onClick={handleClick}>Save New Username</button>
+                </div>
+            )}*/}
 
-            <h2>change password</h2>
-            {displayEditField(FIELDTYPES.password)}
+            <h2 onClick={() => selectEditField(FIELDTYPES.password)}>change password</h2>
+            {renderEditField(FIELDTYPES.password)}
 
             {warningMessage && <p>{warningMessage}</p>}
         </div>
-
     );
+
 
 };
 

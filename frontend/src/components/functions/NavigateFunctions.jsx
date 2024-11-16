@@ -44,8 +44,12 @@ export const NavigateFunctions = () => {
         // console.log("queryParams = "+queryParams);
         navigate(`/search?${queryParams}`);
     }
-    const openAccountSettingpage = () =>{
+    const openAccountpage = () =>{
         navigate("/account");
+    }
+
+    const openAccountSettingpage = () =>{
+        navigate("/account/setting");
     }
 
     const openContactpage = () =>{
@@ -86,6 +90,7 @@ export const NavigateFunctions = () => {
         openSignuppage,
         openHomepage,
         openCommentspage,
+        openAccountpage,
         openAccountSettingpage,
         openContactpage,
         openSearchpage,

@@ -4,7 +4,7 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 const Accountpage = () => {
 
     const {accountsVariants, currentAccountType} = LoginFunctions();
-    const {openFavouritepage} = NavigateFunctions();
+    const {openFavouritepage, openAccountSettingpage} = NavigateFunctions();
 
     const accountTypes = accountsVariants();
     const accountType = currentAccountType();
@@ -36,6 +36,7 @@ const Accountpage = () => {
         <div>
             <h1>Account Setting page: {accountType}</h1>
 
+            <h3 onClick={openAccountSettingpage}>Edit account</h3>
 
             {displayAccountContents()}
 

@@ -10,6 +10,8 @@ export const GenericAccountFunctions = () => {
     const updateCredential = async(e, credentialType, credentialValue) => {
         e.preventDefault();
 
+        const AuthorizationToken = localStorage.getItem("accessToken");
+
         try{
             const updateCredentialUrl = "http://localhost:8080/api/products";
             const payload = {};
@@ -33,8 +35,8 @@ export const GenericAccountFunctions = () => {
                     Authorization: `Bearer ${AuthorizationToken}`
                 }
             });
-            console.log("Update successful:", response.data);
-            return response.data;
+            console.log("Update successful:", res.data);
+            return res.data;
         } catch (error) {
             console.error("Error updating credential:", error.message);
             throw error;

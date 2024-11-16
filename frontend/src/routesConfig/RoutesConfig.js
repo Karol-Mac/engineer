@@ -12,6 +12,7 @@ import CompareProductpage from "../webpages/CompareProductpage";
 import Searchpage from "../webpages/Searchpage";
 import Productpage from "../webpages/Productpage";
 import Reportpage from "../webpages/Reportpage";
+import AccountSettingpage from "../webpages/AccountSettingpage";
 
 const RoutesConfig = () => {
 
@@ -32,6 +33,9 @@ const RoutesConfig = () => {
 
             {accessToken && <Route path="/account" exact element={<Accountpage/>} />}
             <Route path="/account" element={<Navigate replace to="/login" />} />
+
+            {accessToken && <Route path="/account/setting" exact element={<AccountSettingpage/>} />}
+            <Route path="/account/setting" element={<Navigate replace to="/login" />} />
 
             <Route path="/contact" exact element={<ContactUspage/>} />
 
