@@ -13,6 +13,7 @@ import Searchpage from "../webpages/Searchpage";
 import Productpage from "../webpages/Productpage";
 import Reportpage from "../webpages/Reportpage";
 import AccountSettingpage from "../webpages/AccountSettingpage";
+import SellerProductsListpage from "../webpages/SellerProductsListpage";
 
 const RoutesConfig = () => {
 
@@ -36,6 +37,7 @@ const RoutesConfig = () => {
 
             {accessToken && <Route path="/account/setting" exact element={<AccountSettingpage/>} />}
             <Route path="/account/setting" element={<Navigate replace to="/login" />} />
+            <Route path="/account/products" exact element={<SellerProductsListpage/>} />
 
             <Route path="/contact" exact element={<ContactUspage/>} />
 

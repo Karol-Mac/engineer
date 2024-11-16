@@ -85,8 +85,8 @@ export const SearchProductFunctions = () => {
             let getLatestProductsByNameUrl= "http://localhost:8080/api/products?name=";
 
             const response = await axios.get(getLatestProductsByNameUrl);
+
             let products = response.data;
-            // console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getLatestProductsByNameUrl);
 
             if(products.length <= 0){
                 errorMessage = "No product were found";

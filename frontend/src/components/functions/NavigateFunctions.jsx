@@ -47,6 +47,9 @@ export const NavigateFunctions = () => {
     const openAccountpage = () =>{
         navigate("/account");
     }
+    const openSellerProductspage = () =>{
+        navigate("/account/products");
+    }
 
     const openAccountSettingpage = () =>{
         navigate("/account/setting");
@@ -96,6 +99,7 @@ export const NavigateFunctions = () => {
         openSearchpage,
         openRaportpage,
         openProductpage,
+        openSellerProductspage
     };
 };
 

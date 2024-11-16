@@ -12,8 +12,7 @@ import {ImagesFunctions} from "../components/functions/ImagesFunctions";
 
 const SellerProductsListpage = () => {
     const {getSearchedProductName} = QueryParamsFunctions();
-    const {getSearchedProducts} = SearchProductFunctions();
-    const{getSellerInformation} = SellerAccountFunctions();
+    const{getSellerInformation, getSellerProducts} = SellerAccountFunctions();
     const{getImageByName} = ImagesFunctions()
 
     let [searchParams, setSearchParams] = useSearchParams();
@@ -30,7 +29,7 @@ const SellerProductsListpage = () => {
 
         const handleFoundProducts = async () =>{
             // console.log("Looking for "+searchedProduct);
-            await getSearchedProducts({productName: searchedProduct}).then(
+            await getSellerProducts().then(
                 async (result)=> {
                     if (result.success) {
                         const updatedProductsDetails = await Promise.all(
