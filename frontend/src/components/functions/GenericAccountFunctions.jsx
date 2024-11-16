@@ -14,7 +14,8 @@ export const GenericAccountFunctions = () => {
 
         try{
             const updateCredentialUrl = "http://localhost:8080/api/products";
-            const payload = {};
+            // let payload = {username: "", password:""};
+            let payload = {};
 
             switch(credentialType){
                 case CREDENTIALTYPES.username:{
@@ -30,11 +31,14 @@ export const GenericAccountFunctions = () => {
                 }
             }
 
-            const res = await axios.post(updateCredentialUrl, payload, {
+            console.log(payload);
+            const res = await axios.post(updateCredentialUrl, {credentialType: credentialValue}, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`
-                }
+                },
             });
+
+
             console.log("Update successful:", res.data);
             return res.data;
         } catch (error) {

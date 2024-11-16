@@ -68,56 +68,6 @@ const AccountSettingpage = () => {
         setWarningMessage(message);
     }
 
-    const displayEditField = (editField) => {
-        switch(editingField){
-            case editField === FIELDTYPES.username && editingField === FIELDTYPES.username: {
-                return <div>
-                    <input
-                        type="text"
-                        value={username}
-                        placeholder="Enter new username"
-                        onChange={(e) => {
-                            setUsername(e.target.value);
-                            setWarningMessage(null);
-                        }}
-                    />
-                    <button onClick={(e) => handleClick(e)}>Save New Username</button>
-                </div>
-            }
-
-            case editField=== FIELDTYPES.password && editingField === FIELDTYPES.password: {
-                return <div>
-                    <input
-                        type="password"
-                        value={password}
-                        placeholder="Enter new password"
-                        onChange={(e) => {
-                                setPassword(e.target.value);
-                                setWarningMessage(null);
-                            }
-                        }
-                    />
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        placeholder="Enter new password"
-                        onChange={(e) => {
-                                setConfirmPassword(e.target.value)
-                                setWarningMessage(null);
-                            }
-                        }
-                    />
-                    <button onClick={(e) => handleClick(e)}>Save New Password</button>
-                </div>
-            }
-
-            default:{
-                return null;
-                // setEditingField(null);
-            }
-        }
-    }
-
     const renderEditField = (fieldType) => {
         if (fieldType === FIELDTYPES.username && editingField === FIELDTYPES.username) {
             return (
