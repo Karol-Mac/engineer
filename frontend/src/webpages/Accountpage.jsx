@@ -13,6 +13,7 @@ const Accountpage = () => {
         switch(accountType){
             case accountTypes.USER :{
                 return <div>
+                    <h3 onClick={openAccountSettingpage}>Edit account</h3>
                     <h3 onClick={openFavouritepage}>Favourite products</h3>
                 </div>
             }
@@ -23,6 +24,7 @@ const Accountpage = () => {
 
             case accountTypes.ADMIN :{
                 return  <div>
+                            <h3 onClick={openAccountSettingpage}>Edit account</h3>
                             <h3>Admin report panel</h3>
                         </div>
             }
@@ -38,7 +40,6 @@ const Accountpage = () => {
         <div>
             <h1>Account Setting page: {accountType}</h1>
 
-            <h3 onClick={openAccountSettingpage}>Edit account</h3>
 
             {displayAccountContents()}
 

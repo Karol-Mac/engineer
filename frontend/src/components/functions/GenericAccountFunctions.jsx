@@ -13,17 +13,17 @@ export const GenericAccountFunctions = () => {
         const AuthorizationToken = localStorage.getItem("accessToken");
 
         try{
-            const updateCredentialUrl = "http://localhost:8080/api/products";
+            const updateCredentialUrl = "http://localhost:8080/api/accounts";
             // let payload = {username: "", password:""};
-            let payload = {};
+            const payload = { };
 
             switch(credentialType){
                 case CREDENTIALTYPES.username:{
-                    payload.username = credentialValue;
+                    payload[credentialType] = credentialValue;
                     break;
                 }
                 case CREDENTIALTYPES.password:{
-                    payload.password = credentialValue;
+                    payload[credentialType] = credentialValue;
                     break;
                 }
                 default:{
@@ -31,7 +31,6 @@ export const GenericAccountFunctions = () => {
                 }
             }
 
-            console.log(payload);
             const res = await axios.post(updateCredentialUrl, {credentialType: credentialValue}, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`
