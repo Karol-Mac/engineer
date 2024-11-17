@@ -27,6 +27,7 @@ public class ReportMapper {
                 .isDone(report.getIsDone())
                 .reporterName(report.getReporter().getRealUsername())
                 .authorName(getAuthorName(report))
+                .authorId(report.getReporter().getId())
                 .createdAt(report.getCreatedAt())
                 .commentId(report.getComment() == null ? null : report.getComment().getId())
                 .productId(report.getProduct() == null ? null : report.getProduct().getId())

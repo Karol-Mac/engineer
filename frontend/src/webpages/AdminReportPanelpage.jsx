@@ -63,7 +63,6 @@ const AdminReportPanelpage = () => {
             {currentReportType === REPORTTYPES.comment ? <th>Comment ID</th> : <th>Product ID</th>}
             <th>Reporter Name</th>
             <th>Author ID</th>
-            <th>Author Type</th>
         </tr>
         </thead>;
     }
