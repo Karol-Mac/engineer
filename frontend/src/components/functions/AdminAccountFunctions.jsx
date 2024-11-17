@@ -1,41 +1,55 @@
 import axios from "axios";
 
 export const AdminAccountFunctions = () => {
-    const getReports = async()=>{
+    const getReports = async () => {
         let errorMessage;
         try {
             const getReportsURL = "http://localhost:8080/api/reports";
             const AuthorizationToken = localStorage.getItem("accessToken");
             console.log("Authorization Token:", AuthorizationToken);
 
-            const response = await axios.get(getReportsURL,{
+            // Fetch reports with Authorization header
+            const response = await axios.get(getReportsURL, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`,
                     "Content-Type": "application/json",
                 },
             });
 
+            // Process the response data
             const data = response.data.map((report) => {
+                let parsedMessage = {};
 
-                const parsedMessage = JSON.parse(report.message);
+                // Attempt to parse the message if it exists
+                if (report.message) {
+                    try {
+                        parsedMessage = JSON.parse(report.message);
+                    } catch (parseError) {
+                        console.error("Error parsing message JSON:", parseError);
+                        parsedMessage = { reportText: "Error report message" };
+                    }
+                } else {
+                    parsedMessage = { reportText: "No message available" }; // Fallback for null message
+                }
+
+                // Return the report object with parsed message or fallback value
                 return {
                     ...report,
-                    reportText: parsedMessage.reportText,
+                    reportText: parsedMessage?.reportText || "No message available",
                 };
             });
-            if (data.length <= 0) {
+
+            // Check if any reports were found
+            if (data.length === 0) {
                 errorMessage = "No reports were found";
                 return { success: false, message: errorMessage };
             }
 
-
-            return{ success: true, raports: data};
+            // Return the parsed reports
+            return { success: true, raports: data };
         } catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
+            // Handle different types of errors
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
                 errorMessage = error.response.data.message || "Unknown error";
             } else if (error.response) {
                 errorMessage = error.response;
@@ -48,9 +62,7 @@ export const AdminAccountFunctions = () => {
         }
     };
 
-
     return {
-        getReports
+        getReports,
     };
 };
-

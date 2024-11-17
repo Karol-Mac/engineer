@@ -44,6 +44,7 @@ public class SecurityConfig {
                                  */
                                 .requestMatchers(HttpMethod.GET, "/api/comments").hasAnyRole(RoleBeans.getAllRoles())
                                 .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole(RoleBeans.getAllRoles())
+//                                .requestMatchers(HttpMethod.GET, "/api/reports").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

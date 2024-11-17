@@ -71,17 +71,17 @@ const AdminReportPanelpage = () => {
     function getTbody(selectedRaports) {
         return <tbody>
         {selectedRaports.map((report) => {
-            const parsedMessage = JSON.parse(report.message).reportText || report.message;
+            const parsedMessage = report.message || "No message available";
             return (
                 <tr key={report.id}>
                     <td>{report.id}</td>
                     <td>{new Date(report.createdAt).toLocaleString()}</td>
                     <td>{report.isDone ? "Yes" : "No"}</td>
                     <td>{parsedMessage}</td>
-                    {currentReportType === REPORTTYPES.comment ? <td>{report.commentId}</td> : <td>{report.productID}</td>}
+                    {currentReportType === REPORTTYPES.comment ? <td>{report.commentId}</td> : <td>{report.productId}</td>}
+                    <td>{report.reporterName}</td>
                     <td>{report.authorName}</td>
                     <td>{report.authorId}</td>
-                    <td>{report.authorType}</td>
                 </tr>
             );
         })}
