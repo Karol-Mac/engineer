@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {AdminAccountFunctions} from "../components/functions/AdminAccountFunctions";
 
 const AdminReportPanelpage = () => {
+    const {getReports} = AdminAccountFunctions();
 
     const REPORTTYPES = {
         comment: "Comment",
@@ -15,20 +16,19 @@ const AdminReportPanelpage = () => {
         all: "all",
         new: "new",
         old: "old"
-    }
+    };
 
-    const {getReports} = AdminAccountFunctions();
     const [allReports, setAllReports] = useState([]);
     const [commentReports, setCommentReports] = useState([]);
     const [productReports, setProductReports] = useState([]);
-
     const [currentReportScope, setCurrentReportScope] = useState(REPORTSCOPE.all);
     const [currentReportType, setCurrentReportType] = useState(REPORTTYPES.comment);
-
     const [warningMessage, setWarningMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
 
     useEffect(() => {
-        const fetchAllProductDetails = async () => {
+        const fetchAllReports = async () => {
+            setIsLoading(true); // Start loading
             await getReports().then(
                 async (result) => {
                     if (result.success) {
@@ -41,101 +41,122 @@ const AdminReportPanelpage = () => {
                         setCommentReports(commentReportsList);
                         setProductReports(productReportsList);
 
-
-
-                        console.log("Products:", result.productDetails);
+                        console.log("Reports:", allReports);
                     } else {
-                        setWarningMessage(result.message || "Error fetching reports.");                    }
+                        setWarningMessage(result.message || "Error fetching reports.");
+                    }
+                    setIsLoading(false); // End loading
                 }
-            )
-        }
+            );
+        };
 
-        fetchAllProductDetails();
-    },[]);
+        fetchAllReports();
+    }, []);
+
+    function getThead() {
+        return <thead>
+        <tr>
+            <th>ID</th>
+            <th>Created At</th>
+            <th>Is Done</th>
+            <th>Message</th>
+            {currentReportType === REPORTTYPES.comment ? <th>Comment ID</th> : <th>Product ID</th>}
+            <th>Reporter Name</th>
+            <th>Author ID</th>
+            <th>Author Type</th>
+        </tr>
+        </thead>;
+    }
+
+    function getTbody(selectedRaports) {
+        return <tbody>
+        {selectedRaports.map((report) => {
+            const parsedMessage = JSON.parse(report.message).reportText || report.message;
+            return (
+                <tr key={report.id}>
+                    <td>{report.id}</td>
+                    <td>{new Date(report.createdAt).toLocaleString()}</td>
+                    <td>{report.isDone ? "Yes" : "No"}</td>
+                    <td>{parsedMessage}</td>
+                    {currentReportType === REPORTTYPES.comment ? <td>{report.commentId}</td> : <td>{report.productID}</td>}
+                    <td>{report.authorName}</td>
+                    <td>{report.authorId}</td>
+                    <td>{report.authorType}</td>
+                </tr>
+            );
+        })}
+        </tbody>;
+    }
 
     const renderRaports = () => {
-        if(commentReports.length === 0){
-            return <p>No comments reports found.</p>
+        if (isLoading) {
+            return <p>Loading reports...</p>;
         }
 
-        let selectedRaports;
-        if(currentReportType === REPORTTYPES.comment){
+        if (commentReports.length === 0 && currentReportType === REPORTTYPES.comment) {
+            return <p>No comments reports found.</p>;
+        }
+
+        if (productReports.length === 0 && currentReportType === REPORTTYPES.product) {
+            return <p>No product reports found.</p>;
+        }
+
+        let selectedRaports = [];
+        if (currentReportType === REPORTTYPES.comment) {
             selectedRaports = commentReports;
-        }else if(currentReportType === REPORTTYPES.product){
+        } else if (currentReportType === REPORTTYPES.product) {
             selectedRaports = productReports;
-        }else{
-            return <p>Wrongly selected report Type</p>
+        } else {
+            return <p>Invalid report type selected</p>;
         }
 
-        if(currentReportScope === REPORTSCOPE.new){
-            selectedRaports.filter((raports) => raports.isDone === false);
-        }else if(currentReportScope === REPORTSCOPE.old){
-            selectedRaports.filter((raports) => raports.isDone === true)
+        if (currentReportScope === REPORTSCOPE.new) {
+            selectedRaports = selectedRaports.filter((report) => !report.isDone);
+        } else if (currentReportScope === REPORTSCOPE.old) {
+            selectedRaports = selectedRaports.filter((report) => report.isDone);
         }
 
         return (
             <div>
-                <h2>{currentReportType.toString()} {currentReportScope === true ? "New" : "All"}Reports</h2>
+                <h2>{currentReportType} Reports - {currentReportScope}</h2>
                 <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Created At</th>
-                        <th>Is Done</th>
-                        <th>Message</th>
-                        <th>Comment ID</th>
-                        <th>Reporter Name</th>
-                        <th>Author ID</th>
-                        <th>Author Type</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {selectedRaports.map((report) => {
-                        const parsedMessage = JSON.parse(report.message).reportText || report.message;
-                        return (
-                            <tr key={report.id}>
-                                <td>{report.id}</td>
-                                <td>{new Date(report.createdAt).toLocaleString()}</td>
-                                <td>{report.isDone ? "Yes" : "No"}</td>
-                                <td>{parsedMessage}</td>
-                                <td>{report.commentId}</td>
-                                <td>{report.reporterName}</td>
-                                <td>{report.authorId}</td>
-                                <td>{report.authorType}</td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
+                    {getThead()}
+                    {getTbody(selectedRaports)}
                 </table>
             </div>
-        )
-    }
+        );
+    };
 
     const handleTypeChange = (selectedType) => {
+        console.log("Setting type to:", selectedType);
         setCurrentReportType(selectedType);
-    }
+    };
 
     const handleScopeChange = (selectedScope) => {
+        console.log("Setting scope to:", selectedScope);
         setCurrentReportScope(selectedScope);
-    }
+    };
+
+    const renderWarning = () => {
+        return warningMessage ? <p style={{ color: "red" }}>{warningMessage}</p> : null;
+    };
 
     return (
         <div>
             <h1>Admin Report Panel</h1>
-            <div id="raportTypeSelection">
-                <p onClick={handleTypeChange(REPORTTYPES.comment)}>Select Comments Raports</p>
-                <p onClick={handleTypeChange(REPORTTYPES.product)}>Select Products Raports</p>
-
+            <div id="reportTypeSelection">
+                <p onClick={() => handleTypeChange(REPORTTYPES.comment)}>Select Comment Reports</p>
+                <p onClick={() => handleTypeChange(REPORTTYPES.product)}>Select Product Reports</p>
             </div>
 
-            <div id="raportScopeSelection">
-                <p onClick={handleTypeChange(REPORTSCOPE.new)}>new</p>
-                <p onClick={handleTypeChange(REPORTSCOPE.old)}>old</p>
-                <p onClick={handleTypeChange(REPORTSCOPE.all)}>all</p>
+            <div id="reportScopeSelection">
+                <p onClick={() => handleScopeChange(REPORTSCOPE.new)}>New</p>
+                <p onClick={() => handleScopeChange(REPORTSCOPE.old)}>Old</p>
+                <p onClick={() => handleScopeChange(REPORTSCOPE.all)}>All</p>
             </div>
 
-            {renderRaports}
-            {warningMessage && <p style={{ color: "red" }}>{warningMessage}</p>}
+            {renderRaports()}
+            {renderWarning()}
         </div>
     );
 };

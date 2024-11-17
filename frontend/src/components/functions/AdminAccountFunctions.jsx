@@ -6,6 +6,7 @@ export const AdminAccountFunctions = () => {
         try {
             const getReportsURL = "http://localhost:8080/api/reports";
             const AuthorizationToken = localStorage.getItem("accessToken");
+            console.log("Authorization Token:", AuthorizationToken);
 
             const response = await axios.get(getReportsURL,{
                 headers: {
