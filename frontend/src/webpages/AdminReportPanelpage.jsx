@@ -6,123 +6,136 @@ import {AdminAccountFunctions} from "../components/functions/AdminAccountFunctio
 
 const AdminReportPanelpage = () => {
 
+    const REPORTTYPES = {
+        comment: "Comment",
+        product: "Product"
+    };
+
+    const REPORTSCOPE = {
+        all: "all",
+        new: "new",
+        old: "old"
+    }
+
     const {getReports} = AdminAccountFunctions();
-    const [reports, setReports] = useState([]);
+    const [allReports, setAllReports] = useState([]);
+    const [commentReports, setCommentReports] = useState([]);
+    const [productReports, setProductReports] = useState([]);
+
+    const [currentReportScope, setCurrentReportScope] = useState(REPORTSCOPE.all);
+    const [currentReportType, setCurrentReportType] = useState(REPORTTYPES.comment);
+
+    const [warningMessage, setWarningMessage] = useState("");
 
     useEffect(() => {
         const fetchAllProductDetails = async () => {
             await getReports().then(
                 async (result) => {
                     if (result.success) {
+                        const allReports = result.raports;
+
+                        const commentReportsList = allReports.filter((report) => report.commentId !== null);
+                        const productReportsList = allReports.filter((report) => report.productId !== null);
+
+                        setAllReports(allReports);
+                        setCommentReports(commentReportsList);
+                        setProductReports(productReportsList);
 
 
-
-
-                        setProductDetails(result.productDetails);
-
-                        const roundedValue = Number(result.productDetails.price * (result.productDetails.weight/1000.0)).toFixed(2);
-                        setValuePer100Units(roundedValue);
-
-
-                        const [sellerResult, productImageResult] = await Promise.all([
-                            getSellerInformation({sellerID: result.productDetails.sellerId}),
-                            getImageByName({imageName: result.productDetails.imageName}),
-                        ]);
-
-                        if (productImageResult.success){
-                            setProductImage(productImageResult.image);
-                        }
-
-                        if (sellerResult.success) {
-                            setSellerDetails(sellerResult.sellerDetails);
-                            const sellerImageResults = await getImageByName({imageName: sellerResult.sellerDetails.imageName});
-                            if (sellerImageResults.success) {
-                                setSellerImage(sellerImageResults.image);
-                            }
-                        }
 
                         console.log("Products:", result.productDetails);
                     } else {
-                        console.log("Error fetching products:", result.message);
-                    }
+                        setWarningMessage(result.message || "Error fetching reports.");                    }
                 }
             )
         }
 
         fetchAllProductDetails();
-    },[id]);
+    },[]);
 
-
-    const FIELDTYPES = getCredentialTypes();
-
-    const [editingField, setEditingField] = useState(null);
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [warningMessage, setWarningMessage] = useState("");
-
-    useEffect(() => {
-
-    }, [editingField]);
-
-
-    const renderEditField = (fieldType) => {
-        if (fieldType === FIELDTYPES.username && editingField === FIELDTYPES.username) {
-            return (
-                <div>
-                    <input
-                        type="text"
-                        value={username}
-                        placeholder="Enter new username"
-                        onChange={(e) => {
-                            setUsername(e.target.value);
-                            setWarningMessage(null);
-                        }}
-                    />
-                    <button onClick={handleClick}>Save New Username</button>
-                </div>
-            );
+    const renderRaports = () => {
+        if(commentReports.length === 0){
+            return <p>No comments reports found.</p>
         }
 
-        if (fieldType === FIELDTYPES.password && editingField === FIELDTYPES.password) {
-            return (
-                <div>
-                    <input
-                        type="password"
-                        value={password}
-                        placeholder="Enter new password"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                            setWarningMessage(null);
-                        }}
-                    />
-                    <input
-                        type="password"
-                        value={confirmPassword}
-                        placeholder="Confirm new password"
-                        onChange={(e) => {
-                            setConfirmPassword(e.target.value);
-                            setWarningMessage(null);
-                        }}
-                    />
-                    <button onClick={handleClick}>Save New Password</button>
-                </div>
-            );
+        let selectedRaports;
+        if(currentReportType === REPORTTYPES.comment){
+            selectedRaports = commentReports;
+        }else if(currentReportType === REPORTTYPES.product){
+            selectedRaports = productReports;
+        }else{
+            return <p>Wrongly selected report Type</p>
         }
 
-        return null;
-    };
+        if(currentReportScope === REPORTSCOPE.new){
+            selectedRaports.filter((raports) => raports.isDone === false);
+        }else if(currentReportScope === REPORTSCOPE.old){
+            selectedRaports.filter((raports) => raports.isDone === true)
+        }
 
+        return (
+            <div>
+                <h2>{currentReportType.toString()} {currentReportScope === true ? "New" : "All"}Reports</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Created At</th>
+                        <th>Is Done</th>
+                        <th>Message</th>
+                        <th>Comment ID</th>
+                        <th>Reporter Name</th>
+                        <th>Author ID</th>
+                        <th>Author Type</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {selectedRaports.map((report) => {
+                        const parsedMessage = JSON.parse(report.message).reportText || report.message;
+                        return (
+                            <tr key={report.id}>
+                                <td>{report.id}</td>
+                                <td>{new Date(report.createdAt).toLocaleString()}</td>
+                                <td>{report.isDone ? "Yes" : "No"}</td>
+                                <td>{parsedMessage}</td>
+                                <td>{report.commentId}</td>
+                                <td>{report.reporterName}</td>
+                                <td>{report.authorId}</td>
+                                <td>{report.authorType}</td>
+                            </tr>
+                        );
+                    })}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+
+    const handleTypeChange = (selectedType) => {
+        setCurrentReportType(selectedType);
+    }
+
+    const handleScopeChange = (selectedScope) => {
+        setCurrentReportScope(selectedScope);
+    }
 
     return (
         <div>
-            <h2 onClick={() => selectEditField(FIELDTYPES.username)}>change user name</h2>
-            {renderEditField(FIELDTYPES.username)}
+            <h1>Admin Report Panel</h1>
+            <div id="raportTypeSelection">
+                <p onClick={handleTypeChange(REPORTTYPES.comment)}>Select Comments Raports</p>
+                <p onClick={handleTypeChange(REPORTTYPES.product)}>Select Products Raports</p>
 
-            <h2 onClick={() => selectEditField(FIELDTYPES.password)}>change password</h2>
-            {renderEditField(FIELDTYPES.password)}
+            </div>
 
-            {warningMessage && <p>{warningMessage}</p>}
+            <div id="raportScopeSelection">
+                <p onClick={handleTypeChange(REPORTSCOPE.new)}>new</p>
+                <p onClick={handleTypeChange(REPORTSCOPE.old)}>old</p>
+                <p onClick={handleTypeChange(REPORTSCOPE.all)}>all</p>
+            </div>
+
+            {renderRaports}
+            {warningMessage && <p style={{ color: "red" }}>{warningMessage}</p>}
         </div>
     );
 };

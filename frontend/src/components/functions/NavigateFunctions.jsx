@@ -55,6 +55,10 @@ export const NavigateFunctions = () => {
         navigate("/account/setting");
     }
 
+    const openAdminpanelpage = () =>{
+        navigate("/account/adminpanel");
+    }
+
     const openContactpage = () =>{
         navigate("/contact");
     }
@@ -99,7 +103,8 @@ export const NavigateFunctions = () => {
         openSearchpage,
         openRaportpage,
         openProductpage,
-        openSellerProductspage
+        openSellerProductspage,
+        openAdminpanelpage
     };
 };
 

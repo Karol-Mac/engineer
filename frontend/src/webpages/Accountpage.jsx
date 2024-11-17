@@ -4,7 +4,7 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 const Accountpage = () => {
 
     const {accountsVariants, currentAccountType} = LoginFunctions();
-    const {openFavouritepage, openAccountSettingpage, openSellerProductspage} = NavigateFunctions();
+    const {openFavouritepage, openAccountSettingpage, openSellerProductspage, openAdminpanelpage} = NavigateFunctions();
 
     const accountTypes = accountsVariants();
     const accountType = currentAccountType();
@@ -25,7 +25,7 @@ const Accountpage = () => {
             case accountTypes.ADMIN :{
                 return  <div>
                             <h3 onClick={openAccountSettingpage}>Edit account</h3>
-                            <h3>Admin report panel</h3>
+                            <h3 onClick={openAdminpanelpage}>Admin report panel</h3>
                         </div>
             }
 

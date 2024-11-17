@@ -14,6 +14,7 @@ import Productpage from "../webpages/Productpage";
 import Reportpage from "../webpages/Reportpage";
 import AccountSettingpage from "../webpages/AccountSettingpage";
 import SellerProductsListpage from "../webpages/SellerProductsListpage";
+import AdminReportPanelpage from "../webpages/AdminReportPanelpage";
 
 const RoutesConfig = () => {
 
@@ -37,7 +38,12 @@ const RoutesConfig = () => {
 
             {accessToken && <Route path="/account/setting" exact element={<AccountSettingpage/>} />}
             <Route path="/account/setting" element={<Navigate replace to="/login" />} />
+
             <Route path="/account/products" exact element={<SellerProductsListpage/>} />
+
+            {accessToken && <Route path="/account/adminpanel" exact element={<AdminReportPanelpage/>} />}
+            <Route path="/account/adminpanel" element={<Navigate replace to="/login" />} />
+
 
             <Route path="/contact" exact element={<ContactUspage/>} />
 
