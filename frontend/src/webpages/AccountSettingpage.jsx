@@ -2,6 +2,9 @@ import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {GenericAccountFunctions} from "../components/functions/GenericAccountFunctions";
 import {useEffect, useState} from "react";
+import styles from '../css/Accountpage.module.css';
+import HeaderSimple from "../components/generic/HeaderSimple";
+import Footer from "../components/generic/Footer"; // Import the CSS module
 
 const AccountSettingpage = () => {
 
@@ -81,7 +84,7 @@ const AccountSettingpage = () => {
                             setWarningMessage(null);
                         }}
                     />
-                    <button onClick={handleClick}>Save New Username</button>
+                    <button onClick={handleClick} className={styles.saveUsernameButton}>Save New Username</button>
                 </div>
             );
         }
@@ -107,7 +110,7 @@ const AccountSettingpage = () => {
                             setWarningMessage(null);
                         }}
                     />
-                    <button onClick={handleClick}>Save New Password</button>
+                    <button onClick={handleClick} className={styles.savePasswordButton}>Save New Password</button>
                 </div>
             );
         }
@@ -118,13 +121,17 @@ const AccountSettingpage = () => {
 
     return (
         <div>
-            <h2 onClick={() => selectEditField(FIELDTYPES.username)}>change user name</h2>
+            <HeaderSimple/>
+            <div className={styles.content}>
+            <h2 onClick={() => selectEditField(FIELDTYPES.username)} className={styles.button}>change user name</h2>
             {renderEditField(FIELDTYPES.username)}
 
-            <h2 onClick={() => selectEditField(FIELDTYPES.password)}>change password</h2>
+            <h2 onClick={() => selectEditField(FIELDTYPES.password)} className={styles.button}>change password</h2>
             {renderEditField(FIELDTYPES.password)}
 
             {warningMessage && <p>{warningMessage}</p>}
+            </div>
+            <Footer/>
         </div>
     );
 };

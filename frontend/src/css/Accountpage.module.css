@@ -74,3 +74,39 @@
         padding: 8px 16px;
     }
 }
+
+/* Accountpage.module.css */
+
+.saveUsernameButton {
+    cursor: pointer;
+    color: #343a40;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: 1px solid #343a40;
+    border-radius: 5px;
+    background-color: #d1d1e0; /* Blue background */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.saveUsernameButton:hover {
+    color: #212529;
+    background-color: #b5c5d4; /* Darker blue on hover */
+}
+
+.savePasswordButton {
+    cursor: pointer;
+    color: #343a40;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: 1px solid #343a40;
+    border-radius: 5px;
+    background-color: #d1d1e0; /* Gray background */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.savePasswordButton:hover {
+    color: #212529;
+    background-color: #b5c5d4; /* Darker gray on hover */
+}
