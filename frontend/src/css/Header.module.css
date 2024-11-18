@@ -1,0 +1,54 @@
+/* Header.module.css */
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.HeaderLogoImg {
+    height: 50px;
+    cursor: pointer;
+}
+
+.rightItems {
+    display: flex;
+    align-items: center;
+}
+
+.LoginBtn, .SignupBtn, .FavouriteImg, .SideMenuLogoImg {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.FavouriteImg, .SideMenuLogoImg {
+    height: 30px;
+    width: auto;
+    max-width: 50px;
+}
+
+@media (max-width: 600px) {
+    .header {
+        padding: 5px 10px;
+    }
+
+    .HeaderLogoImg {
+        height: 40px;
+        max-width: 80px;
+    }
+
+    .LoginBtn, .SignupBtn, .FavouriteImg, .SideMenuLogoImg {
+        margin-left: 10px;
+    }
+
+    .FavouriteImg, .SideMenuLogoImg {
+        height: 25px;
+        max-width: 40px;
+    }
+}

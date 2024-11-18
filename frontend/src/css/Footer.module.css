@@ -15,3 +15,13 @@
 .footerLink:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+    .footer {
+        padding: 10px;
+    }
+
+    .footerLink {
+        margin: 5px;
+    }
+}
