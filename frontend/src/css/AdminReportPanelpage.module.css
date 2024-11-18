@@ -1,0 +1,121 @@
+/* AdminReportPanelpage.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ensure it takes the full height of the viewport */
+}
+
+.reportTypeSelectionWrapper, .reportScopeSelectionWrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto; /* Center the wrapper */
+}
+
+.reportTypeSelection, .reportScopeSelection {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.selectionItem {
+    cursor: pointer;
+    color: #343a40; /* Dark gray color */
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 1px solid #343a40; /* Dark gray border */
+    background-color: #f8f9fa; /* Light gray background */
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 0; /* Remove border radius */
+}
+
+.reportTypeSelection .selectionItem {
+    width: 50%; /* Each item takes up 50% of the width */
+}
+
+.reportScopeSelection .selectionItem {
+    width: 33.33%; /* Each item takes up 33.33% of the width */
+}
+
+.selectionItem:hover {
+    color: #212529; /* Darker gray on hover */
+    background-color: #e2e6ea; /* Darker gray on hover */
+}
+
+.selectionItem.selected {
+    color: #212529; /* Darker gray */
+    background-color: #d6d8db; /* Darker gray for selected */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    color: #343a40; /* Dark gray color */
+}
+
+p {
+    margin: 5px 0;
+}
+
+p[style*="color: red"] {
+    color: red;
+    font-weight: bold;
+}
+
+.content {
+    flex: 1;
+    padding: 20px 20px 80px; /* Adjust padding to reduce space below HeaderSimple */
+}
+
+@media (max-width: 1200px) {
+    .reportTypeSelection, .reportScopeSelection {
+        width: 90%;
+    }
+
+    .reportTypeSelection .selectionItem {
+        width: 50%;
+    }
+
+    .reportScopeSelection .selectionItem {
+        width: 33.33%;
+    }
+}
+
+@media (max-width: 768px) {
+    .reportTypeSelection, .reportScopeSelection {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .reportTypeSelection .selectionItem, .reportScopeSelection .selectionItem {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

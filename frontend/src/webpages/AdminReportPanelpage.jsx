@@ -3,6 +3,9 @@ import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {GenericAccountFunctions} from "../components/functions/GenericAccountFunctions";
 import {useEffect, useState} from "react";
 import {AdminAccountFunctions} from "../components/functions/AdminAccountFunctions";
+import styles from '../css/AdminReportPanelpage.module.css';
+import HeaderSimple from "../components/generic/HeaderSimple";
+import Footer from "../components/generic/Footer";
 
 const AdminReportPanelpage = () => {
     const {getReports} = AdminAccountFunctions();
@@ -62,6 +65,7 @@ const AdminReportPanelpage = () => {
             <th>Message</th>
             {currentReportType === REPORTTYPES.comment ? <th>Comment ID</th> : <th>Product ID</th>}
             <th>Reporter Name</th>
+            {currentReportType === REPORTTYPES.comment ? <th>Author name</th> : <th>Producent name</th>}
             <th>Author ID</th>
         </tr>
         </thead>;
@@ -142,20 +146,30 @@ const AdminReportPanelpage = () => {
 
     return (
         <div>
-            <h1>Admin Report Panel</h1>
-            <div id="reportTypeSelection">
-                <p onClick={() => handleTypeChange(REPORTTYPES.comment)}>Select Comment Reports</p>
-                <p onClick={() => handleTypeChange(REPORTTYPES.product)}>Select Product Reports</p>
-            </div>
+            <HeaderSimple/>
+            <div   className={styles.content}>
+                <h1>Admin Report Panel</h1>
+                <div className={styles.reportTypeSelectionWrapper}>
+                    <div id="reportTypeSelection" className={styles.reportTypeSelection}>
+                        <p onClick={() => handleTypeChange(REPORTTYPES.comment)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.comment ? styles.selected : ''}`}>Select Comment Reports</p>
+                        <p onClick={() => handleTypeChange(REPORTTYPES.product)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.product ? styles.selected : ''}`}>Select Product Reports</p>
+                    </div>
+                </div>
 
-            <div id="reportScopeSelection">
-                <p onClick={() => handleScopeChange(REPORTSCOPE.new)}>New</p>
-                <p onClick={() => handleScopeChange(REPORTSCOPE.old)}>Old</p>
-                <p onClick={() => handleScopeChange(REPORTSCOPE.all)}>All</p>
-            </div>
+                <div className={styles.reportScopeSelectionWrapper}>
+                    <div id="reportScopeSelection" className={styles.reportScopeSelection}>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.old)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.old ? styles.selected : ''}`}>Old</p>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
+                    </div>
+                </div>
 
-            {renderRaports()}
-            {renderWarning()}
+                <div className={styles.reportTable}>
+                    {renderRaports()}
+                    {renderWarning()}
+                </div>
+            </div>
+            <Footer/>
         </div>
     );
 };
