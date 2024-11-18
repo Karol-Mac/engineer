@@ -1,0 +1,14 @@
+/* HeaderSimple.module.css */
+
+.header {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #d1d1e0;
+    align-items: center;
+}
+
+.HeaderLogoImg {
+    height: 50px;
+    cursor: pointer;
+}

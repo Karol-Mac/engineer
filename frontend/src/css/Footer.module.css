@@ -1,0 +1,17 @@
+/* Footer.module.css */
+
+#footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
+
+.footerLink {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}
