@@ -122,7 +122,7 @@ const AdminReportPanelpage = () => {
         return (
             <div>
                 <h2>{currentReportType} Reports - {currentReportScope}</h2>
-                <table>
+                <table className={styles.reportTable}>
                     {getThead()}
                     {getTbody(selectedRaports)}
                 </table>
@@ -147,27 +147,27 @@ const AdminReportPanelpage = () => {
     return (
         <div>
             <HeaderSimple/>
-            <div   className={styles.content}>
-                <h1>Admin Report Panel</h1>
-                <div className={styles.reportTypeSelectionWrapper}>
-                    <div id="reportTypeSelection" className={styles.reportTypeSelection}>
-                        <p onClick={() => handleTypeChange(REPORTTYPES.comment)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.comment ? styles.selected : ''}`}>Select Comment Reports</p>
-                        <p onClick={() => handleTypeChange(REPORTTYPES.product)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.product ? styles.selected : ''}`}>Select Product Reports</p>
+                <div   className={styles.content}>
+                    <h1>Admin Report Panel</h1>
+                    <div className={styles.reportTypeSelectionWrapper}>
+                        <div id="reportTypeSelection" className={styles.reportTypeSelection}>
+                            <p onClick={() => handleTypeChange(REPORTTYPES.comment)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.comment ? styles.selected : ''}`}>Select Comment Reports</p>
+                            <p onClick={() => handleTypeChange(REPORTTYPES.product)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.product ? styles.selected : ''}`}>Select Product Reports</p>
+                        </div>
                     </div>
-                </div>
 
-                <div className={styles.reportScopeSelectionWrapper}>
-                    <div id="reportScopeSelection" className={styles.reportScopeSelection}>
-                        <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
-                        <p onClick={() => handleScopeChange(REPORTSCOPE.old)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.old ? styles.selected : ''}`}>Old</p>
-                        <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
+                    <div className={styles.reportScopeSelectionWrapper}>
+                        <div id="reportScopeSelection" className={styles.reportScopeSelection}>
+                            <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
+                            <p onClick={() => handleScopeChange(REPORTSCOPE.old)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.old ? styles.selected : ''}`}>Old</p>
+                            <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
+                        </div>
                     </div>
-                </div>
 
-                <div className={styles.reportTable}>
-                    {renderRaports()}
-                    {renderWarning()}
-                </div>
+                    <div className={styles.reportTable}>
+                        {renderRaports()}
+                        {renderWarning()}
+                    </div>
             </div>
             <Footer/>
         </div>

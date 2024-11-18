@@ -1,13 +1,5 @@
 /* AdminReportPanelpage.module.css */
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Ensure it takes the full height of the viewport */
-}
-
 .reportTypeSelectionWrapper, .reportScopeSelectionWrapper {
     display: flex;
     justify-content: center;
@@ -93,6 +85,12 @@ p[style*="color: red"] {
     padding: 20px 20px 80px; /* Adjust padding to reduce space below HeaderSimple */
 }
 
+.reportTableContainer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+}
+
 @media (max-width: 1200px) {
     .reportTypeSelection, .reportScopeSelection {
         width: 90%;
@@ -104,6 +102,10 @@ p[style*="color: red"] {
 
     .reportScopeSelection .selectionItem {
         width: 33.33%;
+    }
+
+    .reportTableContainer {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -117,5 +119,9 @@ p[style*="color: red"] {
     .reportTypeSelection .selectionItem, .reportScopeSelection .selectionItem {
         width: 100%;
         margin: 10px 0;
+    }
+
+    .reportTableContainer {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
