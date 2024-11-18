@@ -1,0 +1,76 @@
+/* Accountpage.module.css */
+
+.accountPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.content {
+    flex: 1;
+    padding: 20px 20px 80px; /* Adjust padding to reduce space below HeaderSimple */
+}
+
+.userContent, .adminContent {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.sellerContent {
+    background-color: #fff3e0;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.button {
+    cursor: pointer;
+    color: #343a40; /* Slightly darker than header */
+    text-decoration: none; /* Remove underline */
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: 1px solid #343a40; /* Slightly darker than header */
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+    color: #212529; /* Even darker on hover */
+    background-color: #e2e6ea;
+}
+
+@media (max-width: 600px) {
+    .header, .footer {
+        padding: 5px 10px;
+    }
+
+    .content {
+        padding: 50px 10px 70px;
+    }
+
+    .button {
+        padding: 8px 16px;
+    }
+}
