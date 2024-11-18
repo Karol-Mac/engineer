@@ -28,4 +28,6 @@ public class ReportDto {
     private String reporterName;
 
     private String authorName;
+
+    private Long authorId;
 }

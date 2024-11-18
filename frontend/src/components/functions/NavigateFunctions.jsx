@@ -44,8 +44,19 @@ export const NavigateFunctions = () => {
         // console.log("queryParams = "+queryParams);
         navigate(`/search?${queryParams}`);
     }
-    const openAccountSettingpage = () =>{
+    const openAccountpage = () =>{
         navigate("/account");
+    }
+    const openSellerProductspage = () =>{
+        navigate("/account/products");
+    }
+
+    const openAccountSettingpage = () =>{
+        navigate("/account/setting");
+    }
+
+    const openAdminpanelpage = () =>{
+        navigate("/account/adminpanel");
     }
 
     const openContactpage = () =>{
@@ -86,11 +97,14 @@ export const NavigateFunctions = () => {
         openSignuppage,
         openHomepage,
         openCommentspage,
+        openAccountpage,
         openAccountSettingpage,
         openContactpage,
         openSearchpage,
         openRaportpage,
         openProductpage,
+        openSellerProductspage,
+        openAdminpanelpage
     };
 };
 

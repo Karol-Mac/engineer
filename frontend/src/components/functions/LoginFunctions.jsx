@@ -5,6 +5,13 @@ import {NavigateFunctions} from "./NavigateFunctions";
 export const LoginFunctions = () => {
     const {openHomepage} = NavigateFunctions();
 
+    const ROLES = {
+        USER: "USER",
+        ADMIN: "ADMIN",
+        SELLER: "SELLER",
+    };
+
+
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("tokenType");
@@ -134,6 +141,15 @@ export const LoginFunctions = () => {
         return tokenType == "SELLER" ? true : false;
     };
 
+    const currentAccountType = () => {
+        const tokenType = localStorage.getItem("tokenType");
+        return tokenType == null ? "NULL" : tokenType;
+    }
+
+    const accountsVariants = () => {
+        return ROLES;
+    }
+
     return {
         handleLogout,
         handleLogin,
@@ -142,7 +158,9 @@ export const LoginFunctions = () => {
         isUserLogged,
         isNormalUser,
         isAdminUser,
-        isSeller
+        isSeller,
+        accountsVariants,
+        currentAccountType
     };
 };
 

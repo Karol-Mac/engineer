@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 
 import Homepage from '../webpages/Homepage';
@@ -12,11 +12,14 @@ import CompareProductpage from "../webpages/CompareProductpage";
 import Searchpage from "../webpages/Searchpage";
 import Productpage from "../webpages/Productpage";
 import Reportpage from "../webpages/Reportpage";
+import AccountSettingpage from "../webpages/AccountSettingpage";
+import SellerProductsListpage from "../webpages/SellerProductsListpage";
+import AdminReportPanelpage from "../webpages/AdminReportPanelpage";
 
 const RoutesConfig = () => {
-    const accessToken = localStorage.getItem("accessToken");
-    const tokenType = localStorage.getItem("tokenType");
-    
+
+    const accessToken = useState(localStorage.getItem("accessToken"));
+    const tokenType = useState(localStorage.getItem("tokenType"));
 
     return (
         <Routes>
@@ -30,7 +33,18 @@ const RoutesConfig = () => {
             <Route path="/add" exact element={<AddProductpage/>} />
             <Route path="/report/:reportType/:reportID" exact element={<Reportpage />} />
 
-            <Route path="/account" exact element={<Accountpage/>} />
+            {accessToken && <Route path="/account" exact element={<Accountpage/>} />}
+            <Route path="/account" element={<Navigate replace to="/login" />} />
+
+            {accessToken && <Route path="/account/setting" exact element={<AccountSettingpage/>} />}
+            <Route path="/account/setting" element={<Navigate replace to="/login" />} />
+
+            <Route path="/account/products" exact element={<SellerProductsListpage/>} />
+
+            {accessToken && <Route path="/account/adminpanel" exact element={<AdminReportPanelpage/>} />}
+            <Route path="/account/adminpanel" element={<Navigate replace to="/login" />} />
+
+
             <Route path="/contact" exact element={<ContactUspage/>} />
 
             <Route path="/search" exact element={<Searchpage/>} />

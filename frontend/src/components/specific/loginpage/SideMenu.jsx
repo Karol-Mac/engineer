@@ -5,7 +5,7 @@ import {NavigateFunctions} from "../../functions/NavigateFunctions"
 import {LoginFunctions} from "../../functions/LoginFunctions"; //not imported as default therefore it has to be in curly brackets
 
 const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than display login + Register else display
-    const {openCommentspage, openAccountSettingpage, openComparepage} = NavigateFunctions()
+    const {openCommentspage, openAccountpage, openComparepage} = NavigateFunctions()
     const {isUserLogged,handleLogout} = LoginFunctions()
 
     const [isSmbLogged, setIsSmbLogged] = useState(false);
@@ -39,13 +39,13 @@ const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than dis
                 <p>Comments</p>
             </div>
             <br /> {/* for debug */}
-            <div onClick={openAccountSettingpage} id="AccountSettingImg">
+            <div onClick={openAccountpage} id="AccountSettingImg">
                 {/*<img src="AccountSettingLogoImg.jpg" alt="AccountSettingLogoImg.jpg" id="AccountSettingImg2"/>*/}
                 <p>Your account</p>
             </div>
             <br /> {/* for debug */}
             <div id="DarkModeSideMenu">
-                <div onClick={openAccountSettingpage} id="DarkModeImg">
+                <div onClick={openAccountpage} id="DarkModeImg">
                     {/*<img src="DarkModeLogoImg.jpg" alt="DarkModeLogoImg.jpg" id="DarkModeLogoImg"/>*/}
                     <p>Dark mode</p>
                     {/*/!*<input type="checkbox"/>*!/  dodać toggle button?*/}

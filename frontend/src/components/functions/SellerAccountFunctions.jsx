@@ -87,9 +87,47 @@ export const SellerAccountFunctions = () => {
         }
     }
 
+    const getSellerProducts = async() => {
+        let errorMessage;
+        try {
+            let getSellerProducts= "http://localhost:8080/api/products/seller";
+            const AuthorizationToken = localStorage.getItem("accessToken");
+
+            const response = await axios.get(getSellerProducts, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`
+                }
+            });
+
+            let products = response.data;
+
+            if(products.length <= 0){
+                errorMessage = "No product were found";
+                return{ success: false, message: errorMessage};
+            }
+
+            products = products.sort((dateA,dateB) => new Date(dateB.updatedAt) - new Date(dateA.updatedAt));
+
+            return{ success: true, foundProducts: products};
+        }catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ){
+                errorMessage = error.response.data.message || "Unknown error";
+            }else if(error.response){
+                errorMessage = error.response;
+            }
+
+            return{ success: false, message: errorMessage};
+        }
+    }
+
     return {
         getSellerInformation,
-        addNewProduct
+        addNewProduct,
+        getSellerProducts
     };
 };
 
