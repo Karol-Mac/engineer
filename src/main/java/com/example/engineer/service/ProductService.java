@@ -2,6 +2,7 @@ package com.example.engineer.service;
 
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,4 +23,6 @@ public interface ProductService {
     String deleteProduct(long productId, String email);
 
     List<FreshProductDto> getSellerProducts(String email);
+
+    List<ProductDto> getSellerProductDtos(String email);
 }

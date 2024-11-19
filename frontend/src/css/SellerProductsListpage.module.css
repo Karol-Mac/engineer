@@ -1,0 +1,115 @@
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.productList {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: flex-start; /* Align to the left */
+    margin-top: 20px;
+}
+
+.productItem {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    width: calc(25% - 20px); /* 4 items per row */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    position: relative; /* For positioning buttons */
+}
+
+.productItem:hover {
+    transform: scale(1.05);
+}
+
+.productImage {
+    width: 30%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.productDetails {
+    text-align: right; /* Align text to the right */
+}
+
+.productName {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.productPrice {
+    font-size: 1rem;
+    color: #28a745;
+    margin-bottom: 5px;
+}
+
+.sellerInfo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align seller info to the right */
+    margin-top: 5px;
+}
+
+.sellerImage {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px; /* Adjust margin to the left */
+}
+
+.sellerName {
+    font-size: 1rem;
+}
+
+.productActions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.productWeight {
+    text-align: right; /* Align text to the right */
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+/* Media queries for mobile responsiveness */
+@media (max-width: 768px) {
+    .productItem {
+        width: calc(50% - 20px); /* 2 items per row */
+    }
+}
+
+@media (max-width: 480px) {
+    .productItem {
+        width: calc(100% - 20px); /* 1 item per row */
+    }
+
+    .productDetails {
+        text-align: left; /* Align text to the left */
+    }
+
+    .sellerInfo {
+        justify-content: flex-start; /* Align seller info to the left */
+    }
+}

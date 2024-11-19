@@ -29,7 +29,7 @@ const Searchpage = () => {
 
     useEffect(() => {
         // console.log("Searched product name : "+getSearchedProductName(searchParams));
-        
+
         const handleFoundProducts = async () =>{
             // console.log("Looking for "+searchedProduct);
             await getSearchedProducts({productName: searchedProduct}).then(
@@ -99,9 +99,11 @@ const Searchpage = () => {
                                     productPrice: product.price,
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
+                                    productWeight: product.weight,
 
                                 };
                             return (
+
                                 <div key={product.id} className={styles.productContainer}>
                                 <SearchProductElement productData={productData} styles={styles}/>
                                 <br/>

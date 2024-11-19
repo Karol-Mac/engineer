@@ -57,8 +57,8 @@ public class ProductController {
     }
 
     @GetMapping("/seller")
-    public ResponseEntity<List<FreshProductDto>> getSellerProducts(Principal principal){
-        return ResponseEntity.ok(productService.getSellerProducts(principal.getName()));
+    public ResponseEntity<List<ProductDto>> getSellerProducts(Principal principal){
+        return ResponseEntity.ok(productService.getSellerProductDtos(principal.getName()));
     }
 
     @PutMapping("/{id}")

@@ -2,6 +2,7 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Seller;
+import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
 import com.example.engineer.repository.ProductRepository;
@@ -104,4 +105,20 @@ public class ProductServiceImpl implements ProductService {
                        .map(productUtils::mapProductToFresh)
                        .toList();
     }
+
+    @Override
+    @PreAuthorize("hasRole(@sellerRole)")
+    public List<ProductDto> getSellerProductDtos(String email) {
+
+            var products = productRepository.findBySellerEmail(email);
+            if (products.isEmpty()) {
+                throw new NotFoundException("Products", 404);
+            }
+            return products.stream()
+                    .map(product -> productUtils.mapProductToDto(product, email)) // Explicitly pass `product` and `email`
+                    .toList();
+
+    }
+
+
 }

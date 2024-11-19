@@ -9,6 +9,8 @@ import SearchProductElement from "../components/specific/searchpage/SearchProduc
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
+import styles from "../css/SellerProductsListpage.module.css";
+
 
 const SellerProductsListpage = () => {
     const {getSearchedProductName} = QueryParamsFunctions();
@@ -50,6 +52,7 @@ const SellerProductsListpage = () => {
                                     const sellerImageResults = await getImageByName({imageName: sellerResult.sellerDetails.imageName});
                                     if (sellerImageResults.success) {
                                         product.sellerImage = sellerImageResults.image;
+
                                     }
                                 }
 
@@ -82,11 +85,13 @@ const SellerProductsListpage = () => {
 
     return (
         <div>
+            <Header/>
+        <div className={styles.pageContainer}>
             {!isLoading && (
-                <div>
-                    <Header/>
-                    <h1>Temp found product with name {searchedProduct}</h1>
-                    <div id="foundProducts">
+                <div className={styles.header}>
+
+                    <h1>Seller Products:</h1>
+                    <div id="foundProducts" className={styles.productList}>
                         {foundProducts.length > 0 ? (
                             foundProducts.map((product) => {
                                 const productData = {
@@ -96,26 +101,28 @@ const SellerProductsListpage = () => {
                                     productPrice: product.price,
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
+                                    productWeight: product.weight,
 
                                 };
                                 return (
-                                    <div key={product.id}>
-                                        <SearchProductElement productData={productData}/>
-                                        <br/>
-                                        <br/>
+                                    <div key={product.id} className={styles.productItem}>
+                                        <SearchProductElement productData={productData} styles={styles} />
                                     </div>
                                 );
-                            })) : (
-                            <div id="foundProducts">
-                                <p>no products found</p>
+                            })
+                        ) : (
+                            <div id="foundProducts" className={styles.productList}>
+                                <p>No products found</p>
                             </div>
-                        )};
+                        )}
                     </div>
-                    <Footer/>
+
+
                 </div>
             )}
-        </div>
 
+        </div>
+    <Footer/></div>
     );
 
 };
