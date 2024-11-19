@@ -2,6 +2,11 @@ import {ReportFunctions} from "../functions/ReportFunctions"
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 import {NavigateFunctions} from "../functions/NavigateFunctions";
 import {LoginFunctions} from "../functions/LoginFunctions";
+import { faFlag as solidFlag } from "@fortawesome/free-solid-svg-icons";
+import { faFlag as regularFlag } from "@fortawesome/free-regular-svg-icons";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import styles from "../../css/ReportButton.module.css";
 
 const ReportButton = ({reportType, givenReportedID}) => {
     const { checkReportTypeProduct,reportComment,reportProduct } = ReportFunctions();
@@ -38,9 +43,10 @@ const ReportButton = ({reportType, givenReportedID}) => {
         // </span>
 
         // <div id="ReportDiv" onClick={handleClick} >
-        <div id="ReportDiv">
-            <button onClick={handleClick} >REPORT</button>
-            {/*<img src="ReportLogoImg.jpg" alt="ReportLogoImg" id="ReportLogoImg" />*/}
+        <div>
+            <button onClick={handleClick} className={styles.reportButton}>
+                <FontAwesomeIcon icon={regularFlag} />
+            </button>
         </div>
 
 

@@ -1,0 +1,13 @@
+.reportButton {
+    font-size: 2rem; /* Adjust the size as needed */
+    cursor: pointer;
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    padding: 0;
+    color: black; /* Set the desired color */
+}
+
+.reportButton .fa-flag {
+    font-size: 2rem; /* Adjust the size as needed */
+    color: black; /* Set the desired color */
+}
