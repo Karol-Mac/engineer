@@ -32,10 +32,10 @@ const ProductCompareToolbar = () => {
 
     return (
         <div className={styles.toolbarContainer}>
-            <a id="CompareImg">
+            <div>
                 {isProductCompareToolbarVisible ? (
                     <div className={styles.toolbarVisible} onClick={handleClick}>
-                        <p className={styles.compareButton}>Compare is visible</p>
+                        <p>Compare is visible</p>
                     </div>
                 ) : (
                     <div>
@@ -43,7 +43,7 @@ const ProductCompareToolbar = () => {
                     </div>
                 )}
                 {/*<img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>*/}
-            </a>
+            </div>
         </div>
     );
 };

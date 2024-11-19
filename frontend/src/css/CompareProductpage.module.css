@@ -5,6 +5,7 @@
     align-items: flex-start;
     margin: 20px 0;
     width: 100%;
+    background-color: #9999b3;
 }
 
 .compareProductColumn {
@@ -15,6 +16,7 @@
     text-align: center;
     padding: 10px;
     border: 1px solid #ddd;
+    background-color: white;
     margin: 0 10px;
 }
 
@@ -42,6 +44,7 @@
     align-items: center;
     margin: 20px 0;
     width: 100%;
+    background-color: #9999b3;
 }
 
 .pageTitle {
@@ -50,6 +53,7 @@
 }
 
 .contentContainer {
+    margin: 20px 0;
     display: grid;
     grid-template-columns: 1fr 3fr;
     width: 100%;
@@ -64,12 +68,13 @@
 }
 
 .legendItem {
-    margin-bottom: 10px;
+    margin: 10px 0;
     font-size: 16px;
 }
 
 .productContainer {
     display: flex;
+    background-color: #9999b3;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
@@ -79,7 +84,15 @@
 .productItem {
     flex: 1;
     padding: 10px;
+    background-color: #9999b3;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+.invisibleImage {
+    width: 100px; /* Set the same width as compared products */
+    height: 100px; /* Set the same height as compared products */
+    visibility: hidden; /* Make the image invisible */
+    margin-bottom: 10px;
 }

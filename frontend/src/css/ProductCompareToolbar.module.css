@@ -1,5 +1,9 @@
 /* frontend/src/css/ProductCompareToolbar.module.css */
 
+/* frontend/src/css/ProductCompareToolbar.module.css */
+
+/* frontend/src/css/ProductCompareToolbar.module.css */
+
 .toolbarContainer {
     display: flex;
     flex-direction: column;
@@ -7,13 +11,20 @@
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    background-color: #f9f9f9;
+    background-color: #d9d9f2;
     width: 100%;
     box-sizing: border-box;
+    position: fixed; /* Fix it to the viewport */
+    top: 80%; /* Place it at 80% of the viewport height */
+    left: 0; /* Align it to the left */
+    z-index: 1000; /* Ensure it is above other elements */
 }
 
 .toolbarVisible {
     display: block;
+    background-color: #c4c9ce; /* Darker gray background for the button area */
+    padding: 10px;
+    border-radius: 4px;
 }
 
 .toolbarHidden {
@@ -22,7 +33,7 @@
 
 .toolbarMessage {
     font-size: 16px;
-    color: #333;
+    color:  #007bff;
     margin: 10px 0;
 }
 

@@ -78,16 +78,19 @@ const CompareProductpage = () => {
             <h1 className={styles.pageTitle}>COMPARE product with</h1>
             <div className={styles.contentContainer}>
                 <div className={styles.legendContainer}>
-                    <div className={styles.legendItem}>Product Name</div>
-                    <div className={styles.legendItem}>Price</div>
-                    <div className={styles.legendItem}>Energetic Value</div>
-                    <div className={styles.legendItem}>Carbs</div>
-                    <div className={styles.legendItem}>Fat</div>
-                    <div className={styles.legendItem}>Fiber</div>
-                    <div className={styles.legendItem}>Weight</div>
-                    <div className={styles.legendItem}>Protein</div>
-                    <div className={styles.legendItem}>Salt</div>
-                    <div className={styles.legendItem}>Seller</div>
+                    <div className={styles.compareProductColumn}>
+                        <img src="" alt="" className={styles.invisibleImage} />
+                        <div className={styles.legendItem}>Product Name</div>
+                        <div className={styles.legendItem}>Price</div>
+                        <div className={styles.legendItem}>Energetic Value</div>
+                        <div className={styles.legendItem}>Carbs</div>
+                        <div className={styles.legendItem}>Fat</div>
+                        <div className={styles.legendItem}>Fiber</div>
+                        <div className={styles.legendItem}>Weight</div>
+                        <div className={styles.legendItem}>Protein</div>
+                        <div className={styles.legendItem}>Salt</div>
+                        <div className={styles.legendItem}>Seller</div>
+                    </div>
                 </div>
                 <div id="comparedProducts" className={styles.productContainer}>
                     {productComparisonDetails.length > 0 ? (
