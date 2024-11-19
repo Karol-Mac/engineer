@@ -1,6 +1,8 @@
 import {FavouriteFunctions} from "../components/functions/FavouriteFunctions";
 import FavouriteProductElement from "../components/specific/favouritepage/FavouriteProductElement";
 import React, {useEffect, useState} from "react";
+import Header from "../components/generic/Header";
+import Footer from "../components/generic/Footer";
 
 const Favouritepage = () => {
     const {removeFavouriteProduct, getFavouriteProducts} = FavouriteFunctions();
@@ -37,7 +39,7 @@ const Favouritepage = () => {
 
     return (
         <div id="FavouriteProduct">
-
+            <Header/>
             {favouriteProducts != null && favouriteProducts.length > 0 ? (
                 favouriteProducts.map((product) => {
                     return (
@@ -54,6 +56,8 @@ const Favouritepage = () => {
                     <p>no favourite products</p>
                 </div>
             )};
+
+            <Footer/>
         </div>
 
     );

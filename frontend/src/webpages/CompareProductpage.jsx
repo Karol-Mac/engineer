@@ -70,8 +70,11 @@ const CompareProductpage = () => {
     }
 
     return (
-        <div className={styles.pageContainer}>
+        <div>
             <Header />
+
+        <div className={styles.pageContainer}>
+
             <h1 className={styles.pageTitle}>COMPARE product with</h1>
             <div className={styles.contentContainer}>
                 <div className={styles.legendContainer}>
@@ -98,6 +101,8 @@ const CompareProductpage = () => {
                     )}
                 </div>
             </div>
+
+        </div>
             <Footer />
         </div>
     );
