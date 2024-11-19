@@ -21,6 +21,15 @@ public class ProductUtils {
 
 
     public ProductDto mapProductToDto(Product product, String email) {
+        var productDto = mapProductToDto(product);
+        var user = userUtil.getUser(email);
+
+        productDto.setIsFavourite(isFavourite(product, user));
+        productDto.setIsReported(isReported(product, user));
+        return productDto;
+    }
+
+    public ProductDto mapProductToDto(Product product) {
         if (product == null) throw new NullPointerException("Product cannot be null");
 
         ProductDto productDto = new ProductDto();
@@ -28,15 +37,9 @@ public class ProductUtils {
         productDto.setId(product.getId());
         productDto.setUpdatedAt(product.getUpdatedAt());
         productDto.setIsHidden(product.getIsHidden());
+        productDto.setIsFavourite(false);
+        productDto.setIsReported(false);
 
-        var user = userUtil.getUserOrNull(email);
-        if (user != null) {
-            productDto.setIsFavourite(isFavourite(product, user));
-            productDto.setIsReported(isReported(product, user));
-        } else {
-            productDto.setIsFavourite(false);
-            productDto.setIsReported(false);
-        }
         return productDto;
     }
 

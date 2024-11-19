@@ -42,12 +42,18 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable long id, Principal principal){
-        return ResponseEntity.ok(productService.getProductById(id, principal == null ? null : principal.getName()));
+
+        return principal == null ?
+                ResponseEntity.ok(productService.getProductById(id)) :
+                ResponseEntity.ok(productService.getProductById(id, principal.getName()));
     }
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProductsByName(@RequestParam String name, Principal principal){
-        return ResponseEntity.ok(productService.getAllProducts(name, principal == null ? null : principal.getName()));
+
+        return principal == null ?
+                ResponseEntity.ok(productService.getAllProducts(name)) :
+                ResponseEntity.ok(productService.getAllProducts(name, principal.getName()));
     }
 
     @GetMapping("/seller")

@@ -12,8 +12,10 @@ public interface ProductService {
                                MultipartFile imageFile, String email) throws IOException;
 
     List<ProductDto> getAllProducts(String productName, final String email);
+    List<ProductDto> getAllProducts(String productName);
 
     ProductDto getProductById(long productId, final String email);
+    ProductDto getProductById(long productId);
 
     FreshProductDto updateProduct(FreshProductDto product, long productId, String email);
 

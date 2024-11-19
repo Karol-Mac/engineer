@@ -53,10 +53,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts(String productName, final String email) {
-
         List<Product> products = productRepository.findByNameContaining(productName);
-
         return products.stream().map(p -> productUtils.mapProductToDto(p, email)).toList();
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts(String productName) {
+        List<Product> products = productRepository.findByNameContaining(productName);
+        return products.stream().map(productUtils::mapProductToDto).toList();
     }
 
     @Override
@@ -64,6 +68,11 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productUtils.getProductFromDB(productId);
         return productUtils.mapProductToDto(product, email);
+    }
+
+    @Override
+    public ProductDto getProductById(long productId) {
+        return productUtils.mapProductToDto(productUtils.getProductFromDB(productId));
     }
 
     @Override
