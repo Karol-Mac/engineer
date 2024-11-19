@@ -8,6 +8,9 @@ import CompareProductsButton from "../components/generic/CompareProductsButton";
 import FavouriteButton from "../components/generic/FavouriteButton";
 import ReportButton from "../components/generic/ReportButton";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
+import Header from "../components/generic/Header";
+import Footer from "../components/generic/Footer";
+import styles from "../css/Productpage.module.css"
 
 const Productpage = () => {
     const{getProductInformation} = SearchProductFunctions();
@@ -69,32 +72,41 @@ const Productpage = () => {
 
 
     return (
-        <div id="Productpage">
-            <div>
-                <img className="ProductPageProductImage" src={productImage} alt={productDetails.imageName}/>
-                <br/>
-                <img className="ProductPageSellerImage" src={sellerImage} alt={sellerDetails.imageName}/>
-            </div>
-            <div>
-                reportType, reportedProductID
+        <div>
+            <Header/>
+        <div id="Productpage" className={styles.productPageContainer}>
+            <div className={styles.productActionsContainer}>
                 <CompareProductsButton givenProductID={productDetails.id}/>
                 <ReportButton reportType={setReportTypeProduct()} givenReportedID={productDetails.id} />
                 <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
             </div>
+            <div className={styles.productImagesContainer}>
+                <img className={styles.productPageProductImage} src={productImage} alt={productDetails.imageName}/>
+                <img className={styles.productPageSellerImage} src={sellerImage} alt={sellerDetails.imageName}/>
+            </div>
 
-           <div>
+
+           <div className={styles.productDetailsContainer}>
+               <div className={styles.productInfo}>
                <h2>{productDetails.name}</h2>
                <h2>Price: {productDetails.price} zł</h2>
                <h3>Price per 100 {productDetails.inGrams ? "g" : "ml"}: {valuePer100Units}</h3>
-               <p>Seller {sellerDetails.shopName}</p>
+               <p>weight {productDetails.weight} {productDetails.inGrams ? "g" : "ml"}</p>
+                   <p>fat: {productDetails.fat}</p>
+                   <p>carbs: {productDetails.carbs}</p>
+                   <p>fiber: {productDetails.fiber}</p>
+                   <p>salt: {productDetails.salt}</p>
+                   <p>protein: {productDetails.protein}</p>
+               </div>
+               <div className={styles.companyInfo}>
+                   {/*<img className={styles.productPageSellerImage} src={sellerImage} alt={sellerDetails.imageName}/>*/}
+                   <p>Seller {sellerDetails.shopName}</p>
+               </div>
            </div>
-            <p>weight {productDetails.weight} {productDetails.inGrams ? "g" : "ml"}</p>
-            <p>fat {productDetails.fat}</p>
-            <p>carbs {productDetails.carbs}</p>
-            <p>fiber {productDetails.fiber}</p>
-            <p>salt {productDetails.salt}</p>
-            <p>protein {productDetails.protein}</p>
+
             <ProductCompareToolbar/>
+        </div>
+            <Footer/>
         </div>
     );
 
