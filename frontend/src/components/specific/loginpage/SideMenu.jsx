@@ -3,6 +3,8 @@
 import {useEffect, useState} from "react";
 import {NavigateFunctions} from "../../functions/NavigateFunctions"
 import {LoginFunctions} from "../../functions/LoginFunctions"; //not imported as default therefore it has to be in curly brackets
+import styles from "../../../css/SideMenu.module.css";
+
 
 const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than display login + Register else display
     const {openCommentspage, openAccountpage, openComparepage} = NavigateFunctions()
@@ -28,24 +30,24 @@ const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than dis
         return ;
     }
     return(
-        <div id="SideMenu">
-            <div onClick={openComparepage} id="CompareImg">
+        <div className={styles.sideMenu} >
+            <div onClick={openComparepage} className={styles.menuItem}>
                 {/*<img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/>*/}
                 <p>Compare</p>
             </div>
             <br /> {/* for debug */}
-            <div  onClick={openCommentspage} id="CommentImg">
+            <div  onClick={openCommentspage} className={styles.menuItem}>
                 {/*<img src="CommentsLogoImg.jpg" alt="CommentsLogoImg.jpg" id="CommentsLogoImg2"/>*/}
                 <p>Comments</p>
             </div>
             <br /> {/* for debug */}
-            <div onClick={openAccountpage} id="AccountSettingImg">
+            <div onClick={openAccountpage} className={styles.menuItem}>
                 {/*<img src="AccountSettingLogoImg.jpg" alt="AccountSettingLogoImg.jpg" id="AccountSettingImg2"/>*/}
                 <p>Your account</p>
             </div>
             <br /> {/* for debug */}
-            <div id="DarkModeSideMenu">
-                <div onClick={openAccountpage} id="DarkModeImg">
+            <div >
+                <div onClick={openAccountpage} className={styles.menuItem}>
                     {/*<img src="DarkModeLogoImg.jpg" alt="DarkModeLogoImg.jpg" id="DarkModeLogoImg"/>*/}
                     <p>Dark mode</p>
                     {/*/!*<input type="checkbox"/>*!/  dodać toggle button?*/}
@@ -54,9 +56,8 @@ const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than dis
             {isSmbLogged ? (
                 <>
                     <br /> {/* for debug */}
-                    <div id="LogoutSideMenu">
-                        <div onClick={handleLogout} id="LoggoutImg">
-                            <img src="LoggoutLogoImg.jpg" alt="LoggoutLogoImg.jpg" id="LoggoutLogoImg"/>
+                    <div className={styles.menuItem}>
+                        <div onClick={handleLogout}  className={styles.menuItem}>
                             <p>Logout</p>
                             {/*/!*<input type="checkbox"/>*!/  dodać toggle button?*/}
                         </div>
