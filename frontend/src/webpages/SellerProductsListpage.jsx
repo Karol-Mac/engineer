@@ -33,26 +33,28 @@ const SellerProductsListpage = () => {
         const handleFoundProducts = async () => {
             await getSellerProducts().then(
                 async (result) => {
+                    console.log("Test-1");
                     if (result.success) {
+                        console.log("Test0");
                         const updatedProductsDetails = await Promise.all(
+
                             result.foundProducts.map(async (product) => {
+                                console.log("Test1");
                                 const [sellerResult, productImageResult] = await Promise.all([
-                                    getSellerInformation({ sellerID: product.sellerID }),
+                                    getSellerInformation({ sellerID: product.sellerId }),
                                     getImageByName({ imageName: product.imageName }),
                                 ]);
 
-                                if (!sellerResult.success) {
-                                    console.log("Error fetching seller information:", sellerResult.message);
-                                }
+                                console.log("Test2");
+
 
                                 if (productImageResult.success) {
                                     product.productImage = productImageResult.image;
                                 } else {
                                     console.log(productImageResult.message);
                                 }
-
-                                if (sellerResult.success) {
-                                    const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
+                                console.log("Test3");
+                                if (sellerResult.success) {const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
                                     if (sellerImageResults.success) {
                                         product.sellerImage = sellerImageResults.image;
                                     }

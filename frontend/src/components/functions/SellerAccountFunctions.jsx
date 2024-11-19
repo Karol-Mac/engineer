@@ -92,22 +92,23 @@ export const SellerAccountFunctions = () => {
         try {
             let getSellerProducts= "http://localhost:8080/api/products/seller";
             const AuthorizationToken = localStorage.getItem("accessToken");
-
+            console.log("TTTT1");
+            console.log("AuthorizationToken:", AuthorizationToken);
             const response = await axios.get(getSellerProducts, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`
                 }
             });
-
+            console.log("TTTT2");
             let products = response.data;
 
             if(products.length <= 0){
                 errorMessage = "No product were found";
                 return{ success: false, message: errorMessage};
             }
-
+            console.log("TTTT3");
             products = products.sort((dateA,dateB) => new Date(dateB.updatedAt) - new Date(dateA.updatedAt));
-
+            console.log("TTTT4");
             return{ success: true, foundProducts: products};
         }catch (error) {
             if (
