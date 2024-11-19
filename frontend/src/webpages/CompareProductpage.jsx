@@ -7,18 +7,22 @@ import {SearchProductFunctions} from "../components/functions/SearchProductFunct
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
 import {CustomEventsControler} from "../components/functions/CustomEventsControler";
+import styles from '../css/CompareProductpage.module.css';
 
 const CompareProductpage = () => {
     const {getProductInformation} = SearchProductFunctions();
     const {addListenerDispatchOnCompareUpdate, removeListenerDispatchOnCompareUpdate} = CustomEventsControler();
     const {getSellerInformation} = SellerAccountFunctions();
     const {getImageByName} = ImagesFunctions();
-    const CompareProducts = JSON.parse(localStorage.getItem("compareProductList"));
+    let CompareProducts = JSON.parse(localStorage.getItem("compareProductList"));
+    CompareProducts = CompareProducts.filter(productID => productID !== null);
+    localStorage.setItem("compareProductList", JSON.stringify(CompareProducts));
 
     const [isLoading,setIsLoading] = useState(true);
 
     const [productComparisonDetails, setProductComparisonDetails] = useState(null);
     console.log("CompareProducts: ", CompareProducts);
+
 
 
     useEffect(() => {
@@ -78,17 +82,18 @@ const CompareProductpage = () => {
 
     console.log("productComparisonDetails after loading: ", productComparisonDetails);
 
-    return (
-        <div>
-            <div>
-                <Header/>
+    return (<div>
+            <Header/>
+        <div className={styles.pageContainer}>
+            <div className={styles.pageTitle}>
+
                 <h1>COMPARE product with</h1>
-                <div id="comparedProducts">
+                <div id="comparedProducts" className={styles.productContainer}>
                     {productComparisonDetails.length > 0 ? (
                         productComparisonDetails.map((product) => {
                             return (
-                                <div key={product.id}>
-                                    <CompareProductElement compareProductData={product}/>
+                                <div key={product.id} className={styles.productItem}>
+                                    <CompareProductElement compareProductData={product} styles={styles}/>
                                 </div>
                             );
                         })) : (
@@ -97,10 +102,10 @@ const CompareProductpage = () => {
                         </div>
                     )};
                 </div>
-                <Footer/>
             </div>
         </div>
-
+        <Footer/>
+        </div>
     );
 
 };

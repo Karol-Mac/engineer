@@ -1,0 +1,67 @@
+
+.compareProductContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.compareProductColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 0 10px;
+}
+
+.compareProductImage {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.compareProductName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.compareProductPrice {
+    font-size: 16px;
+    color: #333;
+}
+
+
+/* CompareProductpage.module.css */
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.pageTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.productContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.productItem {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

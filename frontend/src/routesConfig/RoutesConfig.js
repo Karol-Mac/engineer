@@ -25,17 +25,28 @@ const RoutesConfig = () => {
             <Route path="/" exact element={<Homepage />} />
             <Route path="/login" exact element={<Loginpage />} />
             <Route path="/signup" exact element={<Signuppage />} />
-            {accessToken && <Route path="/favourite" exact element={<Favouritepage />} />}
-            <Route path="/favourite" element={<Navigate replace to="/login" />} />
+
+            {accessToken ? (
+                <>
+                    <Route path="/favourite" exact element={<Favouritepage />} />
+                    <Route path="/account" exact element={<Accountpage />} />
+                    <Route path="/account/setting" exact element={<AccountSettingpage />} />
+                    <Route path="/account/adminpanel" exact element={<AdminReportPanelpage />} />
+                </>
+            ) : (
+                <>
+                    <Route path="/favourite" element={<Navigate replace to="/login" />} />
+                    <Route path="/account" element={<Navigate replace to="/login" />} />
+                    <Route path="/account/setting" element={<Navigate replace to="/login" />} />
+                    <Route path="/account/adminpanel" element={<Navigate replace to="/login" />} />
+                </>
+            )}
+
             <Route path="/add" exact element={<AddProductpage />} />
             <Route path="/report/:reportType/:reportID" exact element={<Reportpage />} />
-            {accessToken && <Route path="/account" exact element={<Accountpage />} />}
-            <Route path="/account" element={<Navigate replace to="/login" />} />
-            {accessToken && <Route path="/account/setting" exact element={<AccountSettingpage />} />}
-            <Route path="/account/setting" element={<Navigate replace to="/login" />} />
+
+
             <Route path="/account/products" exact element={<SellerProductsListpage />} />
-            {accessToken && <Route path="/account/adminpanel" exact element={<AdminReportPanelpage />} />}
-            <Route path="/account/adminpanel" element={<Navigate replace to="/login" />} />
             <Route path="/contact" exact element={<ContactUspage />} />
             <Route path="/search" exact element={<Searchpage />} />
             <Route path="/compare" exact element={<CompareProductpage />} />

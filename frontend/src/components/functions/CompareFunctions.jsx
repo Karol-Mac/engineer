@@ -67,7 +67,7 @@ export const CompareFunctions = () => {
     }
 
     const isSpecificProductSelectedToCompare = (givenProductID) => {
-        // console.log("givenProductID "+givenProductID);
+        console.log("givenProductID "+givenProductID);
         const productId = typeof givenProductID === 'object' ? givenProductID.givenProductID : givenProductID;
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
         // console.log("productID "+productId + ", existingComparisonList"+ existingComparisonList);

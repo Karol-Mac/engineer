@@ -1,6 +1,7 @@
 import {CompareFunctions} from "../functions/CompareFunctions";
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 import {useState} from "react";
+import {FaWeight, FaWeightHanging} from "react-icons/fa";
 
 const CompareProductsButton = ({givenProductID}) => {
     const {toggleProductInComparisonList,isSpecificProductSelectedToCompare} = CompareFunctions();
@@ -21,11 +22,13 @@ const CompareProductsButton = ({givenProductID}) => {
         <div onClick={handleClick} id="CompareImg">
             {productSelectedToCompare ? (
                 <>
-                    <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> {/* Ustawic przekreslona wage (produkt jest juz porownywany */}
+                    <FaWeight size={24} />
+                    {/*<img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> /!* Ustawic przekreslona wage (produkt jest juz porownywany *!/*/}
                 </>
             ) : (
                 <>
-                <img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> {/* Ustawic normalną wage (produkt NIE jest porownywany */}
+                    <FaWeightHanging size={24} />
+                    {/*<img src="CompareLogoImg.jpg" alt="CompareLogoImg.jpg" id="CompareLogoImg2"/> /!* Ustawic normalną wage (produkt NIE jest porownywany *!/*/}
                 </>
             )}
         </div>
