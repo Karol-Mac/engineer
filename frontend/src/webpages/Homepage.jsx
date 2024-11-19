@@ -30,7 +30,7 @@ const Homepage = () => {
     return (
         <div>
             <Header/>
-            <div className={styles.container}>
+            <div className={styles.homepageContainer}>
                 <h1>Site title</h1>
                 <ProductSearchbar styles={styles}/>
                 {/*image carousel*/}
