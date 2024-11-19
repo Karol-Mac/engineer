@@ -1,0 +1,8 @@
+.favouriteButton {
+    font-size: 2rem; /* Adjust the size as needed */
+    cursor: pointer;
+}
+
+.favouriteButton .fa-heart {
+    font-size: 2rem; /* Adjust the size as needed */
+}

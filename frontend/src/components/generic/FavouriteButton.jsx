@@ -2,7 +2,10 @@ import {FavouriteFunctions} from "../functions/FavouriteFunctions";
 import {useEffect, useState} from "react";
 import {LoginFunctions} from "../functions/LoginFunctions";
 import {NavigateFunctions} from "../functions/NavigateFunctions";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import styles from "../../css/FavouriteButton.module.css";
 const FavouriteButton = ({givenProductID, isInFavourite}) => {
     const {removeFavouriteProduct, saveFavouriteProduct, getFavouriteProducts} = FavouriteFunctions();
     const {isUserLogged, isNormalUser, isSeller, isAdminUser} = LoginFunctions();
@@ -64,8 +67,9 @@ const FavouriteButton = ({givenProductID, isInFavourite}) => {
 
     return(
 
-        <div className="favouriteButton" onClick={handleClick}>
-            {productIsSelected ? <p>product is in favourites</p>:<p>product can be added to favourites</p>}
+        <div className={styles.favouriteButton} onClick={handleClick}>
+            {/*{productIsSelected ? <p>product is in favourites</p>:<p>product can be added to favourites</p>}*/}
+            <FontAwesomeIcon icon={productIsSelected ? solidHeart : regularHeart} />
         </div>
     );
 };
