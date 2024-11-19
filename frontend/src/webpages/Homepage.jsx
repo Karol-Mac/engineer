@@ -7,7 +7,8 @@ import {CompareFunctions} from "../components/functions/CompareFunctions";
 import ProductSearchbar from "../components/generic/ProductSearchbar";
 import LatestProductsElementsContainer from "../components/specific/homepage/LatestProductsElementsContainer";
 
-import "../css/generalVisuals.css";
+// import "../css/generalVisuals.css";
+import styles from "../css/Homepage.module.css";
 
 
 const Homepage = () => {
@@ -29,13 +30,15 @@ const Homepage = () => {
     return (
         <div>
             <Header/>
-            <h1>Site title</h1>
-            <ProductSearchbar/>
-            {/*image carousel*/}
-            {/* last updated products div (using last updatedProductElement)*/}
-            <LatestProductsElementsContainer/>
-            {/*Our partners div (using static images in React in frontend/public/images/partners)*/}
-            <ProductCompareToolbar/>
+            <div className={styles.container}>
+                <h1>Site title</h1>
+                <ProductSearchbar styles={styles}/>
+                {/*image carousel*/}
+                {/* last updated products div (using last updatedProductElement)*/}
+                <LatestProductsElementsContainer styles={styles}/>
+                {/*Our partners div (using static images in React in frontend/public/images/partners)*/}
+                <ProductCompareToolbar/>
+            </div>
             <Footer/>
         </div>
 

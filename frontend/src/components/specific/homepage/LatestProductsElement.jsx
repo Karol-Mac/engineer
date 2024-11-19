@@ -5,7 +5,7 @@ import CompareProductsButton from "../../generic/CompareProductsButton";
 import ReportButton from "../../generic/ReportButton";
 import FavouriteButton from "../../generic/FavouriteButton";
 
-export function LatestProductsElement ({latestProductData}) {
+export function LatestProductsElement ({latestProductData, styles}) {
     const {setReportTypeProduct} = ReportFunctions();
     const {openProductpage} = NavigateFunctions();
 
@@ -24,8 +24,8 @@ export function LatestProductsElement ({latestProductData}) {
     }
 
     return (
-        <div className="searchedProductItem" >
-            <img src={productImageName} alt={productImageName} className="foundProductImg" onClick={handleClick}/>
+        <div className={styles.latestProductElement} >
+            <img src={productImageName} alt={productImageName} className={styles.latestProductImage}  onClick={handleClick}/>
             {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
             <div>
                 <CompareProductsButton givenProductID={productID}/>
@@ -36,8 +36,8 @@ export function LatestProductsElement ({latestProductData}) {
                 {/*{/*add company image component + function to give it data*/}
             </div>
             <div onClick={handleClick}>
-                <h3 className="latestProductName">{productName}</h3>
-                <h5 className="latestProductPrice">{productPrice}</h5>
+                <h3 className={styles.latestProductName}>{productName}</h3>
+                <h5 className={styles.latestProductPrice}>{productPrice}</h5>
                 <h5 className="latestProductUpdateDate">{productUpdateDate}</h5>
             </div>
         </div>

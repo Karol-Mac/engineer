@@ -2,8 +2,9 @@ import {CompareFunctions} from "../functions/CompareFunctions";
 import {useState} from "react";
 import {CustomEventsControler} from "../functions/CustomEventsControler";
 import {NavigateFunctions} from "../functions/NavigateFunctions";
+import { FaSearch } from 'react-icons/fa';
 
-const ProductSearchbar = ({SearchbarID}) => {
+const ProductSearchbar = ({SearchbarID, styles}) => {
     const {openSearchpage} = NavigateFunctions();
 
     const [searchName, setSearchName] = useState("");
@@ -20,15 +21,14 @@ const ProductSearchbar = ({SearchbarID}) => {
     };
 
     return(
-        <div id="SearchbarID">
+        <div className={styles.searchbarContainer}>
             <input type="text"
-                   className="Searchbar"
-                   id="homepageSearchBar"
+                   className={styles.searchbarInput}
                    placeholder="Search.."
                    onChange={handleSearchChange}/>
 
-            <button onClick={handleSearchClick} id="CompareImg">
-                <span>Search</span>
+            <button onClick={handleSearchClick} className={styles.searchbarButton}>
+                <FaSearch className={styles.searchbarButtonIcon} />
             </button>
         </div>
     );

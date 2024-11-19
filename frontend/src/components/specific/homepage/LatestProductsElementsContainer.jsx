@@ -7,7 +7,7 @@ import {SellerAccountFunctions} from "../../functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../../functions/ImagesFunctions";
 
 //{givenProductName, givenPrice} if id
-const LatestProductsElementsContainer =() => {
+const LatestProductsElementsContainer =({styles}) => {
     const {getLatestProducts} = SearchProductFunctions();
     const {getSellerInformation} = SellerAccountFunctions();
     const {getImageByName} = ImagesFunctions();
@@ -72,15 +72,14 @@ const LatestProductsElementsContainer =() => {
 
     console.log("foundProduct Return :",foundProducts)
     return (
-        <div id="LatestProductsElementsContainer">
-
+        <div className={styles.latestProductsContainer}>
             {foundProducts !=null && foundProducts.length > 0 ? (
                 foundProducts.map((product) => {
                     return (
                         //div-s are temprorary so that I can make more space between found elements
                         <div key={product.id}>
                             {console.log("latestProduct data = ",product)}
-                            <LatestProductsElement latestProductData={product}/>
+                            <LatestProductsElement latestProductData={product} styles={styles}/>
                             <br/>
                             <br/>
                         </div>
