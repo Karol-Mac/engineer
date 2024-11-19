@@ -76,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @PreAuthorize("hasRole(@sellerRole)")               //add logic to check if seller is the owner.
+    @PreAuthorize("hasRole(@sellerRole) && @userUtil.isOwner(#email, #productId)")
     public FreshProductDto updateProduct(FreshProductDto freshProductDto, long productId, String email) {
         Product actual = productUtils.getProductFromDB(productId);
 
@@ -87,7 +87,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole(@sellerRole, @adminRole)")    //add logic to check if seller is the owner.
+    @PreAuthorize("hasRole(@adminRole) || @userUtil.isOwner(#email, #productId)")
     public String deleteProduct(long productId, String email) {
         var product = productUtils.getProductFromDB(productId);
 

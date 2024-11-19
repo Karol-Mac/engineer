@@ -33,4 +33,9 @@ String email) {
     public User getUserOrNull(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
+
+    public boolean isOwner(String sellerEmail, final long productId) {
+        Seller seller = getSeller(sellerEmail);
+        return seller.getProducts().stream().anyMatch(p -> p.getId() == productId);
+    }
 }

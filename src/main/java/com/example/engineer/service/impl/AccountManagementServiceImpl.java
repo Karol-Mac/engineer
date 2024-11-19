@@ -39,7 +39,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
                                         RoleRepository roleRepository,
                                         PasswordEncoder passwordEncoder,
                                         AccountMapper accountMapper,
-                                        CommentRepository commentRepository, UserUtil userUtil){
+                                        CommentRepository commentRepository, UserUtil userUtil) {
         this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
         this.roleRepository = roleRepository;
@@ -51,11 +51,11 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     @Override
     @PreAuthorize("hasAnyRole(@userRole, @adminRole)")
-    public RegisterUserDto changeCredentials(String username, String password, String email){
+    public RegisterUserDto changeCredentials(String username, String password, String email) {
         User user = userUtil.getUser(email);
 
-        if(username != null) user.setUsername(username);
-        if(password != null) user.setPassword(passwordEncoder.encode(password));
+        if (username != null) user.setUsername(username);
+        if (password != null) user.setPassword(passwordEncoder.encode(password));
 
         var savedUser = userRepository.save(user);
 
@@ -67,7 +67,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
 
     @Override
     @PreAuthorize("hasRole(@adminRole)")
-    public List<AccountDto> getAllUsers(){
+    public List<AccountDto> getAllUsers() {
         var users = userRepository.findAll()
                 .stream()
                 .map(accountMapper::mapToDto);
@@ -90,9 +90,9 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
-    public RegisterSellerDto getSellerById(long sellerId){
+    public RegisterSellerDto getSellerById(long sellerId) {
         Seller seller = sellerRepository.findById(sellerId)
-                .orElseThrow( () -> new UsernameNotFoundException("Seller with id: " + sellerId + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Seller with id: " + sellerId + " not found"));
 
         return mapToDto(seller);
     }
@@ -103,7 +103,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
             throws BadCredentialsException, BadRequestException {
 
         var email = account.getEmail();
-        if(userRepository.existsByEmail(email)){
+        if (userRepository.existsByEmail(email)) {
             var user = userUtil.getUser(email);
 
             user.setIsBlocked(account.getIsBlocked());
@@ -126,9 +126,9 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     @Override
     @PreAuthorize("hasRole(@adminRole)")
     public String removeAllComments(long id) throws BadRequestException {
-        if( id <= 0) throw new BadRequestException("Id must be greater than 0");
+        if (id <= 0) throw new BadRequestException("Id must be greater than 0");
         User user = userRepository.findById(id)
-                        .orElseThrow(() -> new NotFoundException("User", id));
+                .orElseThrow(() -> new NotFoundException("User", id));
 
         List<Comment> wrotedComments = commentRepository.findByUser(user);
 
@@ -139,7 +139,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
     }
 
     @Override
-    public List<RegisterSellerDto> getSellers(){
+    public List<RegisterSellerDto> getSellers() {
         return sellerRepository.findAll().stream().map(this::mapToDto).toList();
     }
 
@@ -148,7 +148,7 @@ public class AccountManagementServiceImpl implements AccountManagementService {
                 .orElseThrow(() -> new BadRequestException("Role name is incorrect"));
     }
 
-    private RegisterSellerDto mapToDto(Seller seller){
+    private RegisterSellerDto mapToDto(Seller seller) {
         var sellerDto = new RegisterSellerDto();
         sellerDto.setId(seller.getId());
         sellerDto.setShopName(seller.getShopName());
