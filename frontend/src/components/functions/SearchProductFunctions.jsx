@@ -116,10 +116,34 @@ export const SearchProductFunctions = () => {
         }
     }
 
+    const getSellerData = async({sellerID}) =>{
+        let errorMessage;
+        try {
+            let getSellerNameUrl= "http://localhost:8080/api/accounts/"+sellerID;
+
+            const response = await axios.get(getSellerNameUrl);
+
+            return{ success: true, sellerData: response.data};
+        }catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ){
+                errorMessage = error.response.data.message || "Unknown error";
+            }else if(error.response){
+                errorMessage = error.response;
+            }
+
+            return{ success: false, message: errorMessage};
+        }
+    }
+
     return {
         getSearchedProducts,
         getLatestProducts,
         getProductInformation,
+        getSellerData,
     };
 };
 
