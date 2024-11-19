@@ -171,3 +171,17 @@
 .searchbarButtonIcon {
     margin-left: 5px;
 }
+
+
+.homepageContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.homepageItem {
+    flex: 1 1 calc(20% - 20px); /* 20% width minus margin */
+    margin: 10px;
+    box-sizing: border-box;
+}

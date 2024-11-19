@@ -88,7 +88,7 @@ const LatestProductsElementsContainer =({styles}) => {
                 <div id="foundProducts">
                     <p>no products found</p>
                 </div>
-            )};
+            )}
         </div>
     );
 }

@@ -7,7 +7,7 @@ import styles from "../../css/Footer.module.css";
 const Footer = () => {
     const {openContactpage} = NavigateFunctions();
     return (
-        <div className={`bg-light text-center text-lg-start ${styles.footer}`}>
+        <div className={`bg-light text-center text-lg-start ${styles.footerContainer}`}>
             <div className="container p-4">
                 <p>Got Questions? <span>+48 123 123 133</span></p>
                 <div className="footerLinks">
