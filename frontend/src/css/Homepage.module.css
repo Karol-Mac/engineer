@@ -79,16 +79,29 @@
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.topRightElements {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex; /* Ensure the elements are displayed */
+    gap: 10px; /* Add spacing between elements */
+    visibility: visible; /* Always visible */
+    opacity: 1; /* Fully opaque */
+    transition: none; /* Remove any transitions */
+}
+
+
 .latestProductElement:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .latestProductImage {
-    max-width: 100%;
-    max-height: 200px;
-    object-fit: cover;
+    width: 200px; /* Static width */
+    height: 200px; /* Static height */
+    object-fit: fill; /* Scale the image to fit within the container */
     margin-bottom: 10px;
+    margin-top: 30px;
 }
 
 .latestProductDetails {

@@ -27,13 +27,10 @@ export function LatestProductsElement ({latestProductData, styles}) {
         <div className={styles.latestProductElement} >
             <img src={productImageName} alt={productImageName} className={styles.latestProductImage}  onClick={handleClick}/>
             {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
-            <div>
+            <div className={styles.topRightElements}>
                 <CompareProductsButton givenProductID={productID}/>
                 <ReportButton  reportType={setReportTypeProduct()} givenReportedID={productID} />
                 <FavouriteButton givenProductID={productID}  isInFavourite={latestProductData.isFavourite}/>
-            </div>
-            <div>
-                {/*{/*add company image component + function to give it data*/}
             </div>
             <div onClick={handleClick}>
                 <h3 className={styles.latestProductName}>{productName}</h3>
