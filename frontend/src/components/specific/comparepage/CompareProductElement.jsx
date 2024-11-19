@@ -16,29 +16,55 @@ function CompareProductElement({ compareProductData, styles }) {
     };
 
     return (
-        <div className={styles.compareProductContainer} onClick={handleClick}>
-
-            <div className={styles.compareProductColumn}>
-                <div className={styles.topRightElements}>
-                    <CompareProductsButton givenProductID={productID} />
-                    <ReportButton reportType={setReportTypeProduct()} givenReportedID={productID} />
-                    <FavouriteButton givenProductID={productID} isInFavourite={compareProductData.isFavourite} />
-                </div>
+        <div className={styles.compareProductColumn} onClick={handleClick}>
                 <img src={compareProductData.productImageName} alt={compareProductData.productImageName} className={styles.compareProductImage} />
-                <h3 className={styles.compareProductName}>{compareProductData.name}</h3>
-                <h5 className={styles.compareProductPrice}>{compareProductData.price}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.energeticValue}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.carbs}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.fat}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.fiber}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.inGrams === true ? "g" : "ml"}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.protein}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.salt}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.weight}</h5>
-                <h5 className={styles.compareProductPrice}>{compareProductData.sellerName}</h5>
+
+                {/* Product rows */}
+                <div className={styles.legendOverlayContainer}>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Product Name</div>
+                        <div className={styles.propertyValue}>{compareProductData.name}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Price</div>
+                        <div className={styles.propertyValue}>{compareProductData.price}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Energetic Value</div>
+                        <div className={styles.propertyValue}>{compareProductData.energeticValue}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Carbs</div>
+                        <div className={styles.propertyValue}>{compareProductData.carbs}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Fat</div>
+                        <div className={styles.propertyValue}>{compareProductData.fat}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Fiber</div>
+                        <div className={styles.propertyValue}>{compareProductData.fiber}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Weight</div>
+                        <div className={styles.propertyValue}>{compareProductData.weight}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Protein</div>
+                        <div className={styles.propertyValue}>{compareProductData.protein}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Salt</div>
+                        <div className={styles.propertyValue}>{compareProductData.salt}</div>
+                    </div>
+                    <div className={styles.legendOverlayRow}>
+                        <div className={styles.legendLabel}>Seller</div>
+                        <div className={styles.propertyValue}>{compareProductData.sellerName}</div>
+                    </div>
+                </div>
+
                 <img src={compareProductData.sellerImageName} alt={compareProductData.sellerImageName} className={styles.compareProductImage} />
             </div>
-        </div>
     );
 }
 

@@ -117,3 +117,34 @@
     visibility: hidden; /* Make the image invisible */
     margin-bottom: 10px;
 }
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* 1 column for legend + dynamic product columns */
+    grid-auto-rows: auto; /* Automatically adjust row heights */
+    gap: 10px;
+    width: 100%;
+}
+
+.overlayRow {
+    display: grid;
+    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* Match columns with the content container */
+    align-items: center;
+    height: 60px; /* Adjust based on the height of your rows */
+    background-color: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid #ddd;
+}
+
+.overlayLabel {
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.productValue {
+    text-align: center;
+    padding: 10px;
+    color: #555;
+    border-left: 1px solid #ddd;
+}

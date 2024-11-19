@@ -6,7 +6,7 @@ import { SearchProductFunctions } from "../components/functions/SearchProductFun
 import { SellerAccountFunctions } from "../components/functions/SellerAccountFunctions";
 import { ImagesFunctions } from "../components/functions/ImagesFunctions";
 import { CustomEventsControler } from "../components/functions/CustomEventsControler";
-import styles from '../css/CompareProductpage.module.css';
+import styles from "../css/CompareProductpage.module.css";
 
 const CompareProductpage = () => {
     const { getProductInformation } = SearchProductFunctions();
@@ -73,39 +73,22 @@ const CompareProductpage = () => {
         <div>
             <Header />
 
-        <div className={styles.pageContainer}>
-
-            <h1 className={styles.pageTitle}>COMPARE product with</h1>
-            <div className={styles.contentContainer}>
-                <div className={styles.legendContainer}>
-                    <div className={styles.compareProductColumn}>
-                        <img src="" alt="" className={styles.invisibleImage} />
-                        <div className={styles.legendItem}>Product Name</div>
-                        <div className={styles.legendItem}>Price</div>
-                        <div className={styles.legendItem}>Energetic Value</div>
-                        <div className={styles.legendItem}>Carbs</div>
-                        <div className={styles.legendItem}>Fat</div>
-                        <div className={styles.legendItem}>Fiber</div>
-                        <div className={styles.legendItem}>Weight</div>
-                        <div className={styles.legendItem}>Protein</div>
-                        <div className={styles.legendItem}>Salt</div>
-                        <div className={styles.legendItem}>Seller</div>
+            <div className={styles.pageContainer}>
+                <h1 className={styles.pageTitle}>COMPARE product with</h1>
+                <div className={styles.contentContainer}>
+                    <div id="comparedProducts" className={styles.productContainer}>
+                        {productComparisonDetails.length > 0 ? (
+                            productComparisonDetails.map((product) => (
+                                <div key={product.id} className={styles.productItem}>
+                                    <CompareProductElement compareProductData={product} styles={styles} />
+                                </div>
+                            ))
+                        ) : (
+                            <div><p>No products were selected to be compared</p></div>
+                        )}
                     </div>
                 </div>
-                <div id="comparedProducts" className={styles.productContainer}>
-                    {productComparisonDetails.length > 0 ? (
-                        productComparisonDetails.map((product) => (
-                            <div key={product.id} className={styles.productItem}>
-                                <CompareProductElement compareProductData={product} styles={styles} />
-                            </div>
-                        ))
-                    ) : (
-                        <div><p>No products were selected to be compared</p></div>
-                    )}
-                </div>
             </div>
-
-        </div>
             <Footer />
         </div>
     );

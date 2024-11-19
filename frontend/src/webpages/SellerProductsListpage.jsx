@@ -21,6 +21,8 @@ const SellerProductsListpage = () => {
     const[searchedProduct , setSearchedProduct] = useState("");
     let [foundProducts, setFoundProducts] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isEmpty, setIsEmpty] = useState(false);
+    const [loadingError, setLoadingError] = useState(false);
 
     useEffect(() => {
         setSearchedProduct(getSearchedProductName(searchParams));
@@ -28,52 +30,74 @@ const SellerProductsListpage = () => {
 
     useEffect(() => {
         // console.log("Searched product name : "+getSearchedProductName(searchParams));
-
-        const handleFoundProducts = async () =>{
-            // console.log("Looking for "+searchedProduct);
+        const handleFoundProducts = async () => {
             await getSellerProducts().then(
-                async (result)=> {
+                async (result) => {
                     if (result.success) {
                         const updatedProductsDetails = await Promise.all(
                             result.foundProducts.map(async (product) => {
-
                                 const [sellerResult, productImageResult] = await Promise.all([
-                                    getSellerInformation({sellerID: product.sellerId}),
-                                    getImageByName({imageName: product.imageName}),
-                                ])
+                                    getSellerInformation({ sellerID: product.sellerID }),
+                                    getImageByName({ imageName: product.imageName }),
+                                ]);
+
+                                if (!sellerResult.success) {
+                                    console.log("Error fetching seller information:", sellerResult.message);
+                                }
 
                                 if (productImageResult.success) {
                                     product.productImage = productImageResult.image;
-                                }else{
+                                } else {
                                     console.log(productImageResult.message);
                                 }
 
                                 if (sellerResult.success) {
-                                    const sellerImageResults = await getImageByName({imageName: sellerResult.sellerDetails.imageName});
+                                    const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
                                     if (sellerImageResults.success) {
                                         product.sellerImage = sellerImageResults.image;
-
                                     }
                                 }
 
                                 return product;
-                            }));
+                            })
+                        );
 
                         setFoundProducts(updatedProductsDetails);
                         console.log("Products:", result.foundProducts);
                     } else {
                         console.log("Error fetching products:", result.message);
+                        if (result.message === "Products not found with id: 404") {
+                            setIsEmpty(true);
+                        } else {
+                            setLoadingError(true);
+                        }
                     }
 
                     setIsLoading(false);
                 }
-            )
-        }
+            );
+        };
 
         handleFoundProducts();
     }, [searchedProduct]);
 
 
+
+    if(isEmpty === true){
+        return <div>
+            <Header/>
+            <h1 className="text-center text-danger mt-5">No Products to display</h1>
+            <Footer/>
+        </div>;
+    }
+
+    if(loadingError === true){
+        return <div>
+            <Header/>
+            <h1 className="text-center text-danger mt-5">Loading Error contact the administrator</h1>
+            <Footer/>
+        </div>;
+    }
 
     if(foundProducts == null){
         return <div>
