@@ -37,7 +37,6 @@ function CompareProductElement ({compareProductData, styles}) {
             <div className={styles.compareProductColumn}>
                 <img src={productImageName} alt={productImageName} className={styles.compareProductImage}/>
                 {/*div-s są ustawione tymczasowo, przy robieniu css-a mozna je zignorowac do lepszego wykonania grafiki*/}
-                <h3>Data:</h3>
                 <h3 className={styles.compareProductName}>{productName}</h3>
                 <h5 className={styles.compareProductPrice}>{productPrice}</h5>
                 <h5 className={styles.compareProductPrice}>{productEnergeticValue}</h5>

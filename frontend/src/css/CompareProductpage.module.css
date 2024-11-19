@@ -36,7 +36,6 @@
 }
 
 
-/* CompareProductpage.module.css */
 .pageContainer {
     display: flex;
     flex-direction: column;
@@ -48,6 +47,25 @@
 .pageTitle {
     font-size: 24px;
     margin-bottom: 20px;
+}
+
+.contentContainer {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    width: 100%;
+}
+
+.legendContainer {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.legendItem {
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .productContainer {
