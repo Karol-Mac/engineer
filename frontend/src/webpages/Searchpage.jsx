@@ -9,6 +9,8 @@ import SearchProductElement from "../components/specific/searchpage/SearchProduc
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
+import styles from "../css/Searchpage.module.css";
+
 
 const Searchpage = () => {
     const {getSearchedProductName} = QueryParamsFunctions();
@@ -87,7 +89,7 @@ const Searchpage = () => {
                 <div>
                     <Header/>
                     <h1>Temp found product with name {searchedProduct}</h1>
-                    <div id="foundProducts">
+                    <div id="foundProducts" className={styles.foundProducts}>
                         {foundProducts.length > 0 ? (
                             foundProducts.map((product) => {
                                 const productData = {
@@ -100,8 +102,8 @@ const Searchpage = () => {
 
                                 };
                             return (
-                                <div key={product.id}>
-                                <SearchProductElement productData={productData}/>
+                                <div key={product.id} className={styles.productContainer}>
+                                <SearchProductElement productData={productData} styles={styles}/>
                                 <br/>
                                 <br/>
                                 </div>
