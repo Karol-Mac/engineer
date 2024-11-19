@@ -1,53 +1,51 @@
-/* frontend/src/css/ProductCompareToolbar.module.css */
-
-/* frontend/src/css/ProductCompareToolbar.module.css */
-
-/* frontend/src/css/ProductCompareToolbar.module.css */
-
 .toolbarContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #d9d9f2;
     width: 100%;
     box-sizing: border-box;
-    position: fixed; /* Fix it to the viewport */
-    top: 80%; /* Place it at 80% of the viewport height */
-    left: 0; /* Align it to the left */
-    z-index: 1000; /* Ensure it is above other elements */
+    position: fixed;
+    top: 80%;
+    right: 0;
+    z-index: 1000;
+    transition: transform 0.5s ease;
 }
 
 .toolbarVisible {
     display: block;
-    background-color: #c4c9ce; /* Darker gray background for the button area */
-    padding: 10px;
+    background-color: #a9a9a9;
+    padding: 5px;
     border-radius: 4px;
 }
 
 .toolbarHidden {
-    display: none;
+    transform: translateX(100%);
 }
 
-.toolbarMessage {
-    font-size: 16px;
-    color:  #007bff;
-    margin: 10px 0;
-}
-
-.compareButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
+.showToolbarButton {
+    position: fixed;
+    top: 80%;
+    right: 0;
+    z-index: 1001;
+    background-color: #a9a9a9;
     border: none;
     border-radius: 4px;
+    padding: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.compareButton:hover {
-    background-color: #0056b3;
+.closeButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #a9a9a9;
+    border: none;
+    border-radius: 4px;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
 }
