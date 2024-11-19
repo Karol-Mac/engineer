@@ -12,7 +12,7 @@ function CompareProductElement ({compareProductData, styles}) {
 
     console.log("Productdata: ",compareProductData);
 
-    const [productID, setProductID] = useState(compareProductData.productID);
+    const [productID, setProductID] = useState(compareProductData.id);
     const [productName, setProductName] = useState(compareProductData.name);
     const [productImageName, setProductImageName] = useState(compareProductData.productImageName);
     const [productPrice, setProductPrice] = useState(compareProductData.price);
@@ -29,6 +29,7 @@ function CompareProductElement ({compareProductData, styles}) {
     const [sellerImageName, setSellerImageName] = useState(compareProductData.sellerImageName);
 
     const handleClick = () => {
+        console.log("Product ID: ", compareProductData);
         openProductpage({productID});
     }
 
