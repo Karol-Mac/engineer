@@ -1,0 +1,16 @@
+/* Commentspage.module.css */
+
+
+
+.fancyBorder:hover {
+    right: 30%;
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.fancyBorder{
+    padding: 5px; /* Add padding for spacing */
+    margin: 5px 0; /* Add margin for spacing */
+    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+    font-size: 1.2rem; /* Increase font size */
+    transform-origin: left; /* Move to the right when scaling */
+}

@@ -6,11 +6,36 @@
     text-align: center;
 }
 
-.footerLink {
-    color: #007bff;
-    text-decoration: none;
-    margin: 0 10px;
+.footerContainer {
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Arrange items in a column */
+    align-items: flex-start; /* Align items to the left */
+    background-color: #a7a7d0; /* Gray purple color */
+    padding: 20px; /* Add padding for spacing */
+    text-align: left; /* Ensure text alignment is to the left */
+    width: 100%;
 }
+
+.footerLinks {
+    display: flex; /* Arrange links horizontally */
+    flex-direction: column; /* For stacked links */
+    gap: 10px; /* Add space between links */
+}
+
+.footerLink {
+    color: #333; /* Dark text color */
+    cursor: pointer;
+    margin: 0 10px; /* Add vertical spacing */
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}
+
+.footerText {
+    margin-bottom: 20px; /* Add spacing between the text and links */
+}
+
 
 .footerLink:hover {
     text-decoration: underline;
@@ -20,10 +45,10 @@
     width: 100%;
     /*position: fixed;*/
     bottom: 0;
-    left: 0;
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
+    left: 5%;
+    background-color: #a7a7d0; /* Gray purple color */
+    padding: 20px;
+    text-align: left;
     z-index: 1000;
 }
 
