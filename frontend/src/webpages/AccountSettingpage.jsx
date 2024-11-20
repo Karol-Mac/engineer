@@ -120,18 +120,30 @@ const AccountSettingpage = () => {
 
 
     return (
-        <div>
-            <HeaderSimple/>
-            <div className={styles.content}>
-            <h2 onClick={() => selectEditField(FIELDTYPES.username)} className={styles.button}>change user name</h2>
-            {renderEditField(FIELDTYPES.username)}
+        <div className="d-flex flex-column min-vh-100">
+            <HeaderSimple />
+            <main className="flex-grow-1">
+                <div className={styles.content}>
+                    <h2
+                        onClick={() => selectEditField(FIELDTYPES.username)}
+                        className={styles.button}
+                    >
+                        Change Username
+                    </h2>
+                    {renderEditField(FIELDTYPES.username)}
 
-            <h2 onClick={() => selectEditField(FIELDTYPES.password)} className={styles.button}>change password</h2>
-            {renderEditField(FIELDTYPES.password)}
+                    <h2
+                        onClick={() => selectEditField(FIELDTYPES.password)}
+                        className={styles.button}
+                    >
+                        Change Password
+                    </h2>
+                    {renderEditField(FIELDTYPES.password)}
 
-            {warningMessage && <p>{warningMessage}</p>}
-            </div>
-            <Footer/>
+                    {warningMessage && <p>{warningMessage}</p>}
+                </div>
+            </main>
+            <Footer />
         </div>
     );
 };
