@@ -122,16 +122,15 @@ public class AccountManagementServiceImpl implements AccountManagementService {
         }
     }
 
-
     @Override
     @PreAuthorize("hasRole(@adminRole)")
-    public String removeAllComments(long id) throws BadRequestException {
-        if (id <= 0) throw new BadRequestException("Id must be greater than 0");
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User", id));
+    public String removeAllComments(long userId) throws BadRequestException {
+        if (userId <= 0)
+                throw new BadRequestException("Id must be greater than 0");
+        else if (!userRepository.existsById(userId))
+                throw new NotFoundException("User", userId);
 
-        List<Comment> wrotedComments = commentRepository.findByUser(user);
-
+        List<Comment> wrotedComments = commentRepository.findByUserId(userId);
         wrotedComments.forEach(comment -> comment.setIsVisible(false));
         commentRepository.saveAll(wrotedComments);
 
