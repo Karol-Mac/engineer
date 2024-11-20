@@ -36,24 +36,32 @@ const Reportpage = () => {
     };
 
     return (
-        <div>
-            <Header/>
-            <div className="container mt-5">
-                <h1 className="mb-4">Report {reportType}</h1>
+        <div className="d-flex flex-column min-vh-100">
+            <Header />
+            <main className="flex-grow-1">
+                <div className="container mt-5">
+                    <h1 className="mb-4">Report {reportType}</h1>
 
-                <div className="mb-3">
-                    <label htmlFor="reportDescription" className="form-label">Description</label><br/>
-                <textarea id="reportDescription" name="reportDescription" onChange={handleChange} className="form-control"></textarea>
+                    <div className="mb-3">
+                        <label htmlFor="reportDescription" className="form-label">Description</label><br />
+                        <textarea
+                            id="reportDescription"
+                            name="reportDescription"
+                            onChange={handleChange}
+                            className="form-control"
+                        ></textarea>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <button className="btn btn-primary mb-4" onClick={handleReport}>
+                            Submit Report
+                        </button>
+                    </div>
+                    {responseMessage && <p className="mt-3">{responseMessage}</p>}
                 </div>
-                <div className="d-flex justify-content-end">
-                    <button className="btn btn-primary mb-4" onClick={handleReport}>Submit Report</button>
-                </div>
-                {responseMessage && <p className="mt-3">{responseMessage}</p>}
-            </div>
-            <Footer/>
+            </main>
+            <Footer />
         </div>
     );
-
 };
 
 export default Reportpage;
