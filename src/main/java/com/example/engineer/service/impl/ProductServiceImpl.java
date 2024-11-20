@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
                 throw new NotFoundException("Products", 404);
             }
             return products.stream()
-                    .map(product -> productUtils.mapProductToDto(product, email)) // Explicitly pass `product` and `email`
+                    .map(productUtils::mapProductToDto) // Explicitly pass `product` and `email`
                     .toList();
 
     }
