@@ -31,22 +31,22 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers("/api/auth/**").permitAll()
-                                //every user should be able to see seller details (when viewing product)
-                                .requestMatchers(HttpMethod.GET, "/api/accounts/{sellerId}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/images/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/contact").permitAll()
+                                authorize
+                                        .requestMatchers("/api/auth/**").permitAll()
+                                        //every user should be able to see seller details (when viewing product)
+                                        .requestMatchers(HttpMethod.GET, "/api/accounts/{sellerId}").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/api/images/**").permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/api/contact").permitAll()
 
-                                /** Jwt filter need's to be applied on those endpoints,
-                                 but at the same time I need's
-                                 to be accessible for every user (anonymous too)
-                                 this is why I created RoleBeans
-                                 */
-                                .requestMatchers(HttpMethod.GET, "/api/comments").hasAnyRole(RoleBeans.getAllRoles())
-                                .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole(RoleBeans.getAllRoles())
+                                        /** Jwt filter need's to be applied on those endpoints,
+                                         but at the same time I need's
+                                         to be accessible for every user (anonymous too)
+                                         this is why I created RoleBeans
+                                         */
+                                        .requestMatchers(HttpMethod.GET, "/api/comments").hasAnyRole(RoleBeans.getAllRoles())
+                                        .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole(RoleBeans.getAllRoles())
 //                                .requestMatchers(HttpMethod.GET, "/api/reports").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
