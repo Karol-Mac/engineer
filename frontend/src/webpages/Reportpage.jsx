@@ -1,6 +1,8 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
+import Header from "../components/generic/Header";
+import Footer from "../components/generic/Footer";
 
 const Reportpage = () => {
     const {reportType,reportID} = useParams();
@@ -35,16 +37,21 @@ const Reportpage = () => {
 
     return (
         <div>
-            <h1>Temp Reportpage</h1>
-            <p>{reportType}</p>
-            <p>{reportID}</p>
+            <Header/>
+            <div className="container mt-5">
+                <h1 className="mb-4">Report {reportType}</h1>
 
-            <label htmlFor="reportDescription">Description</label><br/>
-            <textarea id="reportDescription" name="reportDescription" onChange={handleChange}></textarea>
-            <button onClick={handleReport}/>
-            <p>{responseMessage}</p>
+                <div className="mb-3">
+                    <label htmlFor="reportDescription" className="form-label">Description</label><br/>
+                <textarea id="reportDescription" name="reportDescription" onChange={handleChange} className="form-control"></textarea>
+                </div>
+                <div className="d-flex justify-content-end">
+                    <button className="btn btn-primary mb-4" onClick={handleReport}>Submit Report</button>
+                </div>
+                {responseMessage && <p className="mt-3">{responseMessage}</p>}
+            </div>
+            <Footer/>
         </div>
-
     );
 
 };
