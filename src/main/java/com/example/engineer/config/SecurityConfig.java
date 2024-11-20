@@ -29,13 +29,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf().disable()
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/api/auth/**").permitAll()
                                 //every user should be able to see seller details (when viewing product)
                                 .requestMatchers(HttpMethod.GET, "/api/accounts/{sellerId}").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/images/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/contact").permitAll()
 
                                 /** Jwt filter need's to be applied on those endpoints,
                                  but at the same time I need's
