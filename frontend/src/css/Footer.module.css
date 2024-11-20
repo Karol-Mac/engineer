@@ -1,31 +1,29 @@
 /* Footer.module.css */
 
-#footer {
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: center;
-}
+
 
 .footerContainer {
-    display: flex; /* Use flexbox for alignment */
-    flex-direction: column; /* Arrange items in a column */
-    align-items: flex-start; /* Align items to the left */
-    background-color: #a7a7d0; /* Gray purple color */
-    padding: 20px; /* Add padding for spacing */
-    text-align: left; /* Ensure text alignment is to the left */
+    flex-direction: column;
+    display: flex;
+    align-items: center;
     width: 100%;
+    left: 5%;
+    background-color: #a7a7d0;
+    padding: 20px;
+    text-align: right;
+    z-index: 1000;
 }
 
+
 .footerLinks {
-    display: flex; /* Arrange links horizontally */
-    flex-direction: column; /* For stacked links */
-    gap: 10px; /* Add space between links */
+    flex-direction: column;
+    gap: 10px;
 }
 
 .footerLink {
-    color: #333; /* Dark text color */
+    color: #333;
     cursor: pointer;
-    margin: 0 10px; /* Add vertical spacing */
+    margin: 0 10px;
 }
 
 .footerLink:hover {
@@ -41,16 +39,6 @@
     text-decoration: underline;
 }
 
-.footerContainer {
-    width: 100%;
-    /*position: fixed;*/
-    bottom: 0;
-    left: 5%;
-    background-color: #a7a7d0; /* Gray purple color */
-    padding: 20px;
-    text-align: left;
-    z-index: 1000;
-}
 
 @media (max-width: 600px) {
     .footer {

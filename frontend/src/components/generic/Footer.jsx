@@ -8,7 +8,7 @@ const Footer = () => {
     const { openContactpage } = NavigateFunctions();
     return (
         <footer className="bg-light text-center py-3 mt-auto">
-            <div className="container">
+            <div className={styles.footerContainer}>
                 <p>Got Questions? <span>+48 123 123 133</span></p>
                 <div className="footerLinks">
                     <a onClick={openContactpage} className={`text-primary me-3 ${styles.footerLink}`}>Contact Us</a>
