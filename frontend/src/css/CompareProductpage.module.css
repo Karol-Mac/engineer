@@ -148,3 +148,8 @@
     color: #555;
     border-left: 1px solid #ddd;
 }
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

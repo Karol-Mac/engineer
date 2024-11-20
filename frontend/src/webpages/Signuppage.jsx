@@ -168,27 +168,35 @@ const Signuppage = () => {
     }
 
 
-        return (<div>
-                <HeaderSimple/>
-            <div id="signupContainer">
-                <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
-                    <div id="LoginType">
-                        <button id="privateAccountLogin" onClick={setPrivateSignup}>Private Account</button>
-                        <button id="companyAccountLogin" onClick={setCompanySignup}>Company Account</button>
+    return (
+        <div className="d-flex flex-column min-vh-100">
+            <HeaderSimple />
+            <main className="flex-grow-1">
+                <div id="signupContainer">
+                    <div id="leftVertical" className="verticalSeparator">
+                        <div id="LoginType">
+                            <button id="privateAccountLogin" onClick={setPrivateSignup}>
+                                Private Account
+                            </button>
+                            <button id="companyAccountLogin" onClick={setCompanySignup}>
+                                Company Account
+                            </button>
+                        </div>
+                        <h2>Signup to {isSigningToCompany ? "Company" : "Private account"}</h2>
+                        {displayAccountTypeSignup()}
                     </div>
-                    <h2>Signup to {isSigningToCompany? "Company" : "Private account"}</h2>
-                    {displayAccountTypeSignup()}
+                    <div id="rightVertical" className="verticalSeparator">
+                        <h2>Already have an account?</h2>
+                        <button onClick={openLoginpage} className="createAccountButton">
+                            Login to an existing account
+                        </button>
+                    </div>
                 </div>
-                <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
-                    <h2>Already have an account?</h2>
-                    <button onClick={openLoginpage} className="createAccountButton">Login to an existing account</button>
-                </div>
-            </div>
-                <RollbackPageButton/>
-                <Footer/>
-            </div>
-
-        );
+                <RollbackPageButton />
+            </main>
+            <Footer />
+        </div>
+    );
 };
 
 export default Signuppage;
