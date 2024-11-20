@@ -49,51 +49,71 @@ const Loginpage = () => {
 
 
     return (
-        <div>
-        <HeaderSimple/>
-        <div id="loginContainer">
-            <div id="leftVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
-                <div id="LoginType">
-                    <button id="privateAccountLogin" onClick={setPrivateLogging}>Private Account</button>
-                    <button id="companyAccountLogin" onClick={setCompanyLogging}>Company Account</button>
+        <div className="d-flex flex-column min-vh-100">
+            <HeaderSimple />
+            <main className="flex-grow-1">
+                <div id="loginContainer">
+                    <div id="leftVertical" className="verticalSeparator">
+                        <div id="LoginType">
+                            <button id="privateAccountLogin" onClick={setPrivateLogging}>
+                                Private Account
+                            </button>
+                            <button id="companyAccountLogin" onClick={setCompanyLogging}>
+                                Company Account
+                            </button>
+                        </div>
+                        <h2>Login to {isLoggingToCompany ? "Company" : "Private account"}</h2>
+                        <form onSubmit={handleLoggingFunctions}>
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="text"
+                                name="email"
+                                onChange={handleChange}
+                                value={loginData.email}
+                                placeholder="Email or login"
+                            />
+                            <br />
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                onChange={handleChange}
+                                value={loginData.password}
+                                placeholder="Password"
+                            />
+                            <br />
+                            <input type="submit" value="Login" />
+                            <br />
+                            <p>{responseMessage}</p>
+                        </form>
+                    </div>
+                    <div id="rightVertical" className="verticalSeparator">
+                        <h2>Doesn't have an account?</h2>
+                        <button onClick={openSignuppage} className="createAccountButton">
+                            Create an Account
+                        </button>
+                        <h4>Why is it worth to have an account on Nutrinexus:</h4>
+                        <div className="reasonContainer">
+                            <img
+                                src="/images/icons/FavouriteImg.png"
+                                alt={"FavouriteImg.png"}
+                                className="reasonImages"
+                            />
+                            <p className="reasonText">Save your favourite products</p>
+                        </div>
+                        <div className="reasonContainer">
+                            <img
+                                src="/images/icons/PreferenceImg.png"
+                                alt={"PreferenceImg.png"}
+                                className="reasonImages"
+                            />
+                            <p className="reasonText">Save your preferences</p>
+                        </div>
+                    </div>
                 </div>
-                <h2>Login to {isLoggingToCompany? "Company" : "Private account"}</h2>
-                <form onSubmit={(e) => (handleLoggingFunctions(e))} method="post">
-                    <label htmlFor="email">Email</label>
-                        <input
-                            type="text"
-                            name="email"
-                            onChange={handleChange}
-                            value={loginData.email}
-                            placeholder="Email or login" />
-                    <br/>
-                    <label htmlFor={"password"}>Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            onChange={handleChange}
-                            value={loginData.password}
-                            placeholder="Password"/>
-                    <br/>
-                    <input type="submit" value="Login" />
-                    <br/>
-                    <p>{responseMessage}</p>
-                </form>
-            </div>
-            <div id="rightVertical" className="verticalSeparator"> {/* Pionowy div dla czesci logowania */}
-                <h2>Doesn't have an account?</h2>
-                <button onClick={openSignuppage} className="createAccountButton">Create an Account</button>
-                <h4>why is it worth to have an account on Nutrinexus:</h4>
-                <div className="reasonContainer">
-                    <img src="/images/icons/FavouriteImg.png" alt={"FavouriteImg.png"} className="reasonImages"/> <p className="reasonText">    Save your favourite products</p>
-                </div>
-                <div className="reasonContainer">
-                    <img src="/images/icons/PreferenceImg.png" alt={"PreferenceImg.png"} className="reasonImages"/> <p className="reasonText">  Save your preferences</p>
-                </div>
-            </div>
-        </div>
-            <RollbackPageButton/>
-            <Footer/>
+            </main>
+            <RollbackPageButton />
+            <Footer />
         </div>
     );
 };

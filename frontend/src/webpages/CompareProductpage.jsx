@@ -7,6 +7,7 @@ import { SellerAccountFunctions } from "../components/functions/SellerAccountFun
 import { ImagesFunctions } from "../components/functions/ImagesFunctions";
 import { CustomEventsControler } from "../components/functions/CustomEventsControler";
 import styles from "../css/CompareProductpage.module.css";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrapa
 
 const CompareProductpage = () => {
     const { getProductInformation } = SearchProductFunctions();
@@ -70,17 +71,16 @@ const CompareProductpage = () => {
     }
 
     return (
-        <div>
+        <div className="d-flex flex-column min-vh-100">
             <Header />
-
-            <div className={styles.pageContainer}>
+            <main className={`${styles.pageContainer}`}>
                 <h1 className={styles.pageTitle}>COMPARE product with</h1>
                 <div className={styles.contentContainer}>
                     <div id="comparedProducts" className={styles.productContainer}>
                         {productComparisonDetails.length > 0 ? (
                             productComparisonDetails.map((product) => (
                                 <div key={product.id} className={styles.productItem}>
-                                    <CompareProductElement compareProductData={product} styles={styles} />
+                                    <CompareProductElement compareProductData={product} styles={styles}/>
                                 </div>
                             ))
                         ) : (
@@ -88,10 +88,10 @@ const CompareProductpage = () => {
                         )}
                     </div>
                 </div>
-            </div>
-            <Footer />
+            </main>
+            <Footer/>
         </div>
-    );
+);
 };
 
 export default CompareProductpage;
