@@ -20,17 +20,17 @@
 /*    white-space: nowrap;     !* Prevent items from wrapping *!*/
 /*}*/
 
-/*.checkbox-container {*/
-/*    display: flex;            !* Keep the label and checkbox together *!*/
-/*    flex-direction: column;     !* Arrange label and checkbox vertically *!*/
-/*    align-items: center;      !* Center vertically *!*/
-/*}*/
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-/*.checkbox-container label {*/
-/*    margin-right: 5px;       !* Space between the label and checkbox *!*/
-/*    margin-bottom: 0;        !* Remove bottom margin to avoid extra space *!*/
-/*}*/
-
+.checkbox-container label {
+    margin-left: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
 
 .weight-container {
     display: flex;
@@ -121,4 +121,32 @@
 
 .is-gram-container input {
     margin-left: 5px;
+}
+
+.preview-container {
+    background-color: #dacbd5;
+    padding: 2% 5% 5% 5%;
+    margin-left: 20%;
+    margin-top: 7%;
+
+    border-radius: 10px;
+}
+
+.preview-inner-container {
+    background-color: transparent;
+    border: 2px dashed #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-height: 800px;
+    max-width: 800px;
+}
+
+.preview-inner-container.filled {
+    background-color: white;
+}
+
+.preview-inner-container img {
+    max-width: 100%;
+    height: auto;
 }
