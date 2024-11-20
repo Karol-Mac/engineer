@@ -47,19 +47,23 @@ public class FavouritesServiceImpl implements FavouritesService {
         user.getFavouriteProducts().add(product);
 
         userRepository.save(user);
+
+        String notificationMessage = "Product '" + product.getName() + "' has been added to your favourites.";
+        System.out.println(notificationMessage);
+
         return productUtils.mapProductToDto(product, email);
     }
 
     @Override
-    public String deleteFavorite(long productId, String email) throws BadRequestException{
+    public String deleteFavorite(long productId, String email) throws BadRequestException {
         var user = userUtil.getUser(email);
         var product = productUtils.getProductFromDB(productId);
 
-        if(!user.getFavouriteProducts().contains(product))
-            throw new BadRequestException("product is not on favourite list");
+        if (!user.getFavouriteProducts().contains(product))
+            throw new BadRequestException("Product is not on the favourite list");
 
         user.getFavouriteProducts().remove(product);
         userRepository.save(user);
-        return "Product removed from favourites";
+        return "Product '" + product.getName() + "' has been removed from your favourites.";
     }
 }
