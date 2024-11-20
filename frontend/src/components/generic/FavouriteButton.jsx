@@ -1,30 +1,39 @@
-import {FavouriteFunctions} from "../functions/FavouriteFunctions";
-import {useEffect, useState} from "react";
-import {LoginFunctions} from "../functions/LoginFunctions";
-import {NavigateFunctions} from "../functions/NavigateFunctions";
+import React, { useEffect, useState } from "react";
+import { FavouriteFunctions } from "../functions/FavouriteFunctions";
+import { LoginFunctions } from "../functions/LoginFunctions";
+import { NavigateFunctions } from "../functions/NavigateFunctions";
+import NotificationAlert from "../generic/NotificationAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 import styles from "../../css/FavouriteButton.module.css";
-const FavouriteButton = ({givenProductID, isInFavourite}) => {
-    const {removeFavouriteProduct, saveFavouriteProduct, getFavouriteProducts} = FavouriteFunctions();
-    const {isUserLogged, isNormalUser, isSeller, isAdminUser} = LoginFunctions();
-    const {openLoginpage} = NavigateFunctions();
-    const [productIsSelected,setProductIsSelected] = useState(false);
 
-    const [favouriteProducts, setFavouriteProducts] = useState(null);
+const FavouriteButton = ({ givenProductID, isInFavourite }) => {
+    const { removeFavouriteProduct, saveFavouriteProduct, getFavouriteProducts } = FavouriteFunctions();
+    const { isUserLogged, isNormalUser, isSeller, isAdminUser } = LoginFunctions();
+    const { openLoginpage } = NavigateFunctions();
+    const [productIsSelected, setProductIsSelected] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const [notificationKey, setNotificationKey] = useState(0); // Klucz dla alertu
 
     const handleClick = async () => {
         if (isUserLogged()) {
-            console.log("isInFavourite: ",isInFavourite," productIsSelected:",productIsSelected);
             if (productIsSelected) {
-                console.log("Removed product from favourites");
                 await removeFavouriteProduct({ productID: givenProductID });
                 setProductIsSelected(false);
+                setNotificationKey((prev) => prev + 1); // Zmieniamy klucz
+                setNotification({
+                    message: "Product removed from favourites!",
+                    type: "alert-error",
+                });
             } else {
-                console.log("Saved product to favourites");
                 await saveFavouriteProduct({ productID: givenProductID });
                 setProductIsSelected(true);
+                setNotificationKey((prev) => prev + 1);
+                setNotification({
+                    message: "Product added to favourites!",
+                    type: "alert-success",
+                });
             }
         } else {
             openLoginpage();
@@ -32,45 +41,40 @@ const FavouriteButton = ({givenProductID, isInFavourite}) => {
     };
 
     useEffect(() => {
-        if(isUserLogged() && isNormalUser()) {
-            const isFavourite = (response) => {
-                const isSelected = response.some(product => product.id === givenProductID);
-                setProductIsSelected(isSelected);
-            }
-
-            const handleFetchingFavoruiteProducts = async () => {
+        if (isUserLogged() && isNormalUser()) {
+            const handleFetchingFavouriteProducts = async () => {
                 const response = await getFavouriteProducts();
 
-
                 if (response.success) {
-                    setFavouriteProducts(response.favouriteProducts);
-
-                    isFavourite(response.favouriteProducts);
-
-                    if (response.removedProductsName != null) {
-                        console.log("Products are no longer available: ", response.removedProductsName);
-                    }
-                    console.log("Fetching Fav successful");
-                } else {
-                    //Error overlay that displayes message and have button that opens Homepage
-                    console.log("Fetching Fav Failed \"" + response.message + "\"");
+                    const isSelected = response.favouriteProducts.some(
+                        (product) => product.id === givenProductID
+                    );
+                    setProductIsSelected(isSelected);
                 }
-            }
+            };
 
-            handleFetchingFavoruiteProducts()
+            handleFetchingFavouriteProducts();
         }
-    }, [isUserLogged(), productIsSelected]);
+    }, [isUserLogged(), givenProductID]);
 
     if (isSeller() || isAdminUser()) {
         return null;
     }
 
-    return(
-
-        <div className={styles.favouriteButton} onClick={handleClick}>
-            {/*{productIsSelected ? <p>product is in favourites</p>:<p>product can be added to favourites</p>}*/}
-            <FontAwesomeIcon icon={productIsSelected ? solidHeart : regularHeart} />
-        </div>
+    return (
+        <>
+            {notification && (
+                <NotificationAlert
+                    key={notificationKey}
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
+            )}
+            <div className={styles.favouriteButton} onClick={handleClick}>
+                <FontAwesomeIcon icon={productIsSelected ? solidHeart : regularHeart} />
+            </div>
+        </>
     );
 };
 
