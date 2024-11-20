@@ -4,11 +4,13 @@ import Footer from "../components/generic/Footer";
 import { CommentFunctions } from "../components/functions/CommentFunctions";
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CompareProductpage from "./CompareProductpage";
 import styles from "../css/Commentspage.module.css";
+import ReportButton from "../components/generic/ReportButton";
+import {ReportFunctions} from "../components/functions/ReportFunctions";
 
 const Commentspage = () => {
     const { getComments } = CommentFunctions();
+    const {setReportTypeComment, } = ReportFunctions();
     const [comments, setComments] = useState([]);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -50,6 +52,9 @@ const Commentspage = () => {
                 {comments.length > 0 ? (
                     comments.map((comment) => (
                         <div key={comment.id} className="card mb-3">
+                            <div className={styles.reportButtonContainer}>
+                                <ReportButton reportType={setReportTypeComment()} givenReportedID={comment.id} />
+                            </div>
                             <div className={`card-body`}>
                                 <p className={`card-text  ${styles.fancyBorder}`}>"{comment.content}"</p>
                                 <div className="text-end mt-3">
