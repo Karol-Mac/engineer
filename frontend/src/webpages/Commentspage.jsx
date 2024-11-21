@@ -8,6 +8,7 @@ import styles from "../css/Commentspage.module.css";
 import ReportButton from "../components/generic/ReportButton";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
 import AddCommentButton from "../components/specific/addCommentspage/AddCommentButton";
+import AddCommentspage from "./AddCommentspage";
 
 const Commentspage = () => {
     const { getComments } = CommentFunctions();
@@ -45,7 +46,7 @@ const Commentspage = () => {
         <div>
             <Header />
             <div className="position-fixed end-0 p-3 top-5px">
-                <AddCommentButton />
+                <AddCommentspage />
             </div>
             <div className="container mt-5">
 
