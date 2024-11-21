@@ -1,67 +1,110 @@
-import {FavouriteFunctions} from "../components/functions/FavouriteFunctions";
+import { FavouriteFunctions } from "../components/functions/FavouriteFunctions";
 import FavouriteProductElement from "../components/specific/favouritepage/FavouriteProductElement";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
+import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
+import { ImagesFunctions } from "../components/functions/ImagesFunctions";
+import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 
 const Favouritepage = () => {
-    const {removeFavouriteProduct, getFavouriteProducts} = FavouriteFunctions();
-    const [favouriteProducts, setFavouriteProducts] = useState(null);
+    const { removeFavouriteProduct, getFavouriteProducts } = FavouriteFunctions();
+    const { getImageByName } = ImagesFunctions();
+    const { getSellerInformation } = SellerAccountFunctions();
+    const [favouriteProductsDetails, setFavouriteProductsDetails] = useState(null);
     const [isFetching, setIsFetching] = useState(true);
 
 
     useEffect(() => {
-        const handleFetchingFavoruiteProducts = async () => {
+        const handleFetchingFavouriteProducts = async () => {
             const response = await getFavouriteProducts();
 
+            function appendJson(favouriteProduct) {
+                favouriteProduct.productImageName = favouriteProduct.productImageName || "";
+                favouriteProduct.sellerImageName = favouriteProduct.sellerImageName || "";
+                favouriteProduct.sellerName = favouriteProduct.sellerName || "";
+            }
 
             if (response.success) {
-                setFavouriteProducts(response.favouriteProducts);
-                if (response.removedProductsName != null) {
-                    console.log("Products are no longer available: ", response.removedProductsName);
-                }
+                const foundFavouriteProducts = response.favouriteProducts;
+
+                const latestProductsDetails = await Promise.all(
+                    foundFavouriteProducts.map(async (favouriteProduct) => {
+                        appendJson(favouriteProduct);
+
+                        console.log("Favourite product: ", favouriteProduct);
+
+                        const [favProductImage, sellerResult] = await Promise.all([
+                            getImageByName({ imageName: favouriteProduct.imageName }),
+                            getSellerInformation({ sellerID: favouriteProduct.sellerId }), // Ensure sellerId is correctly set
+                        ]);
+
+                        if (favProductImage.success) {
+                            favouriteProduct.productImageName = favProductImage.image;
+                        } else {
+                            console.log(favProductImage.message);
+                        }
+
+                        if (sellerResult.success) {
+                            console.log("sellerResult =-== " + sellerResult.sellerDetails.shopName);
+                            favouriteProduct.sellerName = sellerResult.sellerDetails.shopName;
+
+                            const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
+
+                            if (sellerImageResults.success) {
+                                favouriteProduct.sellerImageName = sellerImageResults.image;
+                            } else {
+                                console.log("sellerResult fetch unsuccessful: " + sellerImageResults.message);
+                            }
+                        }
+
+                        return favouriteProduct;
+                    })
+                );
+
+                setFavouriteProductsDetails(latestProductsDetails);
                 setIsFetching(false);
                 console.log("Fetching Fav successful");
             } else {
-                //Error overlay that displayes message and have button that opens Homepage
                 console.log("Fetching Fav Failed \"" + response.message + "\"");
             }
-        }
-        handleFetchingFavoruiteProducts()
+        };
+
+        handleFetchingFavouriteProducts();
     }, [isFetching]);
 
-    if(favouriteProducts == null){
-        return <div>
-            <h1>Loading</h1>
-        </div>
+    if (favouriteProductsDetails == null) {
+        return (
+            <div>
+                <Header />
+                <LoadingOverlay />
+                <Footer />
+            </div>
+        );
     }
-
 
     return (
         <div id="FavouriteProduct">
-            <Header/>
-            {favouriteProducts != null && favouriteProducts.length > 0 ? (
-                favouriteProducts.map((product) => {
+            <Header />
+            {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
+                favouriteProductsDetails.map((product) => {
                     return (
-                        //div-s are temprorary so that I can make more space between found elements
                         <div key={product.id}>
-                            {console.log("favouriteProducts page data passed: ",product)}
-                            <FavouriteProductElement favouriteProductData={product}/>
-                            <br/>
-                            <br/>
+                            {console.log("favouriteProducts page data passed: ", product)}
+                            <FavouriteProductElement favouriteProductData={product} />
+                            <br />
+                            <br />
                         </div>
                     );
-                })) : (
+                })
+            ) : (
                 <div id="foundProducts">
                     <p>no favourite products</p>
                 </div>
-            )};
-
-            <Footer/>
+            )}
+            <Footer />
         </div>
-
     );
-
 };
 
 export default Favouritepage;
