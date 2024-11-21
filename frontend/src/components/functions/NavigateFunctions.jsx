@@ -38,6 +38,9 @@ export const NavigateFunctions = () => {
     const openCommentspage = () =>{
         navigate("/comments");
     }
+    const openAddCommentpage = () =>{
+        navigate("/comments/add");
+    }
 
     const openSearchpage = (searchedProductName) => { //pass json with searchedProductName : PRODUCTNAME
         const queryParams = new URLSearchParams(searchedProductName).toString();
@@ -104,7 +107,8 @@ export const NavigateFunctions = () => {
         openRaportpage,
         openProductpage,
         openSellerProductspage,
-        openAdminpanelpage
+        openAdminpanelpage,
+        openAddCommentpage
     };
 };
 

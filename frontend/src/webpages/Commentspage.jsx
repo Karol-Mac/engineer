@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../css/Commentspage.module.css";
 import ReportButton from "../components/generic/ReportButton";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
+import AddCommentButton from "../components/specific/addCommentspage/AddCommentButton";
 
 const Commentspage = () => {
     const { getComments } = CommentFunctions();
@@ -43,7 +44,11 @@ const Commentspage = () => {
     return (
         <div>
             <Header />
+            <div className="position-fixed end-0 p-3 top-5px">
+                <AddCommentButton />
+            </div>
             <div className="container mt-5">
+
                 {error && (
                     <div className="alert alert-warning" role="alert">
                         {error}

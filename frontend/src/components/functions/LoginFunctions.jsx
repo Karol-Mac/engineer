@@ -11,7 +11,6 @@ export const LoginFunctions = () => {
         SELLER: "SELLER",
     };
 
-
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("tokenType");
@@ -128,17 +127,17 @@ export const LoginFunctions = () => {
 
     const isNormalUser = () => {
         const tokenType = localStorage.getItem("tokenType");
-        return tokenType == "USER" ? true : false;
+        return tokenType === "USER" ? true : false;
     };
 
     const isAdminUser = () => {
         const tokenType = localStorage.getItem("tokenType");
-        return tokenType == "ADMIN" ? true : false;
+        return tokenType === "ADMIN" ? true : false;
     };
 
     const isSeller = () => {
         const tokenType = localStorage.getItem("tokenType");
-        return tokenType == "SELLER" ? true : false;
+        return tokenType === "SELLER" ? true : false;
     };
 
     const currentAccountType = () => {

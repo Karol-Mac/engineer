@@ -8,6 +8,8 @@ import com.example.engineer.repository.CommentRepository;
 import com.example.engineer.service.CommentService;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.CommentMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,9 @@ public class CommentServiceImpl implements CommentService {
         var user = userUtil.getUser(email);
         if(user.getIsBlocked())
             throw new ApiException("You cannot perform this operation - you're blocked", HttpStatus.CONFLICT);
+
+        Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+        logger.info("Adding comment with content: {}", content);
 
         Comment comment = Comment.builder()
                 .content(content)
