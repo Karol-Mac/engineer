@@ -46,7 +46,7 @@ const Commentspage = () => {
         <div>
             <Header />
             <div className="position-fixed end-0 p-3 top-5px">
-                <AddCommentspage />
+                <AddCommentButton />
             </div>
             <div className="container mt-5">
 
