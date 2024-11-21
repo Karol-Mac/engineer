@@ -1,6 +1,17 @@
 import axios from "axios";
+import {useState} from "react";
 
 export const SearchProductFunctions = () => {
+    const BATCHSIZE = {
+                TEN: 1,
+                FIFTEEN: 2,
+                TWENTY: 3,
+    };
+
+    const [currentSearchBatch, setCurrentSearchBatch] = useState(BATCHSIZE.TEN);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pagesNumber, setPagesNumber] = useState(1);
+
     const getSearchedProducts = async({productName})=>{
         let errorMessage;
         try {
@@ -139,11 +150,70 @@ export const SearchProductFunctions = () => {
         }
     }
 
+    const getBatchSize = () => {
+        return BATCHSIZE;
+    }
+
+    const getCurrentBatchSize = () => {
+        return currentSearchBatch;
+    }
+
+    const getCurrentPage = () => {
+        return currentPage;
+    }
+
+    const setCurrentPageNumer = (newPage) => {
+        if(newPage > 0 && newPage <= pagesNumber){
+            setCurrentPage(newPage);
+        }else{
+            console.log("Given page number is out of range");
+        }
+    }
+
+    const isValidBatchsize = (testBatch) =>{
+        return Object.values(BATCHSIZE).includes(testBatch)
+    }
+
+    const setBatchSize = (newBatch) => {
+        if(isValidBatchsize(newBatch)){
+            setCurrentSearchBatch(newBatch);
+            setCurrentPage(1);
+        }else{
+            console.log("Given batch isn't valid");
+        }
+    }
+
+    const countPageNumber = (foundProducts) =>{
+        if(foundProducts == null){
+            console.log("Found products are null perhaps you didn't find any products");
+            setPagesNumber(1);
+        }else{
+            const pageCount = Math.ceil(foundProducts.length / currentSearchBatch);
+            setPagesNumber(pageCount);
+        }
+    }
+
+    const getPagesNumber = () => {
+        return pagesNumber;
+    }
+
+
     return {
         getSearchedProducts,
         getLatestProducts,
         getProductInformation,
         getSellerData,
+
+        setBatchSize,
+        getBatchSize,
+        getCurrentBatchSize,
+        countPageNumber,
+        getCurrentPage,
+        getPagesNumber,
+        setCurrentPageNumer,
+
+
+
     };
 };
 
