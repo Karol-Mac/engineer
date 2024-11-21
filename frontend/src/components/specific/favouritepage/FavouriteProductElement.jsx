@@ -49,18 +49,17 @@ function FavouriteProductElement ({favouriteProductData}) {
         <div id="Productpage" className={styles.favouriteProductContainer} onClick={() => handleProductpageClick(favouriteProductData.id)}>
             <div>
                 <img className={styles.productImage} src={productImageName} alt={productImageName} />
-                <br />
-                <img className={styles.productImage} src={sellerImageName} alt={sellerImageName} />
             </div>
             <div onClick={stopPropagation}>
                 <p onClick={handleRemoveFavouriteClick}>Remove from favourite</p>
             </div>
 
-            <div>
+            <div className={styles.productDetails}>
                 <h2 className={styles.productTitle}>{productName}</h2>
-                <h2>Price: {productPrice} zł</h2>
-                <h3>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units}</h3>
-                <p>Seller {sellerName}</p>
+                <h2 className={styles.priceDefault}>Price: {productPrice} zł</h2>
+                <h3 className={styles.priceByWeight}>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units}</h3>
+                <p>{sellerName}</p>
+                <img className={styles.sellerImage} src={sellerImageName} alt={sellerImageName} />
             </div>
             <p>weight {productWeight} {productIsGram ? "g" : "ml"}</p>
             <ProductCompareToolbar />

@@ -1,0 +1,13 @@
+.productGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds consistent spacing between items */
+    justify-content: left; /* Centers items in the grid */
+}
+
+.productGrid > div {
+    flex: 1 1 calc(30% - 20px); /* Adjust width to a reasonable size */
+    max-width: 300px; /* Limit the maximum width of each item */
+    min-width: 250px; /* Ensure items don't get too small */
+    margin: 10px; /* Add some spacing around each item */
+}

@@ -1,60 +1,69 @@
 .favouriteProductContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    margin: 10px;
-    background-color: #f9f9f9;
-}
-
-.productCard {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    border: 1px solid #ddd;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1%;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.favouriteProductContainer:hover {
+    transform: scale(1.05);
 }
 
 .productImage {
     width: 100%;
-    max-width: 200px;
-    height: auto;
+    height: 150px;
+    object-fit: contain;
     border-radius: 8px;
-    margin-bottom: 15px;
 }
 
 .productTitle {
-    font-size: 1.2em;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 1.8em;
+    margin: 10px 0;
     text-align: center;
 }
 
-.productDescription {
-    font-size: 1em;
-    color: #666;
+.productDetails {
     text-align: center;
-    margin-bottom: 15px;
 }
 
-.actionButtons {
+.sellerInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sellerImage {
+    position: absolute; /* Change from absolute to relative */
+    display: block; /* Ensures proper block rendering */
+    width: 75px;
+    height: 50px;
+    margin: 0;
+    top: 2%; /* Remove if not needed */
+    left: 5%; /* Remove if not needed */
+    object-fit: contain; /* Ensures proper scaling of the image */
+}
+
+.productActions {
     display: flex;
     justify-content: space-around;
     width: 100%;
+    margin-top: 10px;
 }
 
-.actionButton {
-    padding: 10px 20px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.priceByWeight{
+    font-size: 15px;
 }
 
-.actionButton:hover {
-    background-color: #ddd;
+.priceDefault{
+    font-size: 25px;
 }

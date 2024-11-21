@@ -6,6 +6,7 @@ import Footer from "../components/generic/Footer";
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import { ImagesFunctions } from "../components/functions/ImagesFunctions";
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
+import styles from "../css/Favouritepage.module.css";
 
 const Favouritepage = () => {
     const { removeFavouriteProduct, getFavouriteProducts } = FavouriteFunctions();
@@ -86,22 +87,24 @@ const Favouritepage = () => {
     return (
         <div id="FavouriteProduct">
             <Header />
-            {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
-                favouriteProductsDetails.map((product) => {
-                    return (
-                        <div key={product.id}>
-                            {console.log("favouriteProducts page data passed: ", product)}
-                            <FavouriteProductElement favouriteProductData={product} />
-                            <br />
-                            <br />
-                        </div>
-                    );
-                })
-            ) : (
-                <div id="foundProducts">
-                    <p>no favourite products</p>
-                </div>
-            )}
+            <div className={styles.productGrid}>
+                {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
+                    favouriteProductsDetails.map((product) => {
+                        return (
+                            <div key={product.id}>
+                                {console.log("favouriteProducts page data passed: ", product)}
+                                <FavouriteProductElement favouriteProductData={product} />
+                                <br />
+                                <br />
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div id="foundProducts">
+                        <p>no favourite products</p>
+                    </div>
+                )}
+            </div>
             <Footer />
         </div>
     );
