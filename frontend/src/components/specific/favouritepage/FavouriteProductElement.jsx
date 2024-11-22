@@ -18,7 +18,7 @@ function FavouriteProductElement ({favouriteProductData}) {
     const [productName, setProductName] = useState(favouriteProductData.name);
     const [productImageName, setProductImageName] = useState(favouriteProductData.productImageName);
     const [productPrice, setProductPrice] = useState(favouriteProductData.price);
-    const [productWeight, setProductWeight] = useState(favouriteProductData.productWeight);
+    const [productWeight, setProductWeight] = useState(favouriteProductData.weight);
     const [productIsGram, setProductIsGram] = useState(favouriteProductData.inGrams);
 
     const [productUpdateDate, setProductUpdateDate] = useState(new Date(favouriteProductData.updatedAt).toLocaleDateString('en-GB'));
@@ -31,7 +31,7 @@ function FavouriteProductElement ({favouriteProductData}) {
 
     useEffect(() => {
 
-        const roundedValue = Number(favouriteProductData.price * (favouriteProductData.weight/1000.0)).toFixed(2);
+        const roundedValue = Number(favouriteProductData.price * (100.0/favouriteProductData.weight)).toFixed(2);
         setValuePer100Units(roundedValue);
     }, [handleRemoveFavouriteClick]);
 
@@ -55,14 +55,12 @@ function FavouriteProductElement ({favouriteProductData}) {
             </div>
 
             <div className={styles.productDetails}>
+                <img className={styles.sellerImage} src={sellerImageName} alt={sellerImageName} />
                 <h2 className={styles.productTitle}>{productName}</h2>
                 <h2 className={styles.priceDefault}>Price: {productPrice} zł</h2>
-                <h3 className={styles.priceByWeight}>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units}</h3>
-                <p>{sellerName}</p>
-                <img className={styles.sellerImage} src={sellerImageName} alt={sellerImageName} />
+                <h3 className={styles.priceByWeight}>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units} zł</h3>
+                <h3 className={styles.priceByWeight}>weight: {productWeight} {productIsGram ? "g" : "ml"}</h3>
             </div>
-            <p>weight {productWeight} {productIsGram ? "g" : "ml"}</p>
-            <ProductCompareToolbar />
         </div>
     );
 }

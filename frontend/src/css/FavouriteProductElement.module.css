@@ -11,7 +11,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     transition: transform 0.2s;
-    position: relative;
+    position: relative; /* Ensure relative positioning for child absolute elements */
 }
 
 .favouriteProductContainer:hover {
@@ -23,34 +23,51 @@
     height: 150px;
     object-fit: contain;
     border-radius: 8px;
+    margin-bottom: 10px; /* Add spacing below the product image */
 }
 
 .productTitle {
-    font-size: 1.8em;
+    font-size: 1.8em; /* Larger and boldened for emphasis */
+    font-weight: bold;
     margin: 10px 0;
     text-align: center;
 }
 
-.productDetails {
-    text-align: center;
+.priceDefault {
+    font-size: 1.1em; /* Slightly smaller than the title */
+    font-weight: bold; /* Ensures emphasis */
+    color: #333; /* Darker color for contrast */
+    margin: 5px 0; /* Add spacing between elements */
+
 }
 
-.sellerInfo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+.priceByWeight {
+    font-size: 1.1em; /* Smaller than the default price */
+    color: #666; /* Lighter color for secondary emphasis */
+    margin-top: 5px; /* Separate from other text */
+}
+
+.productDetails p {
+    font-size: 14px; /* Smaller text for additional details */
+    margin: 2px 0; /* Uniform spacing for weight and seller name */
+    color: #555; /* Subtle color for secondary details */
 }
 
 .sellerImage {
-    position: absolute; /* Change from absolute to relative */
-    display: block; /* Ensures proper block rendering */
+    position: absolute;
     width: 75px;
     height: 50px;
-    margin: 0;
-    top: 2%; /* Remove if not needed */
-    left: 5%; /* Remove if not needed */
-    object-fit: contain; /* Ensures proper scaling of the image */
+    top: 10px; /* Aligns to the top-left corner */
+    left: 10px;
+    object-fit: contain;
+    border-radius: 4px; /* Slight rounding for better aesthetics */
+}
+
+.sellerInfo p {
+    font-size: 14px; /* Consistent with other small text */
+    text-align: center; /* Center-align seller info text */
+    margin: 0; /* Remove default margin */
+    color: #555; /* Subtle text color */
 }
 
 .productActions {
@@ -58,12 +75,4 @@
     justify-content: space-around;
     width: 100%;
     margin-top: 10px;
-}
-
-.priceByWeight{
-    font-size: 15px;
-}
-
-.priceDefault{
-    font-size: 25px;
 }
