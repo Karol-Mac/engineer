@@ -8,6 +8,7 @@ import {NavigateFunctions} from "../../functions/NavigateFunctions";
 import ProductCompareToolbar from "../../generic/ProductCompareToolbar";
 import {FavouriteFunctions} from "../../functions/FavouriteFunctions";
 import styles from "../../../css/FavouriteProductElement.module.css";
+import RemoveFavouriteButton from "./RemoveFavouriteButton";
 
 
 function FavouriteProductElement ({favouriteProductData}) {
@@ -26,6 +27,7 @@ function FavouriteProductElement ({favouriteProductData}) {
     const [sellerImageName, setSellerImageName] = useState(favouriteProductData.sellerImageName);
 
     const handleRemoveFavouriteClick = () => {
+        console.log("Removing product from favourites with ID: ", favouriteProductData.id);
         removeFavouriteProduct(favouriteProductData.id);
     }
 
@@ -61,6 +63,7 @@ function FavouriteProductElement ({favouriteProductData}) {
                 <h3 className={styles.priceByWeight}>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units} zł</h3>
                 <h3 className={styles.priceByWeight}>weight: {productWeight} {productIsGram ? "g" : "ml"}</h3>
             </div>
+            <RemoveFavouriteButton favouriteProductID={favouriteProductData.id}/>
         </div>
     );
 }
