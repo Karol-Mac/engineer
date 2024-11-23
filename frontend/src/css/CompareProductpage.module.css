@@ -6,21 +6,22 @@
     margin: 20px 0;
     width: 100%;
     background-color: #9999b3;
+
 }
 
 .compareProductColumn {
-    display: flex;
-    flex-direction: column;
+    /*display: flex;*/
+    /*flex-direction: column;*/
     align-items: center;
-    flex: 1;
+    justify-content: center;
     text-align: center;
+    margin: 0px;
     padding: 10px;
-    border: 1px solid #ddd;
-    background-color: white;
-    margin: 0 10px;
-    position: relative; /* Ensure the column is the reference for absolute positioning */
+    /*width: 290px;*/
+    box-sizing: border-box;
 
 }
+
 
 .compareProductImage {
     width: 100px;
@@ -39,14 +40,10 @@
     color: #333;
 }
 
+.productName {
+    font-size: 20px; /* Rozmiar czcionki tytułu */
+    font-weight: bold;
 
-.topRightContainer {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .topRightElements {
@@ -59,7 +56,7 @@
 }
 
 .pageContainer {
-    position: relative; /* Ensure the container is the reference for absolute positioning */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -68,10 +65,6 @@
     background-color: #9999b3;
 }
 
-.pageTitle {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
 
 .contentContainer {
     margin: 20px 0;
@@ -80,76 +73,44 @@
     width: 100%;
 }
 
-.legendContainer {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    text-align: left;
-}
-
-.legendItem {
-    margin: 10px 0;
-    font-size: 16px;
-}
-
-.productContainer {
-    display: flex;
-    background-color: #9999b3;
-    flex-direction: row;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-}
-
 .productItem {
-    flex: 1;
-    padding: 10px;
-    background-color: #9999b3;
+    flex: 1 1 300px;
+    padding: 20px;
+    background-color: #f4f4f4;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.invisibleImage {
-    width: 100px; /* Set the same width as compared products */
-    height: 100px; /* Set the same height as compared products */
-    visibility: hidden; /* Make the image invisible */
-    margin-bottom: 10px;
-}
 
-.contentContainer {
-    display: grid;
-    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* 1 column for legend + dynamic product columns */
-    grid-auto-rows: auto; /* Automatically adjust row heights */
-    gap: 10px;
-    width: 100%;
-}
 
-.overlayRow {
-    display: grid;
-    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* Match columns with the content container */
-    align-items: center;
-    height: 60px; /* Adjust based on the height of your rows */
-    background-color: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid #ddd;
-}
 
-.overlayLabel {
-    text-align: left;
-    padding-left: 10px;
-    font-weight: bold;
-    color: #333;
-}
-
-.productValue {
-    text-align: center;
-    padding: 10px;
-    color: #555;
-    border-left: 1px solid #ddd;
-}
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+}
+
+
+
+.productItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.productContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+}
+
+
+.pageTitle
+{
+        font-size: 50px;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
 }
