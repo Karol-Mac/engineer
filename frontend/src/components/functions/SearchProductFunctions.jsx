@@ -107,8 +107,8 @@ export const SearchProductFunctions = () => {
             products = products.filter(product => product.isHidden !== true);
             products = products.sort((dateA,dateB) => new Date(dateB.updatedAt) - new Date(dateA.updatedAt));
 
-            if(products.length > 10){
-                products.splice(0,10);
+            if (products.length > 10) {
+                products = products.slice(0, 10);
             }
 
             return{ success: true, foundProducts: products};
