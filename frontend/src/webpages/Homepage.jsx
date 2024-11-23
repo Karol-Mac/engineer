@@ -3,12 +3,11 @@ import Footer from "../components/generic/Footer";
 import {useState} from "react";
 import ProductCompareToolbar from "../components/generic/ProductCompareToolbar";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
-import {CompareFunctions} from "../components/functions/CompareFunctions";
 import ProductSearchbar from "../components/generic/ProductSearchbar";
 import LatestProductsElementsContainer from "../components/specific/homepage/LatestProductsElementsContainer";
 
-// import "../css/generalVisuals.css";
 import styles from "../css/Homepage.module.css";
+import Carousel from "../components/specific/homepage/Carousel";
 
 
 const Homepage = () => {
@@ -27,13 +26,16 @@ const Homepage = () => {
         // console.log("seachName updated"+searchName)
     };
 
+
     return (
         <div>
             <Header/>
             <div className={styles.homepageContainer}>
                 <h1>Site title</h1>
                 <ProductSearchbar styles={styles}/>
-                {/*image carousel*/}
+
+                <Carousel/>
+
                 {/* last updated products div (using last updatedProductElement)*/}
                 <LatestProductsElementsContainer styles={styles}/>
                 {/*Our partners div (using static images in React in frontend/public/images/partners)*/}
