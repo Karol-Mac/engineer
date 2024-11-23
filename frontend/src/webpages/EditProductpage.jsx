@@ -1,18 +1,22 @@
 import { SellerAccountFunctions } from "../components/functions/SellerAccountFunctions";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import "../css/AddProductpage.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderSimple from "../components/generic/HeaderSimple";
 import Footer from "../components/generic/Footer";
 import Header from "../components/generic/Header";
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
-import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
-import {useParams} from "react-router-dom";
+import { SearchProductFunctions } from "../components/functions/SearchProductFunctions";
+import { useParams } from "react-router-dom";
+import { ImagesFunctions } from "../components/functions/ImagesFunctions";
+import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
 const EditProductpage = () => {
     const { editProduct } = SellerAccountFunctions();
     const { getProductInformation } = SearchProductFunctions();
     const { productID } = useParams();
+    const { getImageByName } = ImagesFunctions();
+    const {openProductpage} = NavigateFunctions();
 
     const [newProductData, setNewProductData] = useState({
         productName: "",
@@ -30,11 +34,12 @@ const EditProductpage = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [responseMessage, setResponseMessage] = useState("");
     const [loading, setLoading] = useState(true);
-
     const [errors, setErrors] = useState({});
+    const [loaded, setLoaded] = useState(false); // Track if initial data is loaded
 
     useEffect(() => {
         const fetchProductDetails = async () => {
+            setLoading(true);
             const response = await getProductInformation({ productID });
             if (response.success) {
                 setNewProductData({
@@ -49,15 +54,20 @@ const EditProductpage = () => {
                     fiber: response.productDetails.fiber,
                     salt: response.productDetails.salt,
                 });
-                setLoading(false);
+                const imageResponse = await getImageByName({ imageName: response.productDetails.imageName });
+                setImagePreview(imageResponse.image);
+                setLoaded(true);
             } else {
                 setResponseMessage(response.message);
-                setLoading(false);
+
             }
+            setLoading(false);
         };
 
-        fetchProductDetails();
-    }, [productID, getProductInformation]);
+        if (!loaded) {
+            fetchProductDetails();
+        }
+    }, [productID, getProductInformation, getImageByName]);
 
     const checkForEmptyFields = () => {
         for (const [key, value] of Object.entries(newProductData)) {
@@ -92,7 +102,6 @@ const EditProductpage = () => {
         setErrors({});
         setResponseMessage(""); // Clear response message
     };
-
 
     const validateField = (name, value) => {
         let error = "";
@@ -129,12 +138,6 @@ const EditProductpage = () => {
                 }
                 break;
 
-            case "productImage":
-                if (!newProductImage) {
-                    error = "Product image is required.";
-                }
-                break;
-
             default:
                 break;
         }
@@ -147,7 +150,7 @@ const EditProductpage = () => {
 
         if (type === "checkbox") {
             setNewProductData({ ...newProductData, [name]: checked });
-        } else if (type === "number" && name === "price") {
+        } else if (type === "number" && (name === "price" || name === "fat" || name === "protein" || name === "carbs" || name === "fiber" || name === "salt")) {
             const decimalPattern = /^\d*\.?\d*$/;
             if (decimalPattern.test(value)) {
                 setNewProductData({ ...newProductData, [name]: value });
@@ -164,14 +167,13 @@ const EditProductpage = () => {
         }
     };
 
-
     const handleImageUpload = (uploadEvent) => {
         const uploadedFile = uploadEvent.target.files[0];
         setNewProductImage(uploadedFile);
         setImagePreview(URL.createObjectURL(uploadedFile));
     };
 
-    const handleCreateProduct = async (e) => {
+    const handleEditProduct = async (e) => {
         e.preventDefault();
 
         if (checkForEmptyFields()) {
@@ -188,7 +190,8 @@ const EditProductpage = () => {
 
         const formattedProductData = {
             ...newProductData,
-            price: parseFloat(newProductData.price).toFixed(2),
+            price: parseFloat(newProductData.price).toFixed(2), // Ensure proper formatting
+            productID: parseInt(productID, 10), // Ensure productID is a number
         };
 
         const response = await editProduct(e, formattedProductData);
@@ -196,6 +199,7 @@ const EditProductpage = () => {
         if (response.success) {
             console.log("successfully added new product");
             setResponseMessage("Product added successfully!");
+            openProductpage({productID});
             resetForm();
         } else {
             setResponseMessage(response.message);
@@ -219,7 +223,7 @@ const EditProductpage = () => {
             <div className="container mt-5">
                 <div className="row">
                     <div className="col-md-6">
-                        <form onSubmit={handleCreateProduct} method="post">
+                        <form onSubmit={handleEditProduct} method="post">
                             <div className="mb-3">
                                 <label htmlFor="productName" className="form-label">Product Name</label>
                                 <input
@@ -254,8 +258,15 @@ const EditProductpage = () => {
                                         required
                                     />
                                     <div className="form-check">
-                                        <input type="checkbox" id="isGram" name="isGram" className="form-check-input" />
-                                        <label htmlFor="isGram" className="form-check-label">grams?</label>
+                                        <input
+                                            type="checkbox"
+                                            id="inGrams" // Match this to the state property
+                                            name="inGrams" // Match this to the state property
+                                            className="form-check-input"
+                                            onChange={handleChange} // Correctly handle state changes
+                                            checked={newProductData.inGrams} // Bind to state property
+                                        />
+                                        <label htmlFor="inGrams" className="form-check-label">grams?</label>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +274,6 @@ const EditProductpage = () => {
                                 <label htmlFor="energeticValue" className="form-label">Energetic value</label>
                                 <input
                                     type="number"
-                                    min="0"
                                     name="energeticValue"
                                     onChange={handleChange}
                                     value={newProductData.energeticValue}
@@ -274,8 +284,7 @@ const EditProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="fat" className="form-label">Fat</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="fat"
                                     onChange={handleChange}
                                     value={newProductData.fat}
@@ -286,8 +295,7 @@ const EditProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="protein" className="form-label">Protein</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="protein"
                                     onChange={handleChange}
                                     value={newProductData.protein}
@@ -298,8 +306,7 @@ const EditProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="carbs" className="form-label">Carbs</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="carbs"
                                     onChange={handleChange}
                                     value={newProductData.carbs}
@@ -310,8 +317,7 @@ const EditProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="fiber" className="form-label">Fiber</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="fiber"
                                     onChange={handleChange}
                                     value={newProductData.fiber}
@@ -322,8 +328,7 @@ const EditProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="salt" className="form-label">Salt</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="salt"
                                     onChange={handleChange}
                                     value={newProductData.salt}
@@ -331,18 +336,7 @@ const EditProductpage = () => {
                                     required
                                 />
                             </div>
-                            <div className="mb-3">
-                                <label htmlFor="productImage" className="form-label">Product image</label>
-                                <input
-                                    type="file"
-                                    name="productImage"
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                    className="form-control"
-                                    required
-                                />
-                            </div>
-                            <input type="submit" value="Submit" className="btn btn-primary" />
+                            <input type="submit" value="Save change" className="btn btn-primary" />
                             <p>{responseMessage}</p>
                         </form>
                     </div>
@@ -350,7 +344,6 @@ const EditProductpage = () => {
                         <div className="preview-container">
                             <p>Preview:</p>
                             <div className={`preview-inner-container ${imagePreview ? 'filled' : ''}`}>
-
                                 {imagePreview ? (
                                     <img src={imagePreview} alt="Product Preview" className="img-fluid" />
                                 ) : (

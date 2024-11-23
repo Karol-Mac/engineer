@@ -125,10 +125,9 @@ export const SellerAccountFunctions = () => {
         }
     }
 
-    const editProduct = async(e, newProductData) => {
+    const editProduct = async (e, newProductData) => {
         e.preventDefault();
 
-        const formData = new FormData();
         const AuthorizationToken = localStorage.getItem("accessToken");
         const modifiedProductData = {
             ...newProductData,
@@ -137,13 +136,12 @@ export const SellerAccountFunctions = () => {
         delete modifiedProductData.productName;
 
         try {
-            let editProductUrl = `http://localhost:8080/api/products/${newProductData.productID}`;
-            formData.append('product', new Blob([JSON.stringify(modifiedProductData)], { type: 'application/json' }));
-
-            const res = await axios.put(editProductUrl, formData, {
+            const editProductUrl = `http://localhost:8080/api/products/${newProductData.productID}`;
+            const res = await axios.put(editProductUrl, modifiedProductData, {
                 headers: {
-                    Authorization: `Bearer ${AuthorizationToken}`
-                }
+                    "Authorization": `Bearer ${AuthorizationToken}`,
+                    "Content-Type": "application/json", // Explicitly set Content-Type
+                },
             });
 
             return { success: true };
@@ -156,6 +154,7 @@ export const SellerAccountFunctions = () => {
             return { success: false, message: errorMessage };
         }
     };
+
 
     return {
         getSellerInformation,
