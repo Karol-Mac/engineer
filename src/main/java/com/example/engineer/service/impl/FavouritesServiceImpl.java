@@ -54,6 +54,7 @@ public class FavouritesServiceImpl implements FavouritesService {
         return productUtils.mapProductToDto(product, email);
     }
 
+
     @Override
     public String deleteFavorite(long productId, String email) throws BadRequestException {
         var user = userUtil.getUser(email);
