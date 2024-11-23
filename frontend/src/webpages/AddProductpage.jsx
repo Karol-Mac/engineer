@@ -119,7 +119,7 @@ const AddProductpage = () => {
 
         if (type === "checkbox") {
             setNewProductData({ ...newProductData, [name]: checked });
-        } else if (type === "number" && name === "price") {
+        } else if (type === "number" && (name === "price" || name === "fat" || name === "protein" || name === "carbs" || name === "fiber" || name === "salt")) {
             const decimalPattern = /^\d*\.?\d*$/;
             if (decimalPattern.test(value)) {
                 setNewProductData({ ...newProductData, [name]: value });
@@ -225,7 +225,6 @@ const AddProductpage = () => {
                                 <label htmlFor="energeticValue" className="form-label">Energetic value</label>
                                 <input
                                     type="number"
-                                    min="0"
                                     name="energeticValue"
                                     onChange={handleChange}
                                     value={newProductData.energeticValue}
@@ -236,8 +235,7 @@ const AddProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="fat" className="form-label">Fat</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="fat"
                                     onChange={handleChange}
                                     value={newProductData.fat}
@@ -248,8 +246,7 @@ const AddProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="protein" className="form-label">Protein</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="protein"
                                     onChange={handleChange}
                                     value={newProductData.protein}
@@ -260,8 +257,7 @@ const AddProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="carbs" className="form-label">Carbs</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="carbs"
                                     onChange={handleChange}
                                     value={newProductData.carbs}
@@ -272,8 +268,7 @@ const AddProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="fiber" className="form-label">Fiber</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="fiber"
                                     onChange={handleChange}
                                     value={newProductData.fiber}
@@ -284,8 +279,7 @@ const AddProductpage = () => {
                             <div className="mb-3">
                                 <label htmlFor="salt" className="form-label">Salt</label>
                                 <input
-                                    type="number"
-                                    min="0"
+                                    type="text"
                                     name="salt"
                                     onChange={handleChange}
                                     value={newProductData.salt}
