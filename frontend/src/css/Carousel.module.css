@@ -1,0 +1,29 @@
+.carouselContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto; /* Center vertically and horizontally */
+    width: 60%; /* Restrict carousel width to 60% of the page */
+    max-width: 1200px; /* Optional: Set a max width for larger screens */
+    min-width: 500px; /* Prevent it from becoming too small */
+}
+
+.carouselImage {
+    width: 70%;
+    height: auto; /* Maintain the image aspect ratio */
+    object-fit: cover; /* Adjust image cropping for a clean display */
+}
+
+.carouselIndicators button {
+    background-color: #000; /* Customize indicator color */
+}
+
+.carouselControl {
+    filter: invert(100%); /* Optional: Adjust arrow colors */
+}
+
+.carouselControlIcon {
+    width: 30px;
+    height: 30px;
+}
+
