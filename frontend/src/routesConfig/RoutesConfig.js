@@ -17,6 +17,7 @@ import SellerProductsListpage from '../webpages/SellerProductsListpage';
 import AdminReportPanelpage from '../webpages/AdminReportPanelpage';
 import Commentspage from "../webpages/Commentspage";
 import AddCommentspage from "../webpages/AddCommentspage";
+import EditProductpage from "../webpages/EditProductpage";
 
 const RoutesConfig = () => {
     const [accessToken] = useState(localStorage.getItem("accessToken"));
@@ -49,6 +50,7 @@ const RoutesConfig = () => {
             )}
 
             <Route path="/add" exact element={<AddProductpage />} />
+            <Route path="/edit" exact element={<EditProductpage />} />
             <Route path="/report/:reportType/:reportID" exact element={<Reportpage />} />
 
 
