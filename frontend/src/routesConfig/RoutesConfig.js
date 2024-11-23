@@ -50,7 +50,7 @@ const RoutesConfig = () => {
             )}
 
             <Route path="/add" exact element={<AddProductpage />} />
-            <Route path="/edit" exact element={<EditProductpage />} />
+            <Route path="/edit/:productID" exact element={<EditProductpage />} />
             <Route path="/report/:reportType/:reportID" exact element={<Reportpage />} />
 
 
