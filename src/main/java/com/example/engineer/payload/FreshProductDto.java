@@ -37,7 +37,6 @@ public final class FreshProductDto {
     private Integer energeticValue;
 
     @ValidPercentage
-    @NotNull
     private BigDecimal fat;
 
     @ValidPercentage

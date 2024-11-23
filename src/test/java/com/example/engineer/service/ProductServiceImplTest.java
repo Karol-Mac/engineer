@@ -55,11 +55,11 @@ class ProductServiceImplTest {
                 true,
                 500,
                 200,
-                10,
-                15,
-                30,
-                5,
-                1,
+                BigDecimal.valueOf(10),
+                BigDecimal.valueOf(15),
+                BigDecimal.valueOf(30),
+                BigDecimal.valueOf(5),
+                BigDecimal.valueOf(1),
                 "testImage.jpg"
         );
         MultipartFile imageFile = mock(MultipartFile.class);
