@@ -216,8 +216,15 @@ const AddProductpage = () => {
                                         required
                                     />
                                     <div className="form-check">
-                                        <input type="checkbox" id="isGram" name="isGram" className="form-check-input" />
-                                        <label htmlFor="isGram" className="form-check-label">grams?</label>
+                                        <input
+                                            type="checkbox"
+                                            id="inGrams" // Match this to the state property
+                                            name="inGrams" // Match this to the state property
+                                            className="form-check-input"
+                                            onChange={handleChange} // Correctly handle state changes
+                                            checked={newProductData.inGrams} // Bind to state property
+                                        />
+                                        <label htmlFor="inGrams" className="form-check-label">grams?</label>
                                     </div>
                                 </div>
                             </div>
