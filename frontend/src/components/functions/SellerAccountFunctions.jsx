@@ -125,10 +125,43 @@ export const SellerAccountFunctions = () => {
         }
     }
 
+    const editProduct = async(e, newProductData) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        const AuthorizationToken = localStorage.getItem("accessToken");
+        const modifiedProductData = {
+            ...newProductData,
+            name: newProductData.productName,
+        };
+        delete modifiedProductData.productName;
+
+        try {
+            let editProductUrl = `http://localhost:8080/api/products/${newProductData.productID}`;
+            formData.append('product', new Blob([JSON.stringify(modifiedProductData)], { type: 'application/json' }));
+
+            const res = await axios.put(editProductUrl, formData, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`
+                }
+            });
+
+            return { success: true };
+        } catch (error) {
+            let errorMessage;
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                errorMessage = error.response.data.message || "Unknown error";
+            }
+
+            return { success: false, message: errorMessage };
+        }
+    };
+
     return {
         getSellerInformation,
         addNewProduct,
-        getSellerProducts
+        getSellerProducts,
+        editProduct
     };
 };
 

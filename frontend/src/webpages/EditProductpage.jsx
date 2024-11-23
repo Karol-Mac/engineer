@@ -1,12 +1,19 @@
 import { SellerAccountFunctions } from "../components/functions/SellerAccountFunctions";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import "../css/AddProductpage.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HeaderSimple from "../components/generic/HeaderSimple";
 import Footer from "../components/generic/Footer";
+import Header from "../components/generic/Header";
+import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
+import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
+import {useParams} from "react-router-dom";
 
 const EditProductpage = () => {
-    const { addNewProduct } = SellerAccountFunctions();
+    const { editProduct } = SellerAccountFunctions();
+    const { getProductInformation } = SearchProductFunctions();
+    const { productID } = useParams();
+
     const [newProductData, setNewProductData] = useState({
         productName: "",
         price: "",
@@ -22,8 +29,35 @@ const EditProductpage = () => {
     const [newProductImage, setNewProductImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [responseMessage, setResponseMessage] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            const response = await getProductInformation({ productID });
+            if (response.success) {
+                setNewProductData({
+                    productName: response.productDetails.name,
+                    price: response.productDetails.price,
+                    inGrams: response.productDetails.inGrams,
+                    weight: response.productDetails.weight,
+                    energeticValue: response.productDetails.energeticValue,
+                    fat: response.productDetails.fat,
+                    protein: response.productDetails.protein,
+                    carbs: response.productDetails.carbs,
+                    fiber: response.productDetails.fiber,
+                    salt: response.productDetails.salt,
+                });
+                setLoading(false);
+            } else {
+                setResponseMessage(response.message);
+                setLoading(false);
+            }
+        };
+
+        fetchProductDetails();
+    }, [productID, getProductInformation]);
 
     const checkForEmptyFields = () => {
         for (const [key, value] of Object.entries(newProductData)) {
@@ -36,11 +70,6 @@ const EditProductpage = () => {
                 setResponseMessage("All fields are required");
                 return true;
             }
-        }
-
-        if (newProductImage == null) {
-            setResponseMessage("Product image required");
-            return true;
         }
 
         return false;
@@ -59,7 +88,6 @@ const EditProductpage = () => {
             fiber: "",
             salt: "",
         });
-        setNewProductImage(null);
         setImagePreview(null);
         setErrors({});
         setResponseMessage(""); // Clear response message
@@ -160,10 +188,10 @@ const EditProductpage = () => {
 
         const formattedProductData = {
             ...newProductData,
-            price: parseFloat(newProductData.price).toFixed(2), // Force correct formatting
+            price: parseFloat(newProductData.price).toFixed(2),
         };
 
-        const response = await addNewProduct(e, formattedProductData, newProductImage);
+        const response = await editProduct(e, formattedProductData);
 
         if (response.success) {
             console.log("successfully added new product");
@@ -174,6 +202,16 @@ const EditProductpage = () => {
             console.log("adding product failed " + response.message);
         }
     };
+
+    if (loading) {
+        return (
+            <div>
+                <Header />
+                <LoadingOverlay />
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div>
