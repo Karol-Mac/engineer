@@ -94,11 +94,11 @@ const Productpage = () => {
                <h2>Price: {productDetails.price} zł</h2>
                <h3>Price per 100 {productDetails.inGrams ? "g" : "ml"}: {valuePer100Units}</h3>
                <p>weight {productDetails.weight} {productDetails.inGrams ? "g" : "ml"}</p>
-                   <p>fat: {productDetails.fat}</p>
-                   <p>carbs: {productDetails.carbs}</p>
-                   <p>fiber: {productDetails.fiber}</p>
-                   <p>salt: {productDetails.salt}</p>
-                   <p>protein: {productDetails.protein}</p>
+                   <p>fat: {productDetails.fat} g</p>
+                   <p>carbs: {productDetails.carbs} g</p>
+                   <p>fiber: {productDetails.fiber} g</p>
+                   <p>salt: {productDetails.salt} g</p>
+                   <p>protein: {productDetails.protein} g</p>
                </div>
                <div className={styles.companyInfo}>
                    {/*<img className={styles.productPageSellerImage} src={sellerImage} alt={sellerDetails.imageName}/>*/}
