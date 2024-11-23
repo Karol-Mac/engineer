@@ -20,6 +20,9 @@ export const NavigateFunctions = () => {
         navigate("/add");
     }
 
+    const openEditProductpage = (productID) =>{
+        navigate("/edit/"+productID);
+    }
 
     const openFavouritepage = () =>{
         navigate("/favourite");
@@ -35,9 +38,11 @@ export const NavigateFunctions = () => {
     const openHomepage = () =>{
         navigate("/");
     }
+
     const openCommentspage = () =>{
         navigate("/comments");
     }
+
     const openAddCommentpage = () =>{
         navigate("/comments/add");
     }
@@ -96,6 +101,7 @@ export const NavigateFunctions = () => {
         openComparepage,
         openFavouritepage,
         openAddProductpage,
+        openEditProductpage,
         openLoginpage,
         openSignuppage,
         openHomepage,
@@ -108,7 +114,7 @@ export const NavigateFunctions = () => {
         openProductpage,
         openSellerProductspage,
         openAdminpanelpage,
-        openAddCommentpage
+        openAddCommentpage,
     };
 };
 

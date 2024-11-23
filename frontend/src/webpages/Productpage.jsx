@@ -11,6 +11,7 @@ import {ReportFunctions} from "../components/functions/ReportFunctions";
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
 import styles from "../css/Productpage.module.css"
+import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 
 const Productpage = () => {
     const{getProductInformation} = SearchProductFunctions();
@@ -32,7 +33,7 @@ const Productpage = () => {
                     if (result.success) {
                         setProductDetails(result.productDetails);
 
-                        const roundedValue = Number(result.productDetails.price * (result.productDetails.weight/1000.0)).toFixed(2);
+                        const roundedValue = Number(result.productDetails.price * (100.0/result.productDetails.weight)).toFixed(2);
                         setValuePer100Units(roundedValue);
 
 
@@ -66,10 +67,11 @@ const Productpage = () => {
 
     if(productDetails == null || sellerDetails == null || productImage == null || sellerImage == null){
         return <div>
-            <p>LOADING</p>
-        </div>
+            <Header/>
+            <LoadingOverlay/>
+            <Footer/>
+        </div>;
     }
-
 
     return (
         <div>

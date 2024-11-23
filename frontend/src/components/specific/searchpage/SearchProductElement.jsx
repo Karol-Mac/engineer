@@ -6,6 +6,7 @@ import {ReportFunctions} from "../../functions/ReportFunctions";
 import FavouriteButton from "../../generic/FavouriteButton";
 import {NavigateFunctions} from "../../functions/NavigateFunctions";
 import {SearchProductFunctions} from "../../functions/SearchProductFunctions";
+import EditProductButton from "../../generic/EditProductButton";
 
 function SearchProductElement ({productData, styles}) {
     const {setReportTypeProduct} = ReportFunctions();
@@ -62,6 +63,7 @@ function SearchProductElement ({productData, styles}) {
                 <CompareProductsButton givenProductID={productID} />
                 <ReportButton reportType="product" givenReportedID={productID} />
                 <FavouriteButton givenProductID={productID} isInFavourite={productData.isFavourite} />
+                <EditProductButton givenProductID={productID} />
             </div>
         </div>
     );
