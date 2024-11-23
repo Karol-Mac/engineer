@@ -38,23 +38,23 @@ public final class FreshProductDto {
 
     @ValidPercentage
     @NotNull
-    private Integer fat;
+    private BigDecimal fat;
 
     @ValidPercentage
     @NotNull
-    private Integer protein;
+    private BigDecimal protein;
 
     @ValidPercentage
     @NotNull
-    private Integer carbs;
+    private BigDecimal carbs;
 
     @ValidPercentage
     @NotNull
-    private Integer fiber;
+    private BigDecimal fiber;
 
     @ValidPercentage
     @NotNull
-    private Integer salt;
+    private BigDecimal salt;
 
     private String imageName;
 }

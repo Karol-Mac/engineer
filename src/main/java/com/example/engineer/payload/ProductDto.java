@@ -24,11 +24,11 @@ public final class ProductDto {
     private LocalDateTime updatedAt;
     private Integer weight;
     private Integer energeticValue;
-    private Integer fat;
-    private Integer protein;
-    private Integer carbs;
-    private Integer fiber;
-    private Integer salt;
+    private BigDecimal fat;
+    private BigDecimal protein;
+    private BigDecimal carbs;
+    private BigDecimal fiber;
+    private BigDecimal salt;
     private String imageName;
 
     private Boolean isHidden;

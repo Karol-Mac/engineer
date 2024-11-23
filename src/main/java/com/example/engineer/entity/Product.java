@@ -43,22 +43,22 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @Column(nullable = false)
-    private int energeticValue;     //in kcal
+    private Integer energeticValue;     //in kcal
 
     @Column(nullable = false)
-    private int fat;
+    private BigDecimal fat;
 
     @Column(nullable = false)
-    private int protein;
+    private BigDecimal protein;
 
     @Column(nullable = false)
-    private int carbs;
+    private BigDecimal carbs;
 
     @Column(nullable = false)
-    private int fiber;
+    private BigDecimal fiber;
 
     @Column(nullable = false)
-    private int salt;
+    private BigDecimal salt;
 
     @Column(nullable = false)
     private Boolean isHidden;      //removed products have isHidden=true
