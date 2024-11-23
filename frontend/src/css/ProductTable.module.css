@@ -1,0 +1,61 @@
+
+.basicInfoTable {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.basicInfoTable th {
+    background-color: #eaeaea;
+    font-weight: bold;
+    text-align: left;
+    padding: 15px;
+}
+
+.basicInfoTable td {
+    padding: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Tabela szczegółowa */
+.productTable {
+    width: 80%;
+    margin: 20px auto; /* Wyśrodkuj tabelę */
+    border-collapse: collapse;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productTable th,
+.productTable td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+}
+
+.productTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+.productTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.productTable td:nth-child(2) {
+    font-weight: bold;
+}
+.productTable td:first-child {
+    font-weight: bold; /* Pogrubienie dla pierwszej kolumny */
+}

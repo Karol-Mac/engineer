@@ -12,6 +12,7 @@ import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
 import styles from "../css/Productpage.module.css"
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
+import ProductTable from "../components/specific/productpage/ProductTable";
 
 const Productpage = () => {
     const{getProductInformation} = SearchProductFunctions();
@@ -76,42 +77,40 @@ const Productpage = () => {
     return (
         <div>
             <Header/>
-        <div id="Productpage" className={styles.productPageContainer}>
-            <div className={styles.productActionsContainer}>
-                <CompareProductsButton givenProductID={productDetails.id}/>
-                <ReportButton reportType={setReportTypeProduct()} givenReportedID={productDetails.id} />
-                <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
+            <div id="Productpage" className={styles.productPageContainer}>
+                <div className={styles.productActionsContainer}>
+                    <CompareProductsButton givenProductID={productDetails.id}/>
+                    <ReportButton reportType={setReportTypeProduct()} givenReportedID={productDetails.id}/>
+                    <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
+                </div>
+                <div className={styles.productImagesContainer}>
+                    <img
+                        className={styles.productPageProductImage}
+                        src={productImage}
+                        alt={productDetails.imageName}
+                    />
+                    <img
+                        className={styles.productPageSellerImage}
+                        src={sellerImage}
+                        alt={sellerDetails.imageName}
+                    />
+                </div>
+
+                <div className={styles.productDetailsContainer}>
+                    <div className={styles.productInfo}>
+                        {/* Poprawka: Przekazujemy productDetails */}
+                        <ProductTable productDetails={productDetails}/>
+                    </div>
+                    <div className={styles.companyInfo}>
+                        <p>Seller {sellerDetails.shopName}</p>
+                    </div>
+                </div>
+
+                <ProductCompareToolbar/>
             </div>
-            <div className={styles.productImagesContainer}>
-                <img className={styles.productPageProductImage} src={productImage} alt={productDetails.imageName}/>
-                <img className={styles.productPageSellerImage} src={sellerImage} alt={sellerDetails.imageName}/>
-            </div>
-
-
-           <div className={styles.productDetailsContainer}>
-               <div className={styles.productInfo}>
-               <h2>{productDetails.name}</h2>
-               <h2>Price: {productDetails.price} zł</h2>
-               <h3>Price per 100 {productDetails.inGrams ? "g" : "ml"}: {valuePer100Units}</h3>
-               <p>weight {productDetails.weight} {productDetails.inGrams ? "g" : "ml"}</p>
-                   <p>fat: {productDetails.fat} g</p>
-                   <p>carbs: {productDetails.carbs} g</p>
-                   <p>fiber: {productDetails.fiber} g</p>
-                   <p>salt: {productDetails.salt} g</p>
-                   <p>protein: {productDetails.protein} g</p>
-               </div>
-               <div className={styles.companyInfo}>
-                   {/*<img className={styles.productPageSellerImage} src={sellerImage} alt={sellerDetails.imageName}/>*/}
-                   <p>Seller {sellerDetails.shopName}</p>
-               </div>
-           </div>
-
-            <ProductCompareToolbar/>
-        </div>
             <Footer/>
         </div>
     );
-
 };
 
 export default Productpage;
