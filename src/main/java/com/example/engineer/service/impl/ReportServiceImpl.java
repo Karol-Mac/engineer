@@ -4,6 +4,7 @@ import com.example.engineer.entity.Comment;
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Report;
 import com.example.engineer.entity.User;
+import com.example.engineer.exceptions.ApiException;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.ReportDto;
 import com.example.engineer.repository.CommentRepository;
@@ -14,6 +15,7 @@ import com.example.engineer.util.AuthorType;
 import com.example.engineer.util.UserUtil;
 import com.example.engineer.util.mappers.ReportMapper;
 import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +44,9 @@ public class ReportServiceImpl implements ReportService {
     public ReportDto createReport(long productId, long commentId, String message, String email) throws BadRequestException {
 
         User reporter = userUtil.getUser(email);
+        if(reporter.getIsBlocked())
+            throw new ApiException("You cannot perform this operation - you're blocked", HttpStatus.FORBIDDEN);
+
         if((productId == 0 && commentId == 0) || (productId != 0 && commentId != 0)){
             throw new BadRequestException("productId or commentId - " +
                                 "one of them needs to be in request (not both or zero)");

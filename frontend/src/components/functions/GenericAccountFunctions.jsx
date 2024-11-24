@@ -31,7 +31,7 @@ export const GenericAccountFunctions = () => {
                 }
             }
 
-            const res = await axios.post(updateCredentialUrl, {credentialType: credentialValue}, {
+            const res = await axios.post(updateCredentialUrl, payload, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`
                 },
