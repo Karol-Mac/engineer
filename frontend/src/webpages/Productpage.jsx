@@ -30,7 +30,7 @@ const Productpage = () => {
     useEffect(() => {
         const fetchAllProductDetails = async () => {
             await getProductInformation({productID: id}).then(
-               async (result) => {
+                async (result) => {
                     if (result.success) {
                         setProductDetails(result.productDetails);
 
@@ -83,25 +83,27 @@ const Productpage = () => {
                     <ReportButton reportType={setReportTypeProduct()} givenReportedID={productDetails.id}/>
                     <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
                 </div>
-                <div className={styles.productImagesContainer}>
+
+                <div className={styles.productCenterContainer}>
+                    <h1 className={styles.productName}>{productDetails.name}</h1>
                     <img
                         className={styles.productPageProductImage}
                         src={productImage}
                         alt={productDetails.imageName}
                     />
-                    <img
-                        className={styles.productPageSellerImage}
-                        src={sellerImage}
-                        alt={sellerDetails.imageName}
-                    />
                 </div>
 
                 <div className={styles.productDetailsContainer}>
                     <div className={styles.productInfo}>
-                        {/* Poprawka: Przekazujemy productDetails */}
+                        {/* Przekazujemy tylko raz obiekt productDetails */}
                         <ProductTable productDetails={productDetails}/>
                     </div>
                     <div className={styles.companyInfo}>
+                        <img
+                            className={styles.productPageSellerImage}
+                            src={sellerImage}
+                            alt={sellerDetails.imageName}
+                        />
                         <p>Seller {sellerDetails.shopName}</p>
                     </div>
                 </div>
