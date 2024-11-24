@@ -1,70 +1,86 @@
 import { useEffect, useState } from "react";
+import { NavigateFunctions } from "../../functions/NavigateFunctions";
 import CompareProductsButton from "../../generic/CompareProductsButton";
 import ReportButton from "../../generic/ReportButton";
 import FavouriteButton from "../../generic/FavouriteButton";
 import { ReportFunctions } from "../../functions/ReportFunctions";
-import { NavigateFunctions } from "../../functions/NavigateFunctions";
+import styles from "../../../css/ProductTable.module.css";
 
 function CompareProductElement({ compareProductData, styles }) {
     const { setReportTypeProduct } = ReportFunctions();
     const { openProductpage } = NavigateFunctions();
-
     const [productID, setProductID] = useState(compareProductData.id);
 
     const handleClick = () => {
         openProductpage({ productID });
     };
 
+    const productDetails = compareProductData;
+
+    // Basic info rows - similar to ProductTable.js example
+    const basicInfoRows = [
+        { attribute: "Price:", value: `${productDetails.price} zł` },
+        { attribute: "Price per 100g:", value: `${(productDetails.price * (100 / productDetails.weight)).toFixed(2)} zł` },
+    ];
+
+    // Detailed info rows
+    const detailRows = [
+        { attribute: "Weight:", value: `${productDetails.weight} g` },
+        { attribute: "Energetic Value:", value: `${productDetails.energeticValue} kcal` },
+        { attribute: "Carbs:", value: `${productDetails.carbs} g` },
+        { attribute: "Fat:", value: `${productDetails.fat} g` },
+        { attribute: "Protein:", value: `${productDetails.protein} g` },
+        { attribute: "Fiber:", value: `${productDetails.fiber} g` },
+        { attribute: "Salt:", value: `${productDetails.salt} g` },
+    ];
+
     return (
         <div className={styles.compareProductColumn} onClick={handleClick}>
-                <img src={compareProductData.productImageName} alt={compareProductData.productImageName} className={styles.compareProductImage} />
+            <h2 className={styles.productName}>{productDetails.name}</h2>
 
-                {/* Product rows */}
-                <div className={styles.legendOverlayContainer}>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Product Name</div>
-                        <div className={styles.propertyValue}>{compareProductData.name}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Price</div>
-                        <div className={styles.propertyValue}>{compareProductData.price}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Energetic Value</div>
-                        <div className={styles.propertyValue}>{compareProductData.energeticValue}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Carbs</div>
-                        <div className={styles.propertyValue}>{compareProductData.carbs}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Fat</div>
-                        <div className={styles.propertyValue}>{compareProductData.fat}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Fiber</div>
-                        <div className={styles.propertyValue}>{compareProductData.fiber}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Weight</div>
-                        <div className={styles.propertyValue}>{compareProductData.weight}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Protein</div>
-                        <div className={styles.propertyValue}>{compareProductData.protein}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Salt</div>
-                        <div className={styles.propertyValue}>{compareProductData.salt}</div>
-                    </div>
-                    <div className={styles.legendOverlayRow}>
-                        <div className={styles.legendLabel}>Seller</div>
-                        <div className={styles.propertyValue}>{compareProductData.sellerName}</div>
-                    </div>
-                </div>
+            {/* Obrazek produktu */}
+            <img
+                src={productDetails.productImageName}
+                alt={productDetails.productImageName}
+                className={styles.compareProductImage}
+            />
 
-                <img src={compareProductData.sellerImageName} alt={compareProductData.sellerImageName} className={styles.compareProductImage} />
-            </div>
+            <table className={styles.productTable}>
+                <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Value</th>
+                </tr>
+                </thead>
+                <tbody>
+                {basicInfoRows.map((row, index) => (
+                    <tr key={index}>
+                        <th>{row.attribute}</th>
+                        <td>{row.value}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+
+            {/* Tabela z detalami */}
+            <table className={styles.productTable}>
+                <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Value per 100g</th>
+                </tr>
+                </thead>
+                <tbody>
+                {detailRows.map((row, index) => (
+                    <tr key={index}>
+                        <td>{row.attribute}</td>
+                        <td>{row.value}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+
+        </div>
     );
 }
 

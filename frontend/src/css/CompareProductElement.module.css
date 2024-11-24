@@ -1,0 +1,39 @@
+.productItem {
+    flex: 1;
+    padding: 10px;
+    background-color: #9999b3;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.productName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.productImage {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.basicInfoTable {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    background-color: #fff;
+    text-align: left;
+}
+
+.basicInfoTable th {
+    background-color: #eaeaea;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.basicInfoTable td {
+    padding: 10px;
+    color: #333;
+}
