@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../../css/ProductTable.module.css";
 
-const ProductTable = ({ productDetails }) => {
+const ProductTable = ({ productDetails, productImage }) => {
     if (!productDetails) {
         return null;
     }
@@ -21,8 +21,24 @@ const ProductTable = ({ productDetails }) => {
     ];
 
     return (
-        <div>
-            {}
+        <div className={styles.productTableContainer}>
+            {/* Tabela z nazwą i obrazkiem */}
+            <table className={styles.imageTable}>
+                <tbody>
+                <tr>
+                    <td>
+                        <h1 className={styles.productName}>{productDetails.name}</h1>
+                        <img
+                            className={styles.productPageProductImage}
+                            src={productImage}
+                            alt={productDetails.name}
+                        />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {/* Tabelka z podstawowymi informacjami */}
             <table className={styles.basicInfoTable}>
                 <tbody>
                 {basicInfoRows.map((row, index) => (
@@ -34,7 +50,7 @@ const ProductTable = ({ productDetails }) => {
                 </tbody>
             </table>
 
-            {}
+            {/* Tabelka z detalami */}
             <table className={styles.productTable}>
                 <thead>
                 <tr>
@@ -54,6 +70,5 @@ const ProductTable = ({ productDetails }) => {
         </div>
     );
 };
-
 
 export default ProductTable;

@@ -84,35 +84,27 @@ const Productpage = () => {
                     <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
                 </div>
 
-                <div className={styles.productCenterContainer}>
-                    <h1 className={styles.productName}>{productDetails.name}</h1>
-                    <img
-                        className={styles.productPageProductImage}
-                        src={productImage}
-                        alt={productDetails.imageName}
-                    />
-                </div>
 
-                <div className={styles.productDetailsContainer}>
-                    <div className={styles.productInfo}>
-                        {/* Przekazujemy tylko raz obiekt productDetails */}
-                        <ProductTable productDetails={productDetails}/>
+                    <div className={styles.productDetailsContainer}>
+                        <div className={styles.productInfo}>
+                            {/* Przekazujemy tylko raz obiekt productDetails */}
+                            <ProductTable productDetails={productDetails} productImage={productImage}/>
+                        </div>
+                        <div className={styles.companyInfo}>
+                            <img
+                                className={styles.productPageSellerImage}
+                                src={sellerImage}
+                                alt={sellerDetails.imageName}
+                            />
+                            <p>Seller {sellerDetails.shopName}</p>
+                        </div>
                     </div>
-                    <div className={styles.companyInfo}>
-                        <img
-                            className={styles.productPageSellerImage}
-                            src={sellerImage}
-                            alt={sellerDetails.imageName}
-                        />
-                        <p>Seller {sellerDetails.shopName}</p>
-                    </div>
-                </div>
 
-                <ProductCompareToolbar/>
+                    <ProductCompareToolbar/>
+                </div>
+                <Footer/>
             </div>
-            <Footer/>
-        </div>
-    );
-};
+            );
+            };
 
-export default Productpage;
+            export default Productpage;

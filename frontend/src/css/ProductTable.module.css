@@ -57,5 +57,33 @@
     font-weight: bold;
 }
 .productTable td:first-child {
-    font-weight: bold; /* Pogrubienie dla pierwszej kolumny */
+    font-weight: bold;
+}
+.productTableContainer {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.imageTable {
+    margin: 0 auto;
+}
+
+.imageTable td {
+    padding: 10px;
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.productName {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+.productPageProductImage {
+    width: 400px;
+    height: 400px;
 }
