@@ -19,7 +19,7 @@
 }
 
 .basicInfoTable td {
-    padding: 15px;
+    padding: 17px;
     font-weight: bold;
     color: #333;
 }
@@ -46,7 +46,6 @@
 .productTable th {
     background-color: #f4f4f4;
     font-weight: bold;
-    text-transform: uppercase;
     text-align: left;
 }
 

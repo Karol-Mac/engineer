@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../../../css/ProductTable.module.css";
 
-const ProductTable = ({ productDetails, productImage }) => {
+const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
     if (!productDetails) {
         return null;
     }
@@ -18,6 +18,11 @@ const ProductTable = ({ productDetails, productImage }) => {
         { attribute: "Protein:", value: `${productDetails.protein} g` },
         { attribute: "Fiber:", value: `${productDetails.fiber} g` },
         { attribute: "Salt:", value: `${productDetails.salt} g` },
+    ];
+
+    const sellerInfoRows = [
+        { attribute: "Shop Name:", value: sellerDetails.shopName },
+        { attribute: "Email:", value: sellerDetails.email },
     ];
 
     return (
@@ -54,14 +59,32 @@ const ProductTable = ({ productDetails, productImage }) => {
             <table className={styles.productTable}>
                 <thead>
                 <tr>
-                    <th>Attribute</th>
-                    <th>Value</th>
+                    <th>Attribute per 100 g:</th>
+                    <th>Value:</th>
                 </tr>
                 </thead>
                 <tbody>
                 {detailRows.map((row, index) => (
                     <tr key={index}>
                         <td>{row.attribute}</td>
+                        <td>{row.value}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+
+            {}
+            <table className={styles.basicInfoTable}>
+                <thead>
+                <tr>
+                    <th>Seller Information</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {sellerInfoRows.map((row, index) => (
+                    <tr key={index}>
+                        <th>{row.attribute}</th>
                         <td>{row.value}</td>
                     </tr>
                 ))}

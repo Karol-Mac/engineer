@@ -87,16 +87,12 @@ const Productpage = () => {
 
                     <div className={styles.productDetailsContainer}>
                         <div className={styles.productInfo}>
-                            {/* Przekazujemy tylko raz obiekt productDetails */}
-                            <ProductTable productDetails={productDetails} productImage={productImage}/>
-                        </div>
-                        <div className={styles.companyInfo}>
-                            <img
-                                className={styles.productPageSellerImage}
-                                src={sellerImage}
-                                alt={sellerDetails.imageName}
+                            {}
+                            <ProductTable
+                                productDetails={productDetails}
+                                productImage={productImage}
+                                sellerDetails={sellerDetails}
                             />
-                            <p>Seller {sellerDetails.shopName}</p>
                         </div>
                     </div>
 
