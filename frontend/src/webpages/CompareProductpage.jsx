@@ -74,7 +74,7 @@ const CompareProductpage = () => {
         <div className="d-flex flex-column min-vh-100">
             <Header />
             <main className={`${styles.pageContainer}`}>
-                <h1 className={styles.pageTitle}>COMPARE product with</h1>
+                <h1 className={styles.pageTitle}>Compare Product with</h1>
                 <div className={styles.contentContainer}>
                     <div id="comparedProducts" className={styles.productContainer}>
                         {productComparisonDetails.length > 0 ? (

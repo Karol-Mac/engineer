@@ -9,17 +9,11 @@
 }
 
 .compareProductColumn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    border: 1px solid #ddd;
-    background-color: white;
-    margin: 0 10px;
-    position: relative; /* Ensure the column is the reference for absolute positioning */
-
+    background-color: transparent; /* Usunięcie tła */
+    width: 23%; /* Szerokość dla każdego elementu */
+    margin: 10px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .compareProductImage {
@@ -68,11 +62,7 @@
     background-color: #9999b3;
 }
 
-.pageTitle {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold; /* Pogrubienie tekstu tytułu */
-}
+
 .contentContainer {
     margin: 20px 0;
     display: grid;
@@ -163,13 +153,12 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Dodanie cienia */
 }
 .productContainer {
-    display: flex; /* Ustawienie układu flex */
-    flex-wrap: nowrap; /* Zapobiega zawijaniu się elementów do nowego wiersza */
+    display: flex;
+    flex-wrap: nowrap;
     justify-content: space-between; /* Równomierne rozmieszczenie elementów */
     gap: 20px; /* Odstęp między produktami */
     width: 100%;
     padding: 20px;
-    background-color: #f4f4f4;
 }
 /* Pogrubienie tekstu dla nazw produktów, cen i innych właściwości */
 .compareProductName {
@@ -191,8 +180,10 @@ body {
     font-weight: bold; /* Pogrubienie wartości właściwości produktów */
 }
 
-.pageTitle {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold; /* Pogrubienie tytułu strony */
+.pageTitle
+{
+        font-size: 50px;
+        font-weight: bold;
+        margin: 10px 0;
+        color: #333;
 }
