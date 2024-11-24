@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../../../css/ProductTable.module.css";
 
-const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
-    if (!productDetails) {
+const ProductTable = ({ productDetails, productImage, sellerDetails }) => {
+    if (!productDetails || !sellerDetails) {
         return null;
     }
 
@@ -10,6 +10,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
         { attribute: "Price:", value: `${productDetails.price} zł` },
         { attribute: `Price per 100 ${productDetails.inGrams ? "g:" : "ml:"}`, value: `${(productDetails.price * (100 / productDetails.weight)).toFixed(2)} zł` },
     ];
+
     const detailRows = [
         { attribute: "Weight:", value: `${productDetails.weight} ${productDetails.inGrams ? "g" : "ml"}` },
         { attribute: "Energetic Value:", value: `${productDetails.energeticValue} kcal` },
@@ -27,7 +28,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
 
     return (
         <div className={styles.productTableContainer}>
-            {/* Tabela z nazwą i obrazkiem */}
+            {}
             <table className={styles.imageTable}>
                 <tbody>
                 <tr>
@@ -43,7 +44,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
                 </tbody>
             </table>
 
-            {/* Tabelka z podstawowymi informacjami */}
+            {}
             <table className={styles.basicInfoTable}>
                 <tbody>
                 {basicInfoRows.map((row, index) => (
@@ -55,8 +56,8 @@ const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
                 </tbody>
             </table>
 
-            {/* Tabelka z detalami */}
-            <table className={styles.productTable}>
+            {/* Tabela z detalami */}
+            <table className={styles.basicInfoTable}>
                 <thead>
                 <tr>
                     <th>Attribute per 100 g:</th>
@@ -77,7 +78,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails}) => {
             <table className={styles.basicInfoTable}>
                 <thead>
                 <tr>
-                    <th>Seller Information</th>
+                    <th>Seller Information:</th>
                     <th></th>
                 </tr>
                 </thead>
