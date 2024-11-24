@@ -60,7 +60,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails }) => {
             <table className={styles.basicInfoTable}>
                 <thead>
                 <tr>
-                    <th>Attribute per 100 g:</th>
+                    <th>Attribute per 100 ${productDetails.inGrams ? "g:" : "ml:"}</th>
                     <th>Value:</th>
                 </tr>
                 </thead>
