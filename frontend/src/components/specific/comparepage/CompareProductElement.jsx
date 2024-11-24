@@ -48,8 +48,8 @@ function CompareProductElement({ compareProductData, styles }) {
             <table className={styles.productTable}>
                 <thead>
                 <tr>
-                    <th>Attribute</th>
-                    <th>Value</th>
+                    <th>Attribute:</th>
+                    <th>Value:</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,8 +66,8 @@ function CompareProductElement({ compareProductData, styles }) {
             <table className={styles.productTable}>
                 <thead>
                 <tr>
-                    <th>Attribute</th>
-                    <th>Value per 100g</th>
+                    <th>Attribute per 100g:</th>
+                    <th>Value:</th>
                 </tr>
                 </thead>
                 <tbody>

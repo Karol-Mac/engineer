@@ -6,15 +6,22 @@
     margin: 20px 0;
     width: 100%;
     background-color: #9999b3;
+
 }
 
 .compareProductColumn {
-    background-color: transparent; /* Usunięcie tła */
-    width: 23%; /* Szerokość dla każdego elementu */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     margin: 10px;
     padding: 20px;
+    width: 290px;
     box-sizing: border-box;
+
 }
+
 
 .compareProductImage {
     width: 100px;
@@ -33,14 +40,10 @@
     color: #333;
 }
 
+.productName {
+    font-size: 20px; /* Rozmiar czcionki tytułu */
+    font-weight: bold;
 
-.topRightContainer {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .topRightElements {
@@ -53,7 +56,7 @@
 }
 
 .pageContainer {
-    position: relative; /* Ensure the container is the reference for absolute positioning */
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -70,115 +73,39 @@
     width: 100%;
 }
 
-.legendContainer {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    text-align: left;
-}
-
-.legendItem {
-    margin: 10px 0;
-    font-size: 16px;
-}
-
 .productItem {
-    flex: 1 1 300px; /* Każdy produkt zajmuje minimum 300px szerokości, ale może się rozciągać */
-    padding: 20px; /* Zwiększenie paddingu dla większej przestronności */
-    background-color: #f4f4f4; /* Jaśniejszy kolor tła dla lepszego kontrastu */
+    flex: 1 1 300px;
+    padding: 20px;
+    background-color: #f4f4f4;
     border: 1px solid #ddd;
-    border-radius: 8px; /* Zaokrąglenie rogów */
-    box-sizing: border-box;
-    margin-bottom: 20px; /* Odstęp między produktami */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.invisibleImage {
-    width: 100px; /* Set the same width as compared products */
-    height: 100px; /* Set the same height as compared products */
-    visibility: hidden; /* Make the image invisible */
-    margin-bottom: 10px;
-}
 
-.contentContainer {
-    display: grid;
-    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* 1 column for legend + dynamic product columns */
-    grid-auto-rows: auto; /* Automatically adjust row heights */
-    gap: 10px;
-    width: 100%;
-}
 
-.overlayRow {
-    display: grid;
-    grid-template-columns: 1fr repeat(auto-fill, minmax(200px, 1fr)); /* Match columns with the content container */
-    align-items: center;
-    height: 60px; /* Adjust based on the height of your rows */
-    background-color: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid #ddd;
-}
 
-.overlayLabel {
-    text-align: left;
-    padding-left: 10px;
-    font-weight: bold;
-    color: #333;
-}
-
-.productValue {
-    text-align: center;
-    padding: 10px;
-    color: #555;
-    border-left: 1px solid #ddd;
-}
 body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* Zwiększenie szerokości kontenera produktu */
-.productItem {
-    flex: 1 1 calc(25% - 20px); /* Każdy produkt ma szerokość 25% minus odstęp */
-    padding: 20px;
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animacja przy najechaniu */
-}
+
 
 .productItem:hover {
-    transform: translateY(-5px); /* Lekka animacja przy najechaniu */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Dodanie cienia */
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
 .productContainer {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between; /* Równomierne rozmieszczenie elementów */
-    gap: 20px; /* Odstęp między produktami */
-    width: 100%;
+    justify-content: space-between;
+    gap: 20px;
     padding: 20px;
 }
-/* Pogrubienie tekstu dla nazw produktów, cen i innych właściwości */
-.compareProductName {
-    font-size: 18px;
-    font-weight: bold; /* Pogrubienie nazwy produktu */
-}
 
-.compareProductPrice {
-    font-size: 16px;
-    color: #333;
-    font-weight: bold; /* Pogrubienie ceny produktu */
-}
-
-.legendLabel {
-    font-weight: bold; /* Pogrubienie etykiet w tabelkach */
-}
-
-.propertyValue {
-    font-weight: bold; /* Pogrubienie wartości właściwości produktów */
-}
 
 .pageTitle
 {
