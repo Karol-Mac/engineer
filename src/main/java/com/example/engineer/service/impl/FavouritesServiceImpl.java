@@ -45,11 +45,7 @@ public class FavouritesServiceImpl implements FavouritesService {
             throw new BadRequestException("product is already favourite");
 
         user.getFavouriteProducts().add(product);
-
         userRepository.save(user);
-
-        String notificationMessage = "Product '" + product.getName() + "' has been added to your favourites.";
-        System.out.println(notificationMessage);
 
         return productUtils.mapProductToDto(product, email);
     }
