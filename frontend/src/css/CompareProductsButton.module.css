@@ -1,6 +1,7 @@
 .compareButton {
-    background: none; /* Remove background */
-    border: none !important; /* Remove border */
-    cursor: pointer;
+    background: transparent !important;
+    border: none !important;
     padding: 0;
+    cursor: pointer;
+    transition: none !important;
 }

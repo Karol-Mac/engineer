@@ -5,6 +5,8 @@
     border: none; /* Remove border */
     padding: 0;
     color: black; /* Set the desired color */
+    background: transparent !important;
+    border: none !important;
 }
 
 .reportButton .fa-flag {
