@@ -36,13 +36,11 @@ public class ReportMapper {
 
     public String getAuthorName(Report report) {
         if(report.getAuthorType() == AuthorType.SELLER) {
-            var seller = sellerRepository.findById(report.getAuthorId()).orElseThrow(
+            return sellerRepository.findShopNameById(report.getAuthorId()).orElseThrow(
                     () -> new NotFoundException("Seller", report.getAuthorId()));
-            return seller.getShopName();
         } else {
-            var user = userRepository.findById(report.getAuthorId()).orElseThrow(
+            return userRepository.findUsernameById(report.getAuthorId()).orElseThrow(
                     () -> new NotFoundException("User", report.getAuthorId()));
-            return user.getRealUsername();
         }
     }
 }
