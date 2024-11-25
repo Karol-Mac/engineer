@@ -52,9 +52,7 @@ function FavouriteProductElement ({favouriteProductData}) {
             <div>
                 <img className={styles.productImage} src={productImageName} alt={productImageName} />
             </div>
-            <div onClick={stopPropagation}>
-                <p onClick={handleRemoveFavouriteClick}>Remove from favourite</p>
-            </div>
+
 
             <div className={styles.productDetails}>
                 <img className={styles.sellerImage} src={sellerImageName} alt={sellerImageName} />
