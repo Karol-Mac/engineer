@@ -4,23 +4,14 @@
 }
 
 .pageButton {
-    background-color: #007bff; /* Blue color */
-    color: #fff; /* White text */
-    border: none;
-    border-radius: 5px;
     padding: 8px 16px;
-    font-size: 14px;
-    font-weight: bold;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+    color: #333;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-.pageButton:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-    transform: scale(1.05); /* Slight zoom effect on hover */
-}
-
-.pageButton:active {
-    background-color: #003d80; /* Even darker blue when clicked */
-    transform: scale(0.95); /* Slight shrink effect on click */
-}

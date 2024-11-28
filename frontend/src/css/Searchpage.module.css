@@ -1,81 +1,185 @@
+/*.foundProducts {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    margin: 20px 0;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.productContainer {*/
+/*    display: flex;*/
+/*    position: relative;*/
+/*    width: 100%; !* Full width *!*/
+/*    height: 200%; !* Increased height *!*/
+
+/*    padding: 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+/*.productImage {*/
+/*    width: 260px; !* 150px * 1.5 *!*/
+/*    height: 260px; !* 150px * 1.5 *!*/
+/*    object-fit: contain;*/
+/*    margin-right: 20px;*/
+/*    margin-top: 5%;*/
+/*}*/
+
+/*.productDetails {*/
+/*    flex-grow: 1;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: space-between;*/
+/*    margin-left: auto;*/
+/*    margin-top: 4%;*/
+/*    text-align: right;*/
+/*}*/
+
+/*.productName {*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.productPrice {*/
+/*    font-size: 20px;*/
+/*    color: #333;*/
+/*    font-weight: bold;*/
+/*}*/
+
+
+/*.productWeight {*/
+/*    font-size: 18px;*/
+/*    color: #333;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.productActions {*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    right: 10px;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    align-items: flex-end;*/
+/*    gap: 10px;*/
+/*}*/
+
+/*.sellerInfo {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    margin-top: 10px;*/
+/*    justify-content: flex-end;*/
+/*    font-weight: bold;*/
+/*    color: #333;*/
+/*}*/
+
+/*.sellerImage {*/
+/*    width: 50px;*/
+/*    height: 50px;*/
+/*    object-fit: contain;*/
+/*    margin-left: 10px;*/
+/*}*/
+
+
+/* Grid layout for displaying products */
 .foundProducts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+}
+
+/* Styling each product container */
+.productContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px 0;
-    width: 100%;
-}
-
-.productContainer {
-    display: flex;
-    position: relative;
-    width: 100%; /* Full width */
-    height: 200%; /* Increased height */
-
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
 }
 
+.productContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Product image styling */
 .productImage {
-    width: 260px; /* 150px * 1.5 */
-    height: 260px; /* 150px * 1.5 */
+    width: 100%;
+    max-width: 200px;
+    height: auto;
     object-fit: contain;
-    margin-right: 20px;
-    margin-top: 5%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
 }
 
-.productDetails {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-left: auto;
-    margin-top: 4%;
-    text-align: right;
-}
-
+/* Product details */
 .productName {
-    font-size: 24px;
+    font-size: 1.2em;
     font-weight: bold;
+    margin: 10px 0;
+    color: #333;
 }
 
 .productPrice {
-    font-size: 20px;
-    color: #333;
+    font-size: 1.1em;
     font-weight: bold;
+    color: #007bff;
+    margin: 5px 0;
 }
-
 
 .productWeight {
-    font-size: 18px;
-    color: #333;
-    font-weight: bold;
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
 }
 
-.productActions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 10px;
-}
-
+/* Seller information */
 .sellerInfo {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-top: 10px;
-    justify-content: flex-end;
-    font-weight: bold;
-    color: #333;
 }
 
 .sellerImage {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     margin-left: 10px;
+    border-radius: 50%;
 }
+
+/* Action buttons */
+.productActions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+
+
+
+.title {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #333;
+    margin: 20px 0;
+    text-transform: capitalize;
+}
+
+.highlightedText {
+    color: #007bff;
+    font-weight: bold;
+}
+
