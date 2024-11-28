@@ -41,12 +41,12 @@ export const ReportFunctions = () => {
         }
     };
 
-    const reportComment = async ({ commendID, raportText }) => {
+    const reportComment = async ({ commendID, reportText }) => {
         try {
-            const raportURL = `http://localhost:8080/api/reports?commentId=${commendID}`;
-            const raportData = { raportText };
+            const reportURL = `http://localhost:8080/api/reports?commentId=${commendID}`;
+            const reportData = { reportText };
 
-            const { data: res } = await axios.post(raportURL, raportData, {
+            const { data: res } = await axios.post(reportURL, reportData, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`,
                 },

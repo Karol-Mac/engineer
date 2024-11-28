@@ -18,7 +18,7 @@ const AdminReportPanelpage = () => {
     const REPORTSCOPE = {
         all: "all",
         new: "new",
-        old: "old"
+        archived: "archived"
     };
 
     const [allReports, setAllReports] = useState([]);
@@ -74,7 +74,14 @@ const AdminReportPanelpage = () => {
     function getTbody(selectedRaports) {
         return <tbody>
         {selectedRaports.map((report) => {
-            const parsedMessage = report.message || "No message available";
+            let parsedMessage = "'No message available'";
+            try {
+                const parsed = JSON.parse(report.message); // Parse the JSON
+                parsedMessage = parsed.reportText || "'No message available'"; // Extract reportText
+            } catch (error) {
+                console.error("Failed to parse message:", error); // Log parsing errors
+            }
+
             return (
                 <tr key={report.id}>
                     <td>{report.id}</td>
@@ -115,7 +122,7 @@ const AdminReportPanelpage = () => {
 
         if (currentReportScope === REPORTSCOPE.new) {
             selectedRaports = selectedRaports.filter((report) => !report.isDone);
-        } else if (currentReportScope === REPORTSCOPE.old) {
+        } else if (currentReportScope === REPORTSCOPE.archived) {
             selectedRaports = selectedRaports.filter((report) => report.isDone);
         }
 
@@ -159,7 +166,7 @@ const AdminReportPanelpage = () => {
                     <div className={styles.reportScopeSelectionWrapper}>
                         <div id="reportScopeSelection" className={styles.reportScopeSelection}>
                             <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
-                            <p onClick={() => handleScopeChange(REPORTSCOPE.old)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.old ? styles.selected : ''}`}>Old</p>
+                            <p onClick={() => handleScopeChange(REPORTSCOPE.archived)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.archived ? styles.selected : ''}`}>Archived</p>
                             <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
                         </div>
                     </div>
