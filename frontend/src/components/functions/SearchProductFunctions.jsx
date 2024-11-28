@@ -150,6 +150,41 @@ export const SearchProductFunctions = () => {
         }
     }
 
+    const deleteProduct = async(productID) =>{
+        let errorMessage;
+        try {
+            const AuthorizationToken = localStorage.getItem("accessToken");
+
+            let deleteProduct= "http://localhost:8080/api/products/"+productID;
+
+            const {data: res} = await axios.delete(deleteProduct, null, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`,
+                },
+            });
+
+            if(res == null){
+                errorMessage = "No product with given ID found to be deleted";
+                return{ success: false, message: errorMessage};
+            }
+
+            return { success: true,  message: "Product deleted"};
+
+        }catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ){
+                errorMessage = error.response.data.message || "Unknown error";
+            }else if(error.response){
+                errorMessage = error.response;
+            }
+
+            return{ success: false, message: errorMessage};
+        }
+    }
+
     const getBatchSize = () => {
         return BATCHSIZE;
     }
@@ -212,7 +247,7 @@ export const SearchProductFunctions = () => {
         getPagesNumber,
         setCurrentPageNumer,
 
-
+        deleteProduct
 
     };
 };

@@ -18,6 +18,7 @@ import AdminReportPanelpage from '../webpages/AdminReportPanelpage';
 import Commentspage from "../webpages/Commentspage";
 import AddCommentspage from "../webpages/AddCommentspage";
 import EditProductpage from "../webpages/EditProductpage";
+import AdminReportVerdictpage from "../webpages/AdminReportVerdictpage";
 
 const RoutesConfig = () => {
     const [accessToken] = useState(localStorage.getItem("accessToken"));
@@ -35,6 +36,7 @@ const RoutesConfig = () => {
                     <Route path="/account" exact element={<Accountpage />} />
                     <Route path="/account/setting" exact element={<AccountSettingpage />} />
                     <Route path="/account/adminpanel" exact element={<AdminReportPanelpage />} />
+                    <Route path="/account/adminpanel/verdict/:reportID" exact element={<AdminReportVerdictpage />} />
                     <Route path="/comments" exact element={<Commentspage />} />
                     <Route path="/comments/add" exact element={<AddCommentspage />} />
                 </>
@@ -44,6 +46,7 @@ const RoutesConfig = () => {
                     <Route path="/account" element={<Navigate replace to="/login" />} />
                     <Route path="/account/setting" element={<Navigate replace to="/login" />} />
                     <Route path="/account/adminpanel" element={<Navigate replace to="/login" />} />
+                    <Route path="/account/adminpanel/verdict/:reportID" element={<Navigate replace to="/login" />} />
                     <Route path="/comments" element={<Navigate replace to="/login" />} />
                     <Route path="/comments/add" element={<Navigate replace to="/login" />} />
                 </>

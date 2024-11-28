@@ -1,14 +1,18 @@
-import {NavigateFunctions} from "../components/functions/NavigateFunctions";
-import {LoginFunctions} from "../components/functions/LoginFunctions";
-import {GenericAccountFunctions} from "../components/functions/GenericAccountFunctions";
 import {useEffect, useState} from "react";
 import {AdminAccountFunctions} from "../components/functions/AdminAccountFunctions";
 import styles from '../css/AdminReportPanelpage.module.css';
 import HeaderSimple from "../components/generic/HeaderSimple";
 import Footer from "../components/generic/Footer";
+import {CommentFunctions} from "../components/functions/CommentFunctions";
+import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
+import {ReportFunctions} from "../components/functions/ReportFunctions";
+import React from 'react';
 
 const AdminReportPanelpage = () => {
-    const {getReports} = AdminAccountFunctions();
+    const {getReports,banUser,removeUserComments} = AdminAccountFunctions();
+    const {resolveReport} = ReportFunctions();
+    const {deleteComment} = CommentFunctions();
+    const {deleteProduct} = SearchProductFunctions();
 
     const REPORTTYPES = {
         comment: "Comment",
@@ -21,40 +25,53 @@ const AdminReportPanelpage = () => {
         archived: "archived"
     };
 
+    const VERDICTOPTION = {
+        delete: "deleteReportedObject",
+        lockCommentAuthor: "lockCommentAuthor",
+        lockReportAuthor: "lockReportAuthor",
+        pass: "removeReport"
+    };
+
     const [allReports, setAllReports] = useState([]);
     const [commentReports, setCommentReports] = useState([]);
     const [productReports, setProductReports] = useState([]);
     const [currentReportScope, setCurrentReportScope] = useState(REPORTSCOPE.all);
     const [currentReportType, setCurrentReportType] = useState(REPORTTYPES.comment);
     const [warningMessage, setWarningMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(true); // Add loading state
+    const [isLoading, setIsLoading] = useState(true);
+    const [selectedReport, setSelectedReport] = useState(null);
+    const [updatedReports, setUpdatedReports] = useState(true);
 
     useEffect(() => {
-        const fetchAllReports = async () => {
-            setIsLoading(true); // Start loading
-            await getReports().then(
-                async (result) => {
-                    if (result.success) {
-                        const allReports = result.raports;
+        if(updatedReports === true) {
+            const fetchAllReports = async () => {
+                setIsLoading(true);
+                await getReports().then(
+                    async (result) => {
+                        if (result.success) {
+                            const allReports = result.raports;
 
-                        const commentReportsList = allReports.filter((report) => report.commentId !== null);
-                        const productReportsList = allReports.filter((report) => report.productId !== null);
+                            const commentReportsList = allReports.filter((report) => report.commentId !== null);
+                            const productReportsList = allReports.filter((report) => report.productId !== null);
 
-                        setAllReports(allReports);
-                        setCommentReports(commentReportsList);
-                        setProductReports(productReportsList);
+                            setAllReports(allReports);
+                            setCommentReports(commentReportsList);
+                            setProductReports(productReportsList);
 
-                        console.log("Reports:", allReports);
-                    } else {
-                        setWarningMessage(result.message || "Error fetching reports.");
+                            console.log("Reports:", allReports);
+                        } else {
+                            setWarningMessage(result.message || "Error fetching reports.");
+                        }
+                        setSelectedReport(null);
+                        setIsLoading(false);
                     }
-                    setIsLoading(false); // End loading
-                }
-            );
-        };
+                );
+            };
 
-        fetchAllReports();
-    }, []);
+            fetchAllReports();
+            setUpdatedReports(false);
+        }
+    }, [updatedReports]);
 
     function getThead() {
         return <thead>
@@ -71,32 +88,133 @@ const AdminReportPanelpage = () => {
         </thead>;
     }
 
-    function getTbody(selectedRaports) {
-        return <tbody>
-        {selectedRaports.map((report) => {
-            let parsedMessage = "'No message available'";
-            try {
-                const parsed = JSON.parse(report.message); // Parse the JSON
-                parsedMessage = parsed.reportText || "'No message available'"; // Extract reportText
-            } catch (error) {
-                console.error("Failed to parse message:", error); // Log parsing errors
-            }
-
-            return (
-                <tr key={report.id}>
-                    <td>{report.id}</td>
-                    <td>{new Date(report.createdAt).toLocaleString()}</td>
-                    <td>{report.isDone ? "Yes" : "No"}</td>
-                    <td>{parsedMessage}</td>
-                    {currentReportType === REPORTTYPES.comment ? <td>{report.commentId}</td> : <td>{report.productId}</td>}
-                    <td>{report.reporterName}</td>
-                    <td>{report.authorName}</td>
-                    <td>{report.authorId}</td>
-                </tr>
-            );
-        })}
-        </tbody>;
+    const handleClick = (report) => {
+        console.log("Clicked report: ", report);
+        setSelectedReport(report);
     }
+
+    const handleAction = async(actionType, reportID) => {
+        switch(actionType) {
+            case VERDICTOPTION.delete:{
+                console.log("deleting comments = " + (currentReportType === REPORTTYPES.comment) + " current rep type: " + currentReportType);                const deleteRes = currentReportType === REPORTTYPES.comment ?
+                    await deleteComment(selectedReport.commentId) :
+                    await deleteProduct(selectedReport.productId);
+
+                if(deleteRes.success){
+                    //add notification
+
+                    const passRes = await resolveReport(reportID);
+                    if(passRes.success) {
+                        setUpdatedReports(true);
+                        console.log("DELETION RESOLVED");
+                    }
+                }else{
+                    // notification with an error message from
+                    // passRes.message
+                }
+                break;
+            }
+            case VERDICTOPTION.pass:{
+                const passRes = await resolveReport(reportID);
+                if(passRes.success){
+                    //add notification
+                    setUpdatedReports(true);
+                    console.log("pass RESOLVED");
+                }else{
+                    // notification with an error message from
+                    // passRes.message
+                }
+
+                break;
+            }
+            case VERDICTOPTION.lockReportAuthor:{
+                const banRes = await banUser(selectedReport.authorName);
+                if(banRes.success){
+                    //add notification
+                    const passRes = await resolveReport(reportID);
+                    console.log("lockReportAuthor RESOLVED");
+                    setUpdatedReports(true);
+                }else{
+                    // notification with an error message from
+                    // passRes.message
+                }
+                break;
+            }
+            case VERDICTOPTION.lockCommentAuthor:{
+                const banRes = await banUser(selectedReport.authorName);
+                if(banRes.success){
+                    //add notification
+                    const removeUserCommentsRes = await removeUserComments(selectedReport.authorId);
+                    const passRes = await resolveReport(reportID);
+                    console.log("lockCommentAuthor RESOLVED");
+                    setUpdatedReports(true);
+                }else{
+                    // notification with an error message from
+                    // passRes.message
+                }
+                break;
+            }
+        }
+
+    }
+
+    function getTbody(selectedRaports) {
+        return (
+            <tbody>
+            {selectedRaports.map((report) => {
+                let parsedMessage = "No message available";
+                try {
+                    const parsed = JSON.parse(report.message);
+                    parsedMessage = parsed.reportText || "No message available";
+                } catch (error) {
+                    console.error("Failed to parse message:", error);
+                }
+
+                return (
+                    <React.Fragment key={report.id}>
+                        <tr key={`main-${report.id}`} onClick={() => handleClick(report)}>
+                            <td>{report.id}</td>
+                            <td>{new Date(report.createdAt).toLocaleString()}</td>
+                            <td>{report.isDone ? "Yes" : "No"}</td>
+                            <td>{parsedMessage}</td>
+                            {currentReportType === REPORTTYPES.comment ? (
+                                <td>{report.commentId}</td>
+                            ) : (
+                                <td>{report.productId}</td>
+                            )}
+                            <td>{report.reporterName}</td>
+                            <td>{report.authorName}</td>
+                            <td>{report.authorId}</td>
+                        </tr>
+                        {selectedReport != null && selectedReport.id === report.id && (
+                            <tr key={`details-${report.id}`}>
+                                <td colSpan="8">
+                                    <div className={styles.decisionPanel}>
+                                        <button onClick={() => handleAction(VERDICTOPTION.delete, report.id)}>
+                                            Delete {currentReportType}
+                                        </button>
+                                        {currentReportType === REPORTTYPES.comment && (
+                                            <button onClick={() => handleAction(VERDICTOPTION.lockCommentAuthor, report.id)}>
+                                                Lock Comment Author
+                                            </button>
+                                        )}
+                                        <button onClick={() => handleAction(VERDICTOPTION.lockReportAuthor, report.id)}>
+                                            Lock Report Author
+                                        </button>
+                                        <button onClick={() => handleAction(VERDICTOPTION.pass, report.id)}>
+                                            Pass Report
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
+                    </React.Fragment>
+                );
+            })}
+            </tbody>
+        );
+    }
+
 
     const renderRaports = () => {
         if (isLoading) {
@@ -154,27 +272,27 @@ const AdminReportPanelpage = () => {
     return (
         <div>
             <HeaderSimple/>
-                <div   className={styles.content}>
-                    <h1>Admin Report Panel</h1>
-                    <div className={styles.reportTypeSelectionWrapper}>
-                        <div id="reportTypeSelection" className={styles.reportTypeSelection}>
-                            <p onClick={() => handleTypeChange(REPORTTYPES.comment)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.comment ? styles.selected : ''}`}>Select Comment Reports</p>
-                            <p onClick={() => handleTypeChange(REPORTTYPES.product)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.product ? styles.selected : ''}`}>Select Product Reports</p>
-                        </div>
+            <div className={styles.content}>
+                <h1>Admin Report Panel</h1>
+                <div className={styles.reportTypeSelectionWrapper}>
+                    <div id="reportTypeSelection" className={styles.reportTypeSelection}>
+                        <p onClick={() => handleTypeChange(REPORTTYPES.comment)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.comment ? styles.selected : ''}`}>Select Comment Reports</p>
+                        <p onClick={() => handleTypeChange(REPORTTYPES.product)} className={`${styles.selectionItem} ${currentReportType === REPORTTYPES.product ? styles.selected : ''}`}>Select Product Reports</p>
                     </div>
+                </div>
 
-                    <div className={styles.reportScopeSelectionWrapper}>
-                        <div id="reportScopeSelection" className={styles.reportScopeSelection}>
-                            <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
-                            <p onClick={() => handleScopeChange(REPORTSCOPE.archived)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.archived ? styles.selected : ''}`}>Archived</p>
-                            <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
-                        </div>
+                <div className={styles.reportScopeSelectionWrapper}>
+                    <div id="reportScopeSelection" className={styles.reportScopeSelection}>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.new)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.new ? styles.selected : ''}`}>New</p>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.archived)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.archived ? styles.selected : ''}`}>Archived</p>
+                        <p onClick={() => handleScopeChange(REPORTSCOPE.all)} className={`${styles.selectionItem} ${currentReportScope === REPORTSCOPE.all ? styles.selected : ''}`}>All</p>
                     </div>
+                </div>
 
-                    <div className={styles.reportTable}>
-                        {renderRaports()}
-                        {renderWarning()}
-                    </div>
+                <div className={styles.reportTable}>
+                    {renderRaports()}
+                    {renderWarning()}
+                </div>
             </div>
             <Footer/>
         </div>

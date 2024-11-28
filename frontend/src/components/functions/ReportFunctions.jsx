@@ -68,11 +68,69 @@ export const ReportFunctions = () => {
         }
     };
 
+    const resolveReport = async(objectID) => {
+        try {
+            const hideObjectURL = `http://localhost:8080/api/reports?reportId=${objectID}`;
+            const is_done =  true;
+
+
+
+            const { data: res } = await axios.put(hideObjectURL, is_done, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`,
+                'Content-Type': 'application/json',
+                },
+            });
+
+            const postRes = res.data;
+
+            if(postRes == null){
+                return { success: true , message: "Removed object" };
+            }
+
+            return { success: false, message: "Hiding object post failure" };
+        } catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
+                return { success: false, message: error.response.data.message };
+            }
+            return { success: false, message: "An unexpected error occurred" };
+        }
+    }
+
+    const banCommentAuthor = async({authorID}) => {
+        try{
+            const banCommentAuthorURL = `http://localhost:8080/api/reports/${authorID}`;
+            const {data: res} = await axios.delete(banCommentAuthorURL, null, {
+                headers: {
+                    Authorization: `Bearer ${AuthorizationToken}`,
+                },
+            });
+
+            const postRes = res.data;
+
+            if(postRes == null){
+                return { success: true , message: "Removed object" };
+            }
+
+            return { success: false, message: "Hiding object post failure" };
+        } catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
+                return { success: false, message: error.response.data.message };
+            }
+            return { success: false, message: "An unexpected error occurred" };
+        }
+    }
+
     return {
         reportProduct,
         reportComment,
         setReportTypeProduct,
         setReportTypeComment,
         checkReportTypeProduct,
+        resolveReport,
+        banCommentAuthor,
+
     };
 };

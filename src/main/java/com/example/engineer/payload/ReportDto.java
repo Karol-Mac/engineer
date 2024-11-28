@@ -30,4 +30,8 @@ public class ReportDto {
     private String authorName;
 
     private Long authorId;
+
+    private Long reporterId;
+
+    private String reporterEmail;
 }

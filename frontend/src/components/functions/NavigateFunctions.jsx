@@ -67,6 +67,10 @@ export const NavigateFunctions = () => {
         navigate("/account/adminpanel");
     }
 
+    const openAdminReportVerdictpage = (reportID) =>{
+        navigate("/account/adminpanel/verdict/"+reportID);
+    }
+
     const openContactpage = () =>{
         navigate("/contact");
     }
@@ -111,6 +115,7 @@ export const NavigateFunctions = () => {
         openContactpage,
         openSearchpage,
         openRaportpage,
+        openAdminReportVerdictpage,
         openProductpage,
         openSellerProductspage,
         openAdminpanelpage,

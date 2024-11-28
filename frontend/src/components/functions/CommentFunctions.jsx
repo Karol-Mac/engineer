@@ -93,7 +93,7 @@ export const CommentFunctions = () => {
 
 
 
-    const deleteComment = async({commentID}) => {
+    const deleteComment = async(commentID) => {
         try {
             const deleteCommentURL = "http://localhost:8080/api/comments/"+commentID;
             const AuthorizationToken = localStorage.getItem("accessToken");
