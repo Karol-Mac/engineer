@@ -44,7 +44,7 @@ const Header = () => {
         <div id="header">
             <img src="/images/icons/HeaderLogoImg.png" alt="HeaderLogoImg.png" className={styles.HeaderLogoImg} onClick={openHomepage} />
             <div id="rightItems">
-                {!isSeller() && (
+                {!isSeller() && !isAdminUser() && (
                     <img src="/images/icons/FavouriteImg.png" alt="FavouriteImg.png" className={styles.FavouriteImg} onClick={openFavouritepage} />
                 )}
 

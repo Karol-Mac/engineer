@@ -1,0 +1,18 @@
+.socialIcons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.socialIcons img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.socialIcons img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
+import styles from "../css/Contactpage.module.css";
 
 const Contactpage = () => {
     const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ const Contactpage = () => {
         <div>
             <Header />
             <div id="contactPageContent" className="container mt-5">
-                <h2>Contact us via email or our socials</h2>
+                <h2>Contact us via email or our socials!!!</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="firstName" className="form-label">First Name</label>
@@ -121,23 +122,23 @@ const Contactpage = () => {
                         {responseMessage}
                     </div>
                 )}
-                <div id="socialIcons" className="mt-4">
+                <div className={`${styles.socialIcons} mt-4`}>
                     <h3>Follow us:</h3>
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="me-2">
-                        <img src="/images/icons/socials/facebook.png" alt="Facebook" />
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/socials/facebook.png" alt="Facebook"/>
                     </a>
-                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="me-2">
-                        <img src="/images/icons/socials/linkedin.png" alt="LinkedIn" />
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/socials/linkedin.png" alt="LinkedIn"/>
                     </a>
-                    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="me-2">
-                        <img src="/images/icons/socials/youtube.png" alt="YouTube" />
+                    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/socials/youtube.png" alt="YouTube"/>
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="me-2">
-                        <img src="/images/icons/socials/instagram.png" alt="Instagram" />
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                        <img src="/images/socials/instagram.png" alt="Instagram"/>
                     </a>
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

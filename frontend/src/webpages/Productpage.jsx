@@ -13,6 +13,8 @@ import Footer from "../components/generic/Footer";
 import styles from "../css/Productpage.module.css"
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import ProductTable from "../components/specific/productpage/ProductTable";
+import EditProductButton from "../components/generic/EditProductButton";
+import {LoginFunctions} from "../components/functions/LoginFunctions";
 
 const Productpage = () => {
     const{getProductInformation} = SearchProductFunctions();
@@ -20,12 +22,15 @@ const Productpage = () => {
     const{getImageByName} = ImagesFunctions()
     const{setReportTypeProduct} = ReportFunctions();
     const {id} = useParams();
+    const { isAdminUser, isSeller } = LoginFunctions();
+
 
     const [productDetails, setProductDetails] = useState(null);
     const [productImage, setProductImage] = useState(null);
     const [valuePer100Units, setValuePer100Units] = useState(null);
     const [sellerDetails, setSellerDetails] = useState(null);
     const [sellerImage, setSellerImage] = useState(null);
+
 
     useEffect(() => {
         const fetchAllProductDetails = async () => {
@@ -82,25 +87,26 @@ const Productpage = () => {
                     <CompareProductsButton givenProductID={productDetails.id}/>
                     <ReportButton reportType={setReportTypeProduct()} givenReportedID={productDetails.id}/>
                     <FavouriteButton givenProductID={productDetails.id} isInFavourite={productDetails.isFavourite}/>
+                    {(isSeller() || isAdminUser()) && (
+                        <EditProductButton givenProductID={productDetails.id} />
+                    )}
                 </div>
 
-
-                    <div className={styles.productDetailsContainer}>
-                        <div className={styles.productInfo}>
-                            {}
-                            <ProductTable
-                                productDetails={productDetails}
-                                productImage={productImage}
-                                sellerDetails={sellerDetails}
-                            />
-                        </div>
+                <div className={styles.productDetailsContainer}>
+                    <div className={styles.productInfo}>
+                        <ProductTable
+                            productDetails={productDetails}
+                            productImage={productImage}
+                            sellerDetails={sellerDetails}
+                        />
                     </div>
-
-                    <ProductCompareToolbar/>
                 </div>
-                <Footer/>
+
+                <ProductCompareToolbar/>
             </div>
-            );
-            };
+            <Footer/>
+        </div>
+    );
+};
 
             export default Productpage;

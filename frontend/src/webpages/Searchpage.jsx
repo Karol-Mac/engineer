@@ -171,7 +171,7 @@ const Searchpage = () => {
             {!isLoading && (
                 <div>
                     <Header/>
-                    <h1>Temp found product with name {searchedProduct}</h1>
+                    <h1>Temp found product with name: {searchedProduct}</h1>
                     <div id="foundProducts" className={styles.foundProducts}>
                         {displayedProducts().length > 0 ? (
                             displayedProducts().map((product) => {
@@ -182,7 +182,7 @@ const Searchpage = () => {
                                     productPrice: product.price,
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
-                                    productWeight: product.weight,
+                                    productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,
 
                                 };
                             return (

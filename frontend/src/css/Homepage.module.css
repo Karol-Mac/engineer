@@ -74,23 +74,23 @@
     justify-content: center;
     border: 1px solid #ddd;
     padding: 20px;
-    margin: 10px;
+    margin: 20px;
     background-color: #ffffff; /* White background */
     transition: transform 0.3s, box-shadow 0.3s;
-    width: 200px; /* Fixed width */
-    height: 300px; /* Fixed height */
+    width:250px; /* Fixed width */
+    height: 320px; /* Fixed height */
     position: relative; /* Ensure the container is positioned relatively */
 }
 
 .topRightElements {
-    position: absolute; /* Position absolutely within the container */
+    position: absolute;
     top: 10px;
     right: 10px;
-    display: flex; /* Ensure the elements are displayed */
-    gap: 10px; /* Add spacing between elements */
-    visibility: visible; /* Always visible */
-    opacity: 1; /* Fully opaque */
-    transition: none; /* Remove any transitions */
+    display: flex;
+    gap: 10px;
+    visibility: visible;
+    opacity: 1;
+    transition: none;
 }
 
 
@@ -100,9 +100,9 @@
 }
 
 .latestProductImage {
-    width: 150px; /* Reduced width */
-    height: 150px; /* Reduced height */
-    object-fit: fill; /* Scale the image to fit within the container */
+    width: 150px;
+    height: 150px;
+    object-fit: fill;
     margin-bottom: 10px;
     padding-bottom: 10px;
     margin-top: 30px;
@@ -111,7 +111,7 @@
 
 .latestProductDetails {
     text-align: center;
-    color: #343a40; /* Dark gray color */
+    color: #343a40;
 }
 
 .latestProductName {
@@ -122,12 +122,9 @@
 
 .latestProductPrice {
     font-size: 1em;
-    color: #6c757d; /* Medium gray color */
+    color: #6c757d;
 }
 
-/* Homepage.module.css */
-
-/* Homepage.module.css */
 
 .searchbarContainer {
     display: flex;
@@ -138,7 +135,7 @@
 }
 
 .searchbarInput {
-    width: 80%; /* Adjusted width to 80% */
+    width: 80%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
@@ -152,7 +149,7 @@
     border: 1px solid #ddd;
     border-left: none;
     border-radius: 0 4px 4px 0;
-    background-color: #ff5a00; /* Allegro orange color */
+    background-color: #ff5a00;
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -160,12 +157,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%; /* Match the height of the input */
-    box-sizing: border-box; /* Ensure pa
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .searchbarButton:hover {
-    background-color: #e04e00; /* Darker orange on hover */
+    background-color: #e04e00;
 }
 
 .searchbarButtonIcon {
@@ -181,7 +178,7 @@
 }
 
 .homepageItem {
-    flex: 1 1 calc(20% - 20px); /* 20% width minus margin */
+    flex: 1 1 calc(20% - 20px);
     margin: 10px;
     box-sizing: border-box;
 }

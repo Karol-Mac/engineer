@@ -44,11 +44,14 @@
 .productPrice {
     font-size: 20px;
     color: #333;
+    font-weight: bold;
 }
+
 
 .productWeight {
     font-size: 18px;
-    color: #666;
+    color: #333;
+    font-weight: bold;
 }
 
 .productActions {
@@ -66,6 +69,8 @@
     align-items: center;
     margin-top: 10px;
     justify-content: flex-end;
+    font-weight: bold;
+    color: #333;
 }
 
 .sellerImage {

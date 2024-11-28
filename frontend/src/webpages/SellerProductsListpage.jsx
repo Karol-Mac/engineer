@@ -127,7 +127,7 @@ const SellerProductsListpage = () => {
                                     productPrice: product.price,
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
-                                    productWeight: product.weight,
+                                    productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,
 
                                 };
                                 return (

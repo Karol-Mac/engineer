@@ -17,7 +17,7 @@ export const CompareFunctions = () => {
     const addProductComparisonList = ({givenProductID}) => { //to be updated
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
 
-        if(existingComparisonList.inclues(givenProductID)){
+        if(existingComparisonList.includes(givenProductID)){
             existingComparisonList.push(givenProductID);
             invokeOnCompareUpdateEvent();
             localStorage.setItem(localStorageCompareProductList, JSON.stringify(existingComparisonList));

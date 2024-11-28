@@ -7,11 +7,13 @@ import FavouriteButton from "../../generic/FavouriteButton";
 import {NavigateFunctions} from "../../functions/NavigateFunctions";
 import {SearchProductFunctions} from "../../functions/SearchProductFunctions";
 import EditProductButton from "../../generic/EditProductButton";
+import {LoginFunctions} from "../../functions/LoginFunctions";
 
 function SearchProductElement ({productData, styles}) {
     const {setReportTypeProduct} = ReportFunctions();
     const {openProductpage} = NavigateFunctions();
     const {getSellerData} = SearchProductFunctions();
+    const {isAdminUser, isSeller } = LoginFunctions();
 
     console.log("Productdata: ",productData);
 
@@ -53,7 +55,7 @@ function SearchProductElement ({productData, styles}) {
             <div className={styles.productDetails}>
                 <h4 className={styles.productName}>{productName}</h4>
                 <p className={styles.productPrice}>Price: {productPrice} zł</p>
-                <p className={styles.productWeight}>Weight: {productWeight} {productIsGram ? "g" : "ml"}</p>
+                <p className={styles.productWeight}>Weight: {productWeight}</p>
                 <div className={styles.sellerInfo}>
                     <span>{sellerName}</span>
                     <img src={sellerImageName} alt={sellerName} className={styles.sellerImage} />
@@ -63,7 +65,9 @@ function SearchProductElement ({productData, styles}) {
                 <CompareProductsButton givenProductID={productID} />
                 <ReportButton reportType="product" givenReportedID={productID} />
                 <FavouriteButton givenProductID={productID} isInFavourite={productData.isFavourite} />
-                <EditProductButton givenProductID={productID} />
+                {(isSeller() || isAdminUser()) && (
+                    <EditProductButton givenProductID={productID} />
+                )}
             </div>
         </div>
     );

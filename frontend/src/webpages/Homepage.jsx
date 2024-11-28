@@ -31,7 +31,6 @@ const Homepage = () => {
         <div>
             <Header/>
             <div className={styles.homepageContainer}>
-                <h1>Site title</h1>
                 <ProductSearchbar styles={styles}/>
 
                 <Carousel/>

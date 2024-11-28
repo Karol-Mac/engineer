@@ -1,38 +1,61 @@
-import {CompareFunctions} from "../functions/CompareFunctions";
-import {CustomEventsControler} from "../functions/CustomEventsControler";
-import {useState} from "react";
-import {FaWeight, FaWeightHanging} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { CompareFunctions } from "../functions/CompareFunctions";
+import NotificationAlert from "../generic/NotificationAlert";
+import { FaWeight, FaWeightHanging } from "react-icons/fa";
 import styles from "../../css/CompareProductsButton.module.css";
 
-const CompareProductsButton = ({givenProductID}) => {
-    const {toggleProductInComparisonList,isSpecificProductSelectedToCompare} = CompareFunctions();
-    const {invokeOnCompareUpdateEvent} = CustomEventsControler();
-
-    // console.log("giventProductID as prop "+givenProductID+ " is type"+ typeof givenProductID);
-    const [productSelectedToCompare, setProductSelectedToCompare] = useState(isSpecificProductSelectedToCompare(givenProductID));
-    //zaznaczenie produktu w menu głównym przeniesie sie do wyszukiwarki
+const CompareProductsButton = ({ givenProductID }) => {
+    const { addProductComparisonList, removeProductComparisonList, isSpecificProductSelectedToCompare } = CompareFunctions();
+    const [productSelectedToCompare, setProductSelectedToCompare] = useState(false);
+    const [notification, setNotification] = useState(null);
+    const [notificationKey, setNotificationKey] = useState(0);
 
     const handleClick = () => {
-        console.log("givenProductID is "+givenProductID);
-        toggleProductInComparisonList(givenProductID);
-        invokeOnCompareUpdateEvent();
-        setProductSelectedToCompare(isSpecificProductSelectedToCompare(givenProductID));
-    }
+        if (productSelectedToCompare) {
+            // Usuwanie produktu z porównania
+            removeProductComparisonList(givenProductID);
+            setProductSelectedToCompare(false);
+            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotification({
+                message: "Product removed from comparison!",
+                type: "alert-error",
+            });
+        } else {
+            // Dodawanie produktu do porównania
+            addProductComparisonList({ givenProductID });
+            setProductSelectedToCompare(true);
+            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotification({
+                message: "Product added to comparison!",
+                type: "alert-success",
+            });
+        }
+    };
 
-    return(
-        <div onClick={handleClick} id="CompareImg" className={styles.compareButton}>
-            {productSelectedToCompare ? (
-                <>
-                    <FaWeight size={24} />
-                </>
-            ) : (
-                <>
-                    <FaWeightHanging size={24} />
-                </>
+    useEffect(() => {
+        // Sprawdzamy, czy produkt jest obecnie wybrany do porównania
+        setProductSelectedToCompare(isSpecificProductSelectedToCompare(givenProductID));
+    }, [givenProductID]);
+
+    return (
+        <>
+            {notification && (
+                <NotificationAlert
+                    key={notificationKey}
+                    message={notification.message}
+                    type={notification.type}
+                    onClose={() => setNotification(null)}
+                />
             )}
-        </div>
+            <div onClick={handleClick} id="CompareImg" className={styles.compareButton}>
+                {productSelectedToCompare ? (
+                    <FaWeight size={24} />
+                ) : (
+                    <FaWeightHanging size={24} />
+                )}
+            </div>
+        </>
     );
 };
 
 export default CompareProductsButton;
-
