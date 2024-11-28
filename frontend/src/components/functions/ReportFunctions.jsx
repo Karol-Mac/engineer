@@ -1,64 +1,70 @@
-import {CustomEventsControler} from "./CustomEventsControler";
 import axios from "axios";
-import {useState} from "react";
+import { useState } from "react";
+import { NavigateFunctions } from "./NavigateFunctions";
 
 export const ReportFunctions = () => {
-    const [error, setError] = useState(""); // na chwile obecna nie ma zastosowania
+    const { openHomepage } = NavigateFunctions();
+
+    const [error, setError] = useState("");
 
     const AuthorizationToken = localStorage.getItem("accessToken");
-    const setReportTypeProduct = () =>{
-        return "Product";
-    }
-    const setReportTypeComment = () =>{
-        return "Comment";
-    }
 
-    const checkReportTypeProduct = ({reportType}) => {
-        return reportType === setReportTypeProduct() ? true : false; //jezeli report jest typu produkt zwroc prawde w przeciwnym wypadku zwroc falsz
-    }
+    const setReportTypeProduct = () => "Product";
+    const setReportTypeComment = () => "Comment";
 
-    const reportProduct = async({productID, reportText}) => {
+    const checkReportTypeProduct = ({ reportType }) => reportType === setReportTypeProduct();
 
-
+    const reportProduct = async ({ productID, reportText }) => {
         try {
-            var raportURL = "http://localhost:8080/api/reports?productId="+productID;
-            const reportData = {reportText}
+            const raportURL = `http://localhost:8080/api/reports?productId=${productID}`;
+            const reportData = { reportText };
 
-            const {responseData: res} = await axios.post(raportURL, reportData, {
+            const { data: res } = await axios.post(raportURL, reportData, {
                 headers: {
-                    Authorization: `Bearer ${AuthorizationToken}`
-                }
+                    Authorization: `Bearer ${AuthorizationToken}`,
+                },
             });
-        }catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
+            const postRes = res.data;
+
+            if(postRes == null){
+                console.log("Reported product, opening Homepage");
+                openHomepage();
+                return { success: true, message: "Reporting successful"};
             }
+            return { success: false, message: "reporting product post failure" };
+        } catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
+                return { success: false, message: error.response.data.message };
+            }
+            return { success: false, message: "An unexpected error occurred" };
         }
     };
 
-    const reportComment = async({commendID, raportText}) => {
-
+    const reportComment = async ({ commendID, raportText }) => {
         try {
-            var raportURL = "http://localhost:8080/api/reports?commentId="+commendID;
-            const raportData = {raportText}
+            const raportURL = `http://localhost:8080/api/reports?commentId=${commendID}`;
+            const raportData = { raportText };
 
-            const {responseData: res} = await axios.post(raportURL, raportData, {
+            const { data: res } = await axios.post(raportURL, raportData, {
                 headers: {
-                    Authorization: `Bearer ${AuthorizationToken}`
-                }
+                    Authorization: `Bearer ${AuthorizationToken}`,
+                },
             });
-        }catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message);
+            const postRes = res.data;
+
+            if(postRes == null){
+                console.log("Reported comment, opening Homepage");
+                openHomepage();
+                return { success: true , message: "Reporting successful" };
             }
+            return { success: false, message: "reporting comment post failure" };
+        } catch (error) {
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
+                return { success: false, message: error.response.data.message };
+            }
+            return { success: false, message: "An unexpected error occurred" };
         }
     };
 

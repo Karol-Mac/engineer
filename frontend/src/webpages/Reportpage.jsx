@@ -3,8 +3,10 @@ import {useEffect, useState} from "react";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
+import {NavigateFunctions} from "../components/functions/NavigateFunctions";
 
 const Reportpage = () => {
+    const {openHomepage} = NavigateFunctions();
     const {reportType,reportID} = useParams();
     const {reportComment,reportProduct, setReportTypeProduct, setReportTypeComment} = ReportFunctions();
     const [reportDescription, setReportDescription] = useState("");
@@ -34,6 +36,9 @@ const Reportpage = () => {
             console.log("Reporting sucessful");
         }
     };
+
+
+
 
     return (
         <div className="d-flex flex-column min-vh-100">
