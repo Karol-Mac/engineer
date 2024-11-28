@@ -190,18 +190,30 @@ const AdminReportPanelpage = () => {
                             <tr key={`details-${report.id}`}>
                                 <td colSpan="8">
                                     <div className={styles.decisionPanel}>
-                                        <button onClick={() => handleAction(VERDICTOPTION.delete, report.id)}>
+                                        <button
+                                            className={`${styles.delete}`}
+                                            onClick={() => handleAction(VERDICTOPTION.delete, report.id)}
+                                        >
                                             Delete {currentReportType}
                                         </button>
                                         {currentReportType === REPORTTYPES.comment && (
-                                            <button onClick={() => handleAction(VERDICTOPTION.lockCommentAuthor, report.id)}>
+                                            <button
+                                                className={`${styles.lock}`}
+                                                onClick={() => handleAction(VERDICTOPTION.lockCommentAuthor, report.id)}
+                                            >
                                                 Lock Comment Author
                                             </button>
                                         )}
-                                        <button onClick={() => handleAction(VERDICTOPTION.lockReportAuthor, report.id)}>
+                                        <button
+                                            className={`${styles.lock}`}
+                                            onClick={() => handleAction(VERDICTOPTION.lockReportAuthor, report.id)}
+                                        >
                                             Lock Report Author
                                         </button>
-                                        <button onClick={() => handleAction(VERDICTOPTION.pass, report.id)}>
+                                        <button
+                                            className={`${styles.pass}`}
+                                            onClick={() => handleAction(VERDICTOPTION.pass, report.id)}
+                                        >
                                             Pass Report
                                         </button>
                                     </div>

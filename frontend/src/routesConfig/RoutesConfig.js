@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Homepage from '../webpages/Homepage';
@@ -21,8 +21,13 @@ import EditProductpage from "../webpages/EditProductpage";
 import AdminReportVerdictpage from "../webpages/AdminReportVerdictpage";
 
 const RoutesConfig = () => {
-    const [accessToken] = useState(localStorage.getItem("accessToken"));
-    const [tokenType] = useState(localStorage.getItem("tokenType"));
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
+    const [tokenType, setTokenType] = useState(localStorage.getItem("tokenType"));
+
+    useEffect(() => {
+        setAccessToken(localStorage.getItem("accessToken"));
+        setTokenType(localStorage.getItem("tokenType"));
+    }, [tokenType, accessToken]);
 
     return (
         <Routes>
