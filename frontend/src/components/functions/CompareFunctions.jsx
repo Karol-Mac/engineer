@@ -14,32 +14,32 @@ export const CompareFunctions = () => {
     };
     initializeProductComparisonList();
 
-    const addProductComparisonList = ({givenProductID}) => { //to be updated
-        const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
+    const addProductComparisonList = ({ givenProductID }) => {
+        const currentList = JSON.parse(localStorage.getItem("compareProductList")) || [];
+        console.log("Before Adding:", currentList);
 
-        if(existingComparisonList.includes(givenProductID)){
-            existingComparisonList.push(givenProductID);
-            invokeOnCompareUpdateEvent();
-            localStorage.setItem(localStorageCompareProductList, JSON.stringify(existingComparisonList));
-            // console.log("Added product with ID" + givenProductID + "to be compared");
-        }else{
-            console.log("product with ID" + givenProductID + " is already compared");
+        // Dodaj produkt do listy, jeśli go tam nie ma
+        if (!currentList.includes(givenProductID)) {
+            currentList.push(givenProductID);
+            localStorage.setItem("compareProductList", JSON.stringify(currentList));
+            console.log("After Adding:", currentList);
+        } else {
+            console.log(`Product with ID ${givenProductID} is already in the comparison list`);
         }
-    }
+    };
 
-    const removeProductComparisonList = (givenProductID) => { //to be updated
-        const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));
+    const removeProductComparisonList = (givenProductID) => {
+        const currentList = JSON.parse(localStorage.getItem("compareProductList")) || [];
+        console.log("Before Removing:", currentList);
 
-        const productIndex = existingComparisonList.indexOf(givenProductID);
-       if(productIndex > 0){
-            existingComparisonList.splice(givenProductID,1);
-            invokeOnCompareUpdateEvent();
-            localStorage.setItem(localStorageCompareProductList, JSON.stringify(existingComparisonList));
-            // console.log("Removed product with ID" + givenProductID + "from comparison");
-        }else{
-            console.log("product with ID" + givenProductID + " doesnt exist and therefore cannot be removed");
+        if (currentList.includes(givenProductID)) {
+            const updatedList = currentList.filter((id) => id !== givenProductID);
+            localStorage.setItem("compareProductList", JSON.stringify(updatedList));
+            console.log("After Removing:", updatedList);
+        } else {
+            console.log(`Product with ID ${givenProductID} doesn't exist and therefore cannot be removed`);
         }
-    }
+    };
 
     const toggleProductInComparisonList = (givenProductID) => { //if doesnt work check if React. Strict mode doesnt mess it up
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList));

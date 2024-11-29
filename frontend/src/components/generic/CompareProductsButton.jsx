@@ -11,6 +11,7 @@ const CompareProductsButton = ({ givenProductID }) => {
     const [notificationKey, setNotificationKey] = useState(0);
 
     const handleClick = () => {
+        console.log("Given Product ID:", givenProductID);
         if (productSelectedToCompare) {
             removeProductComparisonList(givenProductID);
             setProductSelectedToCompare(false);
@@ -20,7 +21,6 @@ const CompareProductsButton = ({ givenProductID }) => {
                 type: "alert-error",
             });
         } else {
-            // Dodawanie produktu do porównania
             addProductComparisonList({ givenProductID });
             setProductSelectedToCompare(true);
             setNotificationKey((prev) => prev + 1);
