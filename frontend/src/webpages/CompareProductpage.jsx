@@ -20,9 +20,22 @@ const CompareProductpage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [productComparisonDetails, setProductComparisonDetails] = useState(null);
+    const [filter, setFilter] = useState("");
+    const [sortBy, setSortBy] = useState("price");
+    const [direction, setDirection] = useState("asc");
+    const [pageNo, setPageNo] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+
+    const clearComparison = () => {
+        localStorage.setItem("compareProductList", JSON.stringify([]));
+        setProductComparisonDetails([]);
+    };
+
 
     useEffect(() => {
         addListenerDispatchOnCompareUpdate();
+
+
 
         const fetchAllProductDetails = async () => {
             const fetchedComparedProducts = await Promise.all(
@@ -72,26 +85,36 @@ const CompareProductpage = () => {
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header />
+            <Header/>
             <main className={`${styles.pageContainer}`}>
-                <h1 className={styles.pageTitle}>Compare Product with</h1>
-                <div className={styles.contentContainer}>
-                    <div id="comparedProducts" className={styles.productContainer}>
-                        {productComparisonDetails.length > 0 ? (
-                            productComparisonDetails.map((product) => (
+                {productComparisonDetails && productComparisonDetails.length > 0 ? (
+                    <div className={styles.headerContainer}>
+                        <h1 className={styles.pageTitle}>Compare Product with</h1>
+                        <button
+                            className={styles.clearButton}
+                            onClick={clearComparison}
+                        >
+                            Clear Comparison
+                        </button>
+                    </div>
+                ) : (
+                    <h1 className={styles.pageTitle}>No products were selected to be compared</h1>
+                )}
+                {productComparisonDetails && productComparisonDetails.length > 0 && (
+                    <div className={styles.contentContainer}>
+                        <div id="comparedProducts" className={styles.productContainer}>
+                            {productComparisonDetails.map((product) => (
                                 <div key={product.id} className={styles.productItem}>
                                     <CompareProductElement compareProductData={product} styles={styles}/>
                                 </div>
-                            ))
-                        ) : (
-                            <div><p>No products were selected to be compared</p></div>
-                        )}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </main>
             <Footer/>
         </div>
-);
+    );
 };
 
 export default CompareProductpage;

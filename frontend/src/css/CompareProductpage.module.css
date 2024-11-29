@@ -101,3 +101,25 @@
         margin: 10px 0;
         color: #333;
 }
+.clearButton {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.clearButton:hover {
+    background-color: #e60000;
+    cursor: pointer;
+}
+.headerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}

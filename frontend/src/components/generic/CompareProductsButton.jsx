@@ -12,10 +12,9 @@ const CompareProductsButton = ({ givenProductID }) => {
 
     const handleClick = () => {
         if (productSelectedToCompare) {
-            // Usuwanie produktu z porównania
             removeProductComparisonList(givenProductID);
             setProductSelectedToCompare(false);
-            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotificationKey((prev) => prev + 1);
             setNotification({
                 message: "Product removed from comparison!",
                 type: "alert-error",
@@ -24,7 +23,7 @@ const CompareProductsButton = ({ givenProductID }) => {
             // Dodawanie produktu do porównania
             addProductComparisonList({ givenProductID });
             setProductSelectedToCompare(true);
-            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotificationKey((prev) => prev + 1);
             setNotification({
                 message: "Product added to comparison!",
                 type: "alert-success",
@@ -33,7 +32,6 @@ const CompareProductsButton = ({ givenProductID }) => {
     };
 
     useEffect(() => {
-        // Sprawdzamy, czy produkt jest obecnie wybrany do porównania
         setProductSelectedToCompare(isSpecificProductSelectedToCompare(givenProductID));
     }, [givenProductID]);
 
