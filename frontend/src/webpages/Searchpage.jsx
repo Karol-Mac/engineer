@@ -157,11 +157,14 @@ const Searchpage = () => {
             }
 
             return (
-                <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-                    {pageNumbers}
+                <div style={{textAlign: "center", marginTop: "20px"}}>
+                    <p>Select a page to view:</p>
+                    <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
+                        {pageNumbers}
+                    </div>
                 </div>
             );
-        }else{
+        } else {
             console.log("Page number is less than 1!!!");
         }
     }
@@ -183,27 +186,45 @@ const Searchpage = () => {
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
                                     productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,
-
                                 };
-                            return (
-
-                                <div key={product.id} className={styles.productContainer}>
-                                <SearchProductElement productData={productData} styles={styles}/>
-                                </div>
-                            );
-                        })) : (
+                                return (
+                                    <div key={product.id} className={styles.productContainer}>
+                                        <SearchProductElement productData={productData} styles={styles}/>
+                                    </div>
+                                );
+                            })
+                        ) : (
                             <div id="foundProducts">
-                                <p>no products found</p>
+                                <p>No products found</p>
                             </div>
                         )}
-
-                        <div style={{ margin: "10px 0", textAlign: "center" }}>
-                            <BatchSizeButton batchsize={BATCHSIZE.TEN} onClick={handleBatchSizeChange} />
-                            <BatchSizeButton batchsize={BATCHSIZE.FIFTEEN} onClick={handleBatchSizeChange} />
-                            <BatchSizeButton batchsize={BATCHSIZE.TWENTY} onClick={handleBatchSizeChange} />
+                    </div>
+                    <div style={{textAlign: "center", margin: "20px 0"}}>
+                        <div style={{display: "flex", justifyContent: "center", gap: "50px", alignItems: "center"}}>
+                            <div>
+                                <p>How many products do you want to display?</p>
+                                <div className={styles.batchSizeButtons}>
+                                    <BatchSizeButton
+                                        batchsize={BATCHSIZE.TEN}
+                                        currentBatchSize={currentBatchSize}
+                                        onClick={handleBatchSizeChange}
+                                    />
+                                    <BatchSizeButton
+                                        batchsize={BATCHSIZE.FIFTEEN}
+                                        currentBatchSize={currentBatchSize}
+                                        onClick={handleBatchSizeChange}
+                                    />
+                                    <BatchSizeButton
+                                        batchsize={BATCHSIZE.TWENTY}
+                                        currentBatchSize={currentBatchSize}
+                                        onClick={handleBatchSizeChange}
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                {displayPageNumbers()}
+                            </div>
                         </div>
-
-                        {displayPageNumbers()}
                     </div>
                     <Footer/>
                 </div>

@@ -1,0 +1,41 @@
+.batchSizeButtons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Spójne odstępy między przyciskami */
+    margin: 10px 0; /* Spójne marginesy */
+    align-items: center; /* Wyrównanie w pionie */
+}
+
+.batchSizeButton{
+    display: inline-block;
+    padding: 8px 16px; /* Takie same wymiary */
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.batchSizeButton:hover {
+    background-color: #d1d1d1;
+    transform: scale(1.05);
+}
+
+.batchSizeButton.active{
+    background-color: #28a745; /* Zielony dla aktywnych */
+    color: #fff;
+    border-color: #28a745;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Cień */
+}
+
+.batchSizeQuestion{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center; /* Wyrównanie tekstu */
+}

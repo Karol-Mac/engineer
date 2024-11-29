@@ -55,90 +55,92 @@ const Contactpage = () => {
     };
 
     return (
-        <div>
+        <div className="d-flex flex-column min-vh-100">
             <Header />
-            <div id="contactPageContent" className="container mt-5">
-                <h2>Contact us via email or our socials!!!</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3">
-                        <label htmlFor="firstName" className="form-label">First Name</label>
-                        <input
-                            type="text"
-                            id="firstName"
-                            name="firstName"
-                            className="form-control"
-                            placeholder="Enter your first name"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            required
-                        />
+            <main className="flex-grow-1">
+                <div id="contactPageContent" className="container mt-5">
+                    <h2>Contact us via email or our socials!!!</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="firstName" className="form-label">First Name</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                className="form-control"
+                                placeholder="Enter your first name"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="lastName" className="form-label">Last Name</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                className="form-control"
+                                placeholder="Enter your last name"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email Address</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className="form-control"
+                                placeholder="Enter your email address"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="message" className="form-label">Your Message</label>
+                            <textarea
+                                id="message"
+                                name="message"
+                                className="form-control"
+                                placeholder="Enter your message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                                {isLoading ? "Sending..." : "SUBMIT"}
+                            </button>
+                        </div>
+                    </form>
+                    {responseMessage && (
+                        <div className={`mt-3 alert ${responseMessage.includes("success") ? "alert-success" : "alert-danger"}`}>
+                            {responseMessage}
+                        </div>
+                    )}
+                    <div className={`${styles.socialIcons} mt-4`}>
+                        <h3>Follow us:</h3>
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/socials/facebook.png" alt="Facebook" />
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/socials/linkedin.png" alt="LinkedIn" />
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/socials/youtube.png" alt="YouTube" />
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                            <img src="/images/socials/instagram.png" alt="Instagram" />
+                        </a>
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="lastName" className="form-label">Last Name</label>
-                        <input
-                            type="text"
-                            id="lastName"
-                            name="lastName"
-                            className="form-control"
-                            placeholder="Enter your last name"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="email" className="form-label">Email Address</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            className="form-control"
-                            placeholder="Enter your email address"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="message" className="form-label">Your Message</label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            className="form-control"
-                            placeholder="Enter your message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <button type="submit" className="btn btn-primary" disabled={isLoading}>
-                            {isLoading ? "Sending..." : "SUBMIT"}
-                        </button>
-                    </div>
-                </form>
-                {responseMessage && (
-                    <div className={`mt-3 alert ${responseMessage.includes("success") ? "alert-success" : "alert-danger"}`}>
-                        {responseMessage}
-                    </div>
-                )}
-                <div className={`${styles.socialIcons} mt-4`}>
-                    <h3>Follow us:</h3>
-                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                        <img src="/images/socials/facebook.png" alt="Facebook"/>
-                    </a>
-                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                        <img src="/images/socials/linkedin.png" alt="LinkedIn"/>
-                    </a>
-                    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
-                        <img src="/images/socials/youtube.png" alt="YouTube"/>
-                    </a>
-                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                        <img src="/images/socials/instagram.png" alt="Instagram"/>
-                    </a>
                 </div>
-            </div>
-            <Footer/>
+            </main>
+            <Footer />
         </div>
     );
 };
