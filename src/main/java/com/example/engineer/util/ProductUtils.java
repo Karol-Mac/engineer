@@ -5,7 +5,9 @@ import com.example.engineer.entity.User;
 import com.example.engineer.exceptions.NotFoundException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.payload.ProductResponse;
 import com.example.engineer.repository.ProductRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,6 +43,15 @@ public class ProductUtils {
         productDto.setIsReported(false);
 
         return productDto;
+    }
+
+    public ProductResponse getProductResponse(Page<Product> productsPage) {
+        return ProductResponse.builder()
+                .totalPages(productsPage.getTotalPages())
+                .pageSize(productsPage.getSize())
+                .pageNumber(productsPage.getNumber())
+                .isLast(productsPage.isLast())
+                .build();
     }
 
     private static boolean isReported(Product product, User user) {

@@ -2,9 +2,13 @@ package com.example.engineer.controller;
 
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.payload.ProductResponse;
 import com.example.engineer.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -49,16 +52,30 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getProductsByName(@RequestParam String name, Principal principal){
+    public ResponseEntity<ProductResponse> getProductsByName(@RequestParam String name,
+                                                             @RequestParam(defaultValue = "0") int pageNo,
+                                                             @RequestParam(defaultValue = "3") int pageSize,
+                                                             @RequestParam(defaultValue = "price") String sortBy,
+                                                             @RequestParam(defaultValue = "asc") String direction,
+                                                             Principal principal){
+
+        Pageable pageable = getPageable(pageNo, pageSize, sortBy, direction);
 
         return principal == null ?
-                ResponseEntity.ok(productService.getAllProducts(name)) :
-                ResponseEntity.ok(productService.getAllProducts(name, principal.getName()));
+                ResponseEntity.ok(productService.getAllProducts(name, pageable)) :
+                ResponseEntity.ok(productService.getAllProducts(name, pageable, principal.getName()));
     }
 
     @GetMapping("/seller")
-    public ResponseEntity<List<ProductDto>> getSellerProducts(Principal principal){
-        return ResponseEntity.ok(productService.getSellerProductDtos(principal.getName()));
+    public ResponseEntity<ProductResponse> getSellerProducts(Principal principal,
+                                                              @RequestParam(defaultValue = "0") int pageNo,
+                                                              @RequestParam(defaultValue = "3") int pageSize,
+                                                              @RequestParam(defaultValue = "price") String sortBy,
+                                                              @RequestParam(defaultValue = "asc") String direction){
+
+        Pageable pageable = getPageable(pageNo, pageSize, sortBy, direction);
+
+        return ResponseEntity.ok(productService.getSellerProductDtos(principal.getName(), pageable));
     }
 
     @PutMapping("/{id}")
@@ -71,5 +88,12 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable long id, Principal principal){
         return ResponseEntity.ok(productService.deleteProduct(id, principal.getName()));
+    }
+
+    private static Pageable getPageable(int pageNo, int pageSize, String sortBy, String direction) {
+        Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+        return PageRequest.of(pageNo, pageSize, sort);
     }
 }

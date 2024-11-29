@@ -2,20 +2,23 @@ package com.example.engineer.service.impl;
 
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Seller;
-import com.example.engineer.exceptions.NotFoundException;
+import com.example.engineer.exceptions.ApiException;
 import com.example.engineer.payload.FreshProductDto;
 import com.example.engineer.payload.ProductDto;
+import com.example.engineer.payload.ProductResponse;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.service.ImageService;
 import com.example.engineer.service.ProductService;
 import com.example.engineer.util.ProductUtils;
 import com.example.engineer.util.UserUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -53,15 +56,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getAllProducts(String productName, final String email) {
-        List<Product> products = productRepository.findByNameContaining(productName);
-        return products.stream().map(p -> productUtils.mapProductToDto(p, email)).toList();
+    public ProductResponse getAllProducts(String productName, Pageable pageable, final String email) {
+
+        Page<Product> productsPage = productRepository.findByNameContaining(productName, pageable);
+        var productResponse = productUtils.getProductResponse(productsPage);
+
+        productResponse.setProducts(productsPage
+                .stream()
+                .map( p -> productUtils.mapProductToDto(p, email))
+                .toList());
+
+        return productResponse;
     }
 
     @Override
-    public List<ProductDto> getAllProducts(String productName) {
-        List<Product> products = productRepository.findByNameContaining(productName);
-        return products.stream().map(productUtils::mapProductToDto).toList();
+    public ProductResponse getAllProducts(String productName, Pageable pageable) {
+
+        Page<Product> productsPage = productRepository.findByNameContaining(productName, pageable);
+        var productResponse = productUtils.getProductResponse(productsPage);
+
+        productResponse.setProducts(productsPage
+                .stream()
+                .map(productUtils::mapProductToDto)
+                .toList());
+        return productResponse;
     }
 
     @Override
@@ -99,26 +117,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @PreAuthorize("hasRole(@sellerRole)")
-    public List<FreshProductDto> getSellerProducts(String email){
-        var products = productRepository.findBySellerEmail(email);
-        return products.stream()
-                       .map(productUtils::mapProductToFresh)
-                       .toList();
+    public ProductResponse getSellerProductDtos(String email, Pageable pageable) {
+
+        var products = productRepository.findBySellerEmail(email, pageable);
+        if (products.isEmpty())
+            throw new ApiException("No products found for this seller", HttpStatus.NOT_FOUND);
+
+        var productResponse = productUtils.getProductResponse(products);
+        productResponse.setProducts(products
+                .stream()
+                .map(productUtils::mapProductToDto)
+                .toList());
+
+        return productResponse;
     }
-
-    @Override
-    @PreAuthorize("hasRole(@sellerRole)")
-    public List<ProductDto> getSellerProductDtos(String email) {
-
-            var products = productRepository.findBySellerEmail(email);
-            if (products.isEmpty()) {
-                throw new NotFoundException("Products", 404);
-            }
-            return products.stream()
-                    .map(productUtils::mapProductToDto) // Explicitly pass `product` and `email`
-                    .toList();
-
-    }
-
-
 }
