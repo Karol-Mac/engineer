@@ -91,6 +91,67 @@ p[style*="color: red"] {
     gap: 20px;
 }
 
+.decisionPanel button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.decisionPanel button:hover {
+    background-color: #007bff;
+    color: black;
+    border-color: #0056b3;
+}
+
+.decisionPanel button.delete {
+    background-color: #dc3545;
+    color: black;
+    border: 1px solid #dc3545;
+}
+
+.decisionPanel button.delete:hover {
+    background-color: #b52a37;
+    border-color: #b52a37;
+}
+
+.decisionPanel button.lock {
+    background-color: #ffc107;
+    color: black;
+    border: 1px solid #ffc107;
+}
+
+.decisionPanel button.lock:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+}
+
+.decisionPanel button.pass {
+    background-color: #28a745;
+    color: black;
+    border: 1px solid #28a745;
+}
+
+.decisionPanel button.pass:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+.decisionPanel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+
+
 @media (max-width: 1200px) {
     .reportTypeSelection, .reportScopeSelection {
         width: 90%;
