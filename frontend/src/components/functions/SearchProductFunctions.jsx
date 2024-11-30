@@ -15,12 +15,7 @@ export const SearchProductFunctions = () => {
     const getSearchedProducts = async({productName})=>{
         let errorMessage;
         try {
-            if(productName == ""){
-                errorMessage = "product name not given";
-                return{ success: false, message: errorMessage};
-            }
 
-            // console.log("productName= " +productName);
             let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
 
             const response = await axios.get(getProductsByNameUrl);
