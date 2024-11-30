@@ -78,6 +78,7 @@
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     min-width: 350px;
+    cursor: pointer;
 }
 
 .productItem:hover {
@@ -231,4 +232,22 @@
 
 .sortContainer button:hover {
     background-color: #0056b3;
+}
+.filterRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filterLabel {
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.filterLabel:hover {
+    color: #ff4d4d;
+    text-decoration: underline;
 }
