@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, useState} from "react";
 import styles from "../../../css/CompareProductpage.module.css";
 
 const SortFilterSection = ({
@@ -14,6 +14,17 @@ const SortFilterSection = ({
                                handleFilterChange,
                                onApplySortAndFilter,
                            }) => {
+
+    const [removeFilterReset, setRemoveFilterReset] = useState(false);
+    const handleFilterRemoval = (filter) => {
+        setRemoveFilterReset(true);
+        handleRemoveFilter(filter)
+    }
+
+    useEffect(() => {
+        setRemoveFilterReset(false);
+    }, [removeFilterReset]);
+
     return (
         <div className={styles.filtersContainer}>
             <div className={styles.sortContainer}>
@@ -53,7 +64,8 @@ const SortFilterSection = ({
                     <div key={filter} className={styles.filterRow}>
                         <span
                             className={styles.filterLabel}
-                            onClick={() => handleRemoveFilter(filter)}
+                            // onClick={() => handleRemoveFilter(filter)}
+                            onClick={() => handleFilterRemoval(filter)}
                             title="Remove filter"
                         >
                             {filter.charAt(0).toUpperCase() + filter.slice(1)} ✖

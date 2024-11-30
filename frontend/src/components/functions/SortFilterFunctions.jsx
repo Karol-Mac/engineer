@@ -55,6 +55,7 @@ export const SortFilterFunctions = () => {
         delete newFilterValues[`${filter}_min`];
         delete newFilterValues[`${filter}_max`];
         setFilterValues(newFilterValues);
+        applyFiltering();
     };
 
 
