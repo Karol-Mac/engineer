@@ -90,7 +90,7 @@ export const SellerAccountFunctions = () => {
     const getSellerProducts = async() => {
         let errorMessage;
         try {
-            let getSellerProducts= "http://localhost:8080/api/products/seller";
+            let getSellerProducts= "http://localhost:8080/api/products/seller?pageNo=0&pageSize=50";
             const AuthorizationToken = localStorage.getItem("accessToken");
             console.log("TTTT1");
             console.log("AuthorizationToken:", AuthorizationToken);
@@ -100,7 +100,7 @@ export const SellerAccountFunctions = () => {
                 }
             });
             console.log("TTTT2");
-            let products = response.data;
+            let products = response.data.products;
 
             if(products.length <= 0){
                 errorMessage = "No product were found";
