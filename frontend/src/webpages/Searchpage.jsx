@@ -43,13 +43,12 @@ const Searchpage = () => {
     const [currentBatchSize, setCurrentBatchSizeState] = useState(getCurrentBatchSize());
 
     useEffect(() => {
-        setSearchedProduct(getSearchedProductName(searchParams));
-    }, [searchParams]);
-
-    useEffect(() => {
+        const paramSearchString = getSearchedProductName(searchParams);
+        setSearchedProduct(paramSearchString);
         const handleFoundProducts = async () => {
             await getSearchedProducts({ productName: searchedProduct }).then(async (result) => {
                 if (result.success) {
+                    if (!searchedProduct && paramSearchString != searchedProduct) return;
                     const updatedProductsDetails = await Promise.all(
                         result.foundProducts.products.map(async (product) => {
                             const [sellerResult, productImageResult] = await Promise.all([
@@ -81,7 +80,7 @@ const Searchpage = () => {
         };
 
         handleFoundProducts();
-    }, [searchedProduct]);
+    }, [searchedProduct, searchParams]);
 
     const handleApplySortAndFilter = () => {
         let updatedProducts = applyFiltering(foundProducts);
