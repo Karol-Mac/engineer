@@ -84,10 +84,33 @@ const Favouritepage = () => {
         );
     }
 
+    const removeAllFavourites = async () => {
+        if(favouriteProductsDetails == null || favouriteProductsDetails.length === 0) { return; }
+
+        for(const favouriteProduct of favouriteProductsDetails){
+            try{
+                const response = await removeFavouriteProduct({productID: favouriteProduct.id});
+                if(response.success) {
+                    console.log("Successfully removed favourite product: ", favouriteProduct);
+                }else{
+                    console.log("Failed to remove favourite product: ", favouriteProduct);
+                }
+            }catch(error){
+                console.log("Error removing favourite product: ", error);
+            }
+        }
+
+        setIsFetching(true);
+    }
+
     return (
         <div id="FavouriteProduct">
             <Header />
+            <div className={styles.removeAllFavouritesButton}>
+                <button onClick={removeAllFavourites}>Remove all favourites</button>
+            </div>
             <div className={styles.productGrid}>
+
                 {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
                     favouriteProductsDetails.map((product) => {
                         return (

@@ -11,3 +11,10 @@
     min-width: 250px; /* Ensure items don't get too small */
     margin: 10px; /* Add some spacing around each item */
 }
+
+.removeAllFavouritesButton{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 20px 0;
+}
