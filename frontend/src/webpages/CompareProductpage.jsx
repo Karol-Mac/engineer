@@ -112,7 +112,7 @@ const CompareProductpage = () => {
                 )}
 
                 {filteredProducts.length > 0 && (
-                    <div className="filters">
+                    <div className={styles.filters}>
                         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                             <option value="price">Price</option>
                             <option value="salt">Salt</option>
@@ -134,7 +134,7 @@ const CompareProductpage = () => {
                         <div id="comparedProducts" className={styles.productContainer}>
                             {filteredProducts.map((product) => (
                                 <div key={product.id} className={styles.productItem}>
-                                    <CompareProductElement compareProductData={product} styles={styles} />
+                                    <CompareProductElement compareProductData={product} styles={styles}/>
                                 </div>
                             ))}
                         </div>

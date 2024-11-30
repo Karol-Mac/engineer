@@ -123,3 +123,46 @@
     align-items: center;
     margin-bottom: 20px;
 }
+
+.filters {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Większy odstęp między elementami */
+    margin: 20px 0;
+    justify-content: center; /* Centruje całą sekcję */
+}
+
+.filters select,
+.filters button {
+    padding: 10px 15px;
+    font-size: 16px; /* Większy rozmiar tekstu */
+    border: 1px solid #ccc; /* Szare obramowanie */
+    border-radius: 8px; /* Zaokrąglone rogi */
+    cursor: pointer;
+    background-color: #f9f9f9; /* Jasne tło */
+    transition: all 0.3s ease; /* Płynne przejście na hover */
+}
+
+.filters select:focus,
+.filters button:focus {
+    outline: none; /* Usuwa standardowe obramowanie przeglądarki */
+    border-color: #007bff; /* Kolor niebieski na focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Delikatny cień */
+}
+
+.filters select:hover,
+.filters button:hover {
+    background-color: #eaeaea; /* Lekko ciemniejsze tło na hover */
+    border-color: #999; /* Ciemniejsze obramowanie na hover */
+}
+
+.filters button {
+    background-color: #007bff; /* Niebieski kolor przycisku */
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+.filters button:hover {
+    background-color: #0056b3; /* Ciemniejszy niebieski na hover */
+}
