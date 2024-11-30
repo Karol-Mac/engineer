@@ -3,9 +3,9 @@ import {useState} from "react";
 
 export const SearchProductFunctions = () => {
     const BATCHSIZE = {
-                TEN: 1,
-                FIFTEEN: 2,
-                TWENTY: 3,
+                TEN: 3,
+                FIFTEEN: 5,
+                TWENTY: 10,
     };
 
     const [currentSearchBatch, setCurrentSearchBatch] = useState(BATCHSIZE.TEN);
@@ -91,16 +91,24 @@ export const SearchProductFunctions = () => {
             let getLatestProductsByNameUrl= "http://localhost:8080/api/products?name=";
 
             const response = await axios.get(getLatestProductsByNameUrl);
+            let products = response.data.products;
 
-            let products = response.data;
+            // if (!Array.isArray(products)) {
+            //     errorMessage = "Unexpected response format";
+            //     return { success: false, message: errorMessage };
+            // }
+            console.log("Latestproducts: "+JSON.stringify(response.data)+ "product len" + products.length);
 
             if(products.length <= 0){
                 errorMessage = "No product were found";
                 return{ success: false, message: errorMessage};
             }
 
+            console.log("items before filtering "+JSON.stringify(products) + " items before filtering");
             products = products.filter(product => product.isHidden !== true);
+            console.log("items after filtering "+JSON.stringify(products) + " items after filtering");
             products = products.sort((dateA,dateB) => new Date(dateB.updatedAt) - new Date(dateA.updatedAt));
+            console.log("items after sorting "+JSON.stringify(products) + " items after sorting");
 
             if (products.length > 10) {
                 products = products.slice(0, 10);
