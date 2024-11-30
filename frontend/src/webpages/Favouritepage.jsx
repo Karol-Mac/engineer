@@ -33,11 +33,9 @@ const Favouritepage = () => {
                     foundFavouriteProducts.map(async (favouriteProduct) => {
                         appendJson(favouriteProduct);
 
-                        console.log("Favourite product: ", favouriteProduct);
-
                         const [favProductImage, sellerResult] = await Promise.all([
                             getImageByName({ imageName: favouriteProduct.imageName }),
-                            getSellerInformation({ sellerID: favouriteProduct.sellerId }), // Ensure sellerId is correctly set
+                            getSellerInformation({ sellerID: favouriteProduct.sellerId }),
                         ]);
 
                         if (favProductImage.success) {
@@ -115,10 +113,7 @@ const Favouritepage = () => {
                         {favouriteProductsDetails.map((product) => {
                             return (
                                 <div key={product.id}>
-                                    {console.log("favouriteProducts page data passed: ", product)}
                                     <FavouriteProductElement favouriteProductData={product} />
-                                    <br />
-                                    <br />
                                 </div>
                             );
                         })}
