@@ -19,7 +19,7 @@ function CompareProductElement({ compareProductData, styles }) {
 
     // Basic info rows - similar to ProductTable.js example
     const basicInfoRows = [
-        { attribute: "Price:", value: `${productDetails.price} zł` },
+        { attribute: "Price:", value: `${parseFloat(productDetails.price).toFixed(2)} zł` },
         { attribute: "Price per 100g:", value: `${(productDetails.price * (100 / productDetails.weight)).toFixed(2)} zł` },
     ];
 

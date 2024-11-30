@@ -7,7 +7,7 @@ const ProductTable = ({ productDetails, productImage, sellerDetails }) => {
     }
 
     const basicInfoRows = [
-        { attribute: "Price:", value: `${productDetails.price} zł` },
+        { attribute: "Price:", value: `${parseFloat(productDetails.price).toFixed(2)} zł` },
         { attribute: `Price per 100 ${productDetails.inGrams ? "g:" : "ml:"}`, value: `${(productDetails.price * (100 / productDetails.weight)).toFixed(2)} zł` },
     ];
 

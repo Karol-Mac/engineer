@@ -1,30 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { CompareFunctions } from "../functions/CompareFunctions";
+import React, {useEffect, useState} from "react";
+import {CompareFunctions} from "../functions/CompareFunctions";
 import NotificationAlert from "../generic/NotificationAlert";
-import { FaWeight, FaWeightHanging } from "react-icons/fa";
+import {FaWeight, FaWeightHanging} from "react-icons/fa";
 import styles from "../../css/CompareProductsButton.module.css";
 
-const CompareProductsButton = ({ givenProductID }) => {
-    const { addProductComparisonList, removeProductComparisonList, isSpecificProductSelectedToCompare } = CompareFunctions();
+const CompareProductsButton = ({givenProductID}) => {
+    const {
+        addProductComparisonList,
+        removeProductComparisonList,
+        isSpecificProductSelectedToCompare,
+    } = CompareFunctions();
+
     const [productSelectedToCompare, setProductSelectedToCompare] = useState(false);
     const [notification, setNotification] = useState(null);
     const [notificationKey, setNotificationKey] = useState(0);
 
     const handleClick = () => {
         if (productSelectedToCompare) {
-            // Usuwanie produktu z porównania
             removeProductComparisonList(givenProductID);
             setProductSelectedToCompare(false);
-            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotificationKey((prev) => prev + 1);
             setNotification({
                 message: "Product removed from comparison!",
                 type: "alert-error",
             });
         } else {
-            // Dodawanie produktu do porównania
-            addProductComparisonList({ givenProductID });
+            addProductComparisonList({givenProductID});
             setProductSelectedToCompare(true);
-            setNotificationKey((prev) => prev + 1); // Zmiana klucza powiadomienia
+            setNotificationKey((prev) => prev + 1);
             setNotification({
                 message: "Product added to comparison!",
                 type: "alert-success",
@@ -33,8 +36,9 @@ const CompareProductsButton = ({ givenProductID }) => {
     };
 
     useEffect(() => {
-        // Sprawdzamy, czy produkt jest obecnie wybrany do porównania
-        setProductSelectedToCompare(isSpecificProductSelectedToCompare(givenProductID));
+        // Ustawienie stanu w oparciu o dane z localStorage
+        const isSelected = isSpecificProductSelectedToCompare(givenProductID);
+        setProductSelectedToCompare(isSelected);
     }, [givenProductID]);
 
     return (
@@ -49,9 +53,9 @@ const CompareProductsButton = ({ givenProductID }) => {
             )}
             <div onClick={handleClick} id="CompareImg" className={styles.compareButton}>
                 {productSelectedToCompare ? (
-                    <FaWeight size={24} />
+                    <FaWeight size={24}/>
                 ) : (
-                    <FaWeightHanging size={24} />
+                    <FaWeightHanging size={24}/>
                 )}
             </div>
         </>
