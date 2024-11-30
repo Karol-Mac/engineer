@@ -106,18 +106,31 @@ const CompareProductpage = () => {
                     <h1 className={styles.pageTitle}>
                         {filteredProducts.length > 0 ? "Compare what you like!" : "No products found"}
                     </h1>
-                    <button className={styles.clearButton} onClick={() => setFilteredProducts([])}>
+                    <button
+                        className={styles.clearButton}
+                        onClick={() => {
+                            localStorage.setItem("compareProductList", JSON.stringify([]));
+                            setProductComparisonDetails([]);
+                            setFilteredProducts([]);
+                        }}
+                    >
                         Clear Comparison
                     </button>
                 </div>
 
-                {/* Sekcja sortowania i filtrowania */}
+                {}
                 <div className={styles.filtersContainer}>
                     <div className={styles.sortContainer}>
                         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                             <option value="">Select Sort By</option>
                             <option value="price">Price</option>
+                            <option value="pricePer100g">Price per 100 g</option>
                             <option value="weight">Weight</option>
+                            <option value="energeticValue">Energetic Value</option>
+                            <option value="carbs">Carbs</option>
+                            <option value="fat">Fat</option>
+                            <option value="protein">Protein</option>
+                            <option value="fiber">Fiber</option>
                             <option value="salt">Salt</option>
                         </select>
                         <select value={direction} onChange={(e) => setDirection(e.target.value)}>
