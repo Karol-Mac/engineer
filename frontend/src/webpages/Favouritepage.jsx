@@ -84,24 +84,48 @@ const Favouritepage = () => {
         );
     }
 
+    const removeAllFavourites = async () => {
+        if(favouriteProductsDetails == null || favouriteProductsDetails.length === 0) { return; }
+
+        for(const favouriteProduct of favouriteProductsDetails){
+            try{
+                const response = await removeFavouriteProduct({productID: favouriteProduct.id});
+                if(response.success) {
+                    console.log("Successfully removed favourite product: ", favouriteProduct);
+                }else{
+                    console.log("Failed to remove favourite product: ", favouriteProduct);
+                }
+            }catch(error){
+                console.log("Error removing favourite product: ", error);
+            }
+        }
+
+        setIsFetching(true);
+    }
+
     return (
         <div id="FavouriteProduct">
             <Header />
-            <div className={styles.productGrid}>
+            <div className={styles.removeAllFavouritesButton}>
+                <button onClick={removeAllFavourites}>Remove all favourites</button>
+            </div>
+            <div>
                 {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
-                    favouriteProductsDetails.map((product) => {
-                        return (
-                            <div key={product.id}>
-                                {console.log("favouriteProducts page data passed: ", product)}
-                                <FavouriteProductElement favouriteProductData={product} />
-                                <br />
-                                <br />
-                            </div>
-                        );
-                    })
+                    <div className={styles.productGrid}>
+                        {favouriteProductsDetails.map((product) => {
+                            return (
+                                <div key={product.id}>
+                                    {console.log("favouriteProducts page data passed: ", product)}
+                                    <FavouriteProductElement favouriteProductData={product} />
+                                    <br />
+                                    <br />
+                                </div>
+                            );
+                        })}
+                    </div>
                 ) : (
-                    <div id="foundProducts">
-                        <p>no favourite products</p>
+                    <div className={styles.FoundProducts}>
+                        <h1>no favourite products</h1>
                     </div>
                 )}
             </div>
