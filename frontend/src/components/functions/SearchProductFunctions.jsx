@@ -88,15 +88,11 @@ export const SearchProductFunctions = () => {
     const getLatestProducts = async() => {
         let errorMessage;
         try {
-            let getLatestProductsByNameUrl= "http://localhost:8080/api/products?name=";
+            let getLatestProductsByNameUrl= `http://localhost:8080/api/products?name=&pageNo=0&pageSize=10&sortBy=updatedAt&direction=desc`;
 
             const response = await axios.get(getLatestProductsByNameUrl);
             let products = response.data.products;
-
-            // if (!Array.isArray(products)) {
-            //     errorMessage = "Unexpected response format";
-            //     return { success: false, message: errorMessage };
-            // }
+            
             console.log("Latestproducts: "+JSON.stringify(response.data)+ "product len" + products.length);
 
             if(products.length <= 0){
