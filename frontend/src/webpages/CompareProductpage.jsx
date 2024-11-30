@@ -1,58 +1,54 @@
-import {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react"; // Dodaj brakujące importy
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
 import CompareProductElement from "../components/specific/comparepage/CompareProductElement";
-import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
-import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
-import {ImagesFunctions} from "../components/functions/ImagesFunctions";
-import {CustomEventsControler} from "../components/functions/CustomEventsControler";
+import { SearchProductFunctions } from "../components/functions/SearchProductFunctions";
+import { SellerAccountFunctions } from "../components/functions/SellerAccountFunctions";
+import { ImagesFunctions } from "../components/functions/ImagesFunctions";
+import { CustomEventsControler } from "../components/functions/CustomEventsControler";
+import { SortFilterFunctions } from "../components/functions/SortFilterFunctions";
 import styles from "../css/CompareProductpage.module.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const CompareProductpage = () => {
-    const {getProductInformation} = SearchProductFunctions();
-    const {addListenerDispatchOnCompareUpdate, removeListenerDispatchOnCompareUpdate} = CustomEventsControler();
-    const {getSellerInformation} = SellerAccountFunctions();
-    const {getImageByName} = ImagesFunctions();
+    const { getProductInformation } = SearchProductFunctions();
+    const { addListenerDispatchOnCompareUpdate, removeListenerDispatchOnCompareUpdate } = CustomEventsControler();
+    const { getSellerInformation } = SellerAccountFunctions();
+    const { getImageByName } = ImagesFunctions();
+
+    const {
+        sortBy,
+        setSortBy,
+        direction,
+        setDirection,
+        filters,
+        availableFilters,
+        filterValues,
+        handleAddFilter,
+        handleRemoveFilter,
+        handleFilterChange,
+        applySorting,
+        applyFiltering,
+    } = SortFilterFunctions();
 
     const [productComparisonDetails, setProductComparisonDetails] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [sortBy, setSortBy] = useState("");
-    const [direction, setDirection] = useState("asc");
-    const [filters, setFilters] = useState([]);
-    const [filterValues, setFilterValues] = useState({});
-    const [availableFilters, setAvailableFilters] = useState([
-        "price",
-        "salt",
-        "fat",
-        "protein",
-        "carbs",
-        "fiber",
-        "weight",
-    ]);
-
-    const clearComparison = () => {
-        localStorage.setItem("compareProductList", JSON.stringify([]));
-        setProductComparisonDetails([]);
-        setFilteredProducts([]);
-    };
 
     useEffect(() => {
         const fetchAllProductDetails = async () => {
             let CompareProducts = JSON.parse(localStorage.getItem("compareProductList")) || [];
-            CompareProducts = CompareProducts.filter(productID => productID !== null);
+            CompareProducts = CompareProducts.filter((productID) => productID !== null);
             localStorage.setItem("compareProductList", JSON.stringify(CompareProducts));
 
             const fetchedComparedProducts = await Promise.all(
                 CompareProducts.map(async (comparedProductID) => {
-                    const result = await getProductInformation({productID: comparedProductID});
+                    const result = await getProductInformation({ productID: comparedProductID });
                     if (result.success) {
                         const product = result.productDetails;
 
                         const [sellerResult, productImageResult] = await Promise.all([
-                            getSellerInformation({sellerID: product.sellerId}),
-                            getImageByName({imageName: product.imageName}),
+                            getSellerInformation({ sellerID: product.sellerId }),
+                            getImageByName({ imageName: product.imageName }),
                         ]);
 
                         product.pricePer100g = (product.price / product.weight) * 100;
@@ -76,7 +72,7 @@ const CompareProductpage = () => {
                 })
             );
 
-            const validProducts = fetchedComparedProducts.filter(product => product !== null);
+            const validProducts = fetchedComparedProducts.filter((product) => product !== null);
             setProductComparisonDetails(validProducts);
             setFilteredProducts(validProducts);
             setIsLoading(false);
@@ -88,99 +84,56 @@ const CompareProductpage = () => {
         };
     }, []);
 
-    const applySorting = () => {
-        let sortedProducts = [...filteredProducts];
-        if (sortBy) {
-            sortedProducts.sort((a, b) => {
-                if (direction === "asc") return a[sortBy] - b[sortBy];
-                else return b[sortBy] - a[sortBy];
-            });
-        }
-        setFilteredProducts(sortedProducts);
-    };
-
-    const applyFiltering = () => {
-        let filtered = [...productComparisonDetails];
-        filters.forEach((filter) => {
-            const min = filterValues[`${filter}_min`] || 0;
-            const max = filterValues[`${filter}_max`] || Infinity;
-            filtered = filtered.filter(
-                (product) => product[filter] >= min && product[filter] <= max
-            );
-        });
-        setFilteredProducts(filtered);
-    };
-
-    const handleAddFilter = (filter) => {
-        if (!filters.includes(filter)) {
-            setFilters([...filters, filter]);
-        }
-    };
-
-    const handleFilterChange = (filter, type, value) => {
-        if (value.match(/^[0-9]*$/)) {
-            setFilterValues((prev) => ({
-                ...prev,
-                [`${filter}_${type}`]: Math.max(0, Number(value)), // Zapobiega wartościom ujemnym
-            }));
-        }
-    };
-
-    const handleInput = (e) => {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    const handleApplySortAndFilter = () => {
+        let updatedProducts = applyFiltering(productComparisonDetails);
+        updatedProducts = applySorting(updatedProducts);
+        setFilteredProducts(updatedProducts);
     };
 
     if (isLoading) {
-        return <div><p>LOADING</p></div>;
+        return (
+            <div>
+                <p>LOADING</p>
+            </div>
+        );
     }
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header/>
+            <Header />
             <main className={`${styles.pageContainer}`}>
                 <div className={styles.headerContainer}>
                     <h1 className={styles.pageTitle}>
                         {filteredProducts.length > 0 ? "Compare what you like!" : "No products found"}
                     </h1>
-                    <button
-                        className={styles.clearButton}
-                        onClick={clearComparison}
-                    >
+                    <button className={styles.clearButton} onClick={() => setFilteredProducts([])}>
                         Clear Comparison
                     </button>
                 </div>
 
-                {/* Sekcja sortowania i filtrów */}
+                {/* Sekcja sortowania i filtrowania */}
                 <div className={styles.filtersContainer}>
                     <div className={styles.sortContainer}>
                         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                             <option value="">Select Sort By</option>
                             <option value="price">Price</option>
-                            <option value="pricePer100g">Price per 100 g</option>
                             <option value="weight">Weight</option>
-                            <option value="energeticValue">Energetic Value</option>
-                            <option value="carbs">Carbs</option>
-                            <option value="fat">Fat</option>
-                            <option value="protein">Protein</option>
-                            <option value="fiber">Fiber</option>
                             <option value="salt">Salt</option>
                         </select>
                         <select value={direction} onChange={(e) => setDirection(e.target.value)}>
                             <option value="asc">Ascending</option>
                             <option value="desc">Descending</option>
                         </select>
-                        <button onClick={applySorting}>Apply Sort</button>
+                        <button onClick={handleApplySortAndFilter}>Apply Sort</button>
                     </div>
 
                     <div className={styles.filters}>
                         <select
                             onChange={(e) => {
-                                if (e.target.value && e.target.value !== "add-filter") {
-                                    handleAddFilter(e.target.value);
-                                }
+                                if (e.target.value) handleAddFilter(e.target.value);
                             }}
                         >
-                            <option value="add-filter">Add Filter</option>
+                            <option value="">Add Filter</option>
                             {availableFilters.map((filter) => (
                                 <option key={filter} value={filter}>
                                     {filter.charAt(0).toUpperCase() + filter.slice(1)}
@@ -189,24 +142,17 @@ const CompareProductpage = () => {
                         </select>
                         {filters.map((filter) => (
                             <div key={filter} className={styles.filterRow}>
-                    <span
-                        className={styles.filterLabel}
-                        onClick={() => {
-                            setFilters(filters.filter((f) => f !== filter));
-                            const newFilterValues = {...filterValues};
-                            delete newFilterValues[`${filter}_min`];
-                            delete newFilterValues[`${filter}_max`];
-                            setFilterValues(newFilterValues);
-                        }}
-                        title="Click to remove this filter"
-                    >
-                        {filter.charAt(0).toUpperCase() + filter.slice(1)} ✖
-                    </span>
+                                <span
+                                    className={styles.filterLabel}
+                                    onClick={() => handleRemoveFilter(filter)}
+                                    title="Remove filter"
+                                >
+                                    {filter.charAt(0).toUpperCase() + filter.slice(1)} ✖
+                                </span>
                                 <input
                                     type="text"
                                     placeholder="Min"
                                     className={styles.inputField}
-                                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ""))}
                                     onChange={(e) => handleFilterChange(filter, "min", e.target.value)}
                                     value={filterValues[`${filter}_min`] || ""}
                                 />
@@ -214,15 +160,12 @@ const CompareProductpage = () => {
                                     type="text"
                                     placeholder="Max"
                                     className={styles.inputField}
-                                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ""))}
                                     onChange={(e) => handleFilterChange(filter, "max", e.target.value)}
                                     value={filterValues[`${filter}_max`] || ""}
                                 />
                             </div>
                         ))}
-                        <button onClick={applyFiltering} className={styles.applyButton}>
-                            Apply Filters
-                        </button>
+                        <button onClick={handleApplySortAndFilter}>Apply Filters</button>
                     </div>
                 </div>
 
@@ -231,18 +174,16 @@ const CompareProductpage = () => {
                         <div id="comparedProducts" className={styles.productContainer}>
                             {filteredProducts.map((product) => (
                                 <div key={product.id} className={styles.productItem}>
-                                    <CompareProductElement compareProductData={product} styles={styles}/>
+                                    <CompareProductElement compareProductData={product} styles={styles} />
                                 </div>
                             ))}
                         </div>
                     </div>
                 ) : (
-                    <p>
-                        No products available! Add a new product or adjust the filters.
-                    </p>
+                    <p>No products available! Add a new product or adjust the filters.</p>
                 )}
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 };
