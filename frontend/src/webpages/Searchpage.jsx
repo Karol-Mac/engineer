@@ -82,7 +82,14 @@ const Searchpage = () => {
         handleFoundProducts();
     }, [searchedProduct, searchParams]);
 
+    useEffect(() => {
+        handleApplySortAndFilter();
+    }, [filterValues, sortBy, direction, filters]);
+
+
     const handleApplySortAndFilter = () => {
+        if (!foundProducts) return;
+
         let updatedProducts = applyFiltering(foundProducts);
         updatedProducts = applySorting(updatedProducts);
         setFilteredProducts(updatedProducts);

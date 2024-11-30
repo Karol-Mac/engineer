@@ -30,6 +30,8 @@ export const SortFilterFunctions = () => {
 
     // Apply filtering to a given array of products
     const applyFiltering = (products) => {
+        if (!products) return [];
+
         let filtered = [...products];
         filters.forEach((filter) => {
             const min = filterValues[`${filter}_min`] || 0;
@@ -55,14 +57,40 @@ export const SortFilterFunctions = () => {
         delete newFilterValues[`${filter}_min`];
         delete newFilterValues[`${filter}_max`];
         setFilterValues(newFilterValues);
+        applyFiltering();
     };
 
+
+    let debounceTimer;
+
     const handleFilterChange = (filter, type, value) => {
-        if (value.match(/^[0-9]*$/)) {
+        clearTimeout(debounceTimer);
+
+        if (value === "") {
             setFilterValues((prev) => ({
                 ...prev,
-                [`${filter}_${type}`]: Math.max(0, Number(value)), // Ensure no negative values
+                [`${filter}_${type}`]: null,
             }));
+            return;
+        }
+
+        if (value.match(/^\d*\.?\d{0,2}$/)) {
+            setFilterValues((prev) => ({
+                ...prev,
+                [`${filter}_${type}`]: value,
+            }));
+
+            debounceTimer = setTimeout(() => {
+                if (value.endsWith('.')) {
+                    return;
+                }
+
+                const numericValue = Math.max(0, Number(value));
+                setFilterValues((prev) => ({
+                    ...prev,
+                    [`${filter}_${type}`]: numericValue.toString(),
+                }));
+            }, 200);
         }
     };
 

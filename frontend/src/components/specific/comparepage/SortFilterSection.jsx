@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import styles from "../../../css/CompareProductpage.module.css";
 
 const SortFilterSection = ({
@@ -14,6 +14,23 @@ const SortFilterSection = ({
                                handleFilterChange,
                                onApplySortAndFilter,
                            }) => {
+    const [removeFilterReset, setRemoveFilterReset] = useState(false);
+    const [selectedFilter, setSelectedFilter] = useState("");
+
+    const handleFilterRemoval = (filter) => {
+        setRemoveFilterReset(true);
+        handleRemoveFilter(filter);
+    };
+
+    useEffect(() => {
+        setRemoveFilterReset(false);
+    }, [removeFilterReset, filters]);
+
+    const handleAddingFilter = (filter) => {
+        handleAddFilter(filter);
+        setSelectedFilter(""); // Reset the dropdown value to "Add Filter"
+    };
+
     return (
         <div className={styles.filtersContainer}>
             <div className={styles.sortContainer}>
@@ -38,8 +55,12 @@ const SortFilterSection = ({
 
             <div className={styles.filters}>
                 <select
+                    value={selectedFilter}
                     onChange={(e) => {
-                        if (e.target.value) handleAddFilter(e.target.value);
+                        if (e.target.value) {
+                            setSelectedFilter(e.target.value); // Update the selected value
+                            handleAddingFilter(e.target.value); // Add the filter
+                        }
                     }}
                 >
                     <option value="">Add Filter</option>
@@ -53,7 +74,7 @@ const SortFilterSection = ({
                     <div key={filter} className={styles.filterRow}>
                         <span
                             className={styles.filterLabel}
-                            onClick={() => handleRemoveFilter(filter)}
+                            onClick={() => handleFilterRemoval(filter)}
                             title="Remove filter"
                         >
                             {filter.charAt(0).toUpperCase() + filter.slice(1)} ✖
