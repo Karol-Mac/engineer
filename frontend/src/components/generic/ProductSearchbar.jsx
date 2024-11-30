@@ -24,7 +24,7 @@ const ProductSearchbar = ({SearchbarID, styles}) => {
         <div className={styles.searchbarContainer}>
             <input type="text"
                    className={styles.searchbarInput}
-                   placeholder="Search.."
+                   placeholder="Search..."
                    onChange={handleSearchChange}/>
 
             <button onClick={handleSearchClick} className={styles.searchbarButton}>
