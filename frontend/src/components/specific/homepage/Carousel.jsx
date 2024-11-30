@@ -5,9 +5,9 @@ import styles from "../../../css/Carousel.module.css";
 
 function Carousel() {
     const carouselImages = [
-        "/images/carousel/Karuzela1.png",
-        "/images/carousel/Karuzela2.png",
-        "/images/carousel/Karuzela3.png",
+        "/images/carousel/Carousel7.png",
+        "/images/carousel/Carousel4.png",
+        "/images/carousel/Carousel5.png",
     ];
 
     return (
