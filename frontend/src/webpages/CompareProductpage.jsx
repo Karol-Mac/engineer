@@ -14,29 +14,23 @@ const CompareProductpage = () => {
     const { addListenerDispatchOnCompareUpdate, removeListenerDispatchOnCompareUpdate } = CustomEventsControler();
     const { getSellerInformation } = SellerAccountFunctions();
     const { getImageByName } = ImagesFunctions();
+
     let CompareProducts = JSON.parse(localStorage.getItem("compareProductList"));
     CompareProducts = CompareProducts.filter(productID => productID !== null);
     localStorage.setItem("compareProductList", JSON.stringify(CompareProducts));
 
     const [isLoading, setIsLoading] = useState(true);
-    const [productComparisonDetails, setProductComparisonDetails] = useState(null);
-    const [filter, setFilter] = useState("");
+    const [productComparisonDetails, setProductComparisonDetails] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [sortBy, setSortBy] = useState("price");
     const [direction, setDirection] = useState("asc");
-    const [pageNo, setPageNo] = useState(0);
-    const [pageSize, setPageSize] = useState(10);
 
     const clearComparison = () => {
         localStorage.setItem("compareProductList", JSON.stringify([]));
         setProductComparisonDetails([]);
     };
 
-
     useEffect(() => {
-        addListenerDispatchOnCompareUpdate();
-
-
-
         const fetchAllProductDetails = async () => {
             const fetchedComparedProducts = await Promise.all(
                 CompareProducts.map(async (comparedProductID) => {
@@ -51,18 +45,17 @@ const CompareProductpage = () => {
 
                         if (productImageResult.success) {
                             product.productImageName = productImageResult.image;
-                        } else {
-                            console.log(productImageResult.message);
                         }
 
                         if (sellerResult.success) {
-                            const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
+                            const sellerImageResults = await getImageByName({
+                                imageName: sellerResult.sellerDetails.imageName,
+                            });
                             if (sellerImageResults.success) {
                                 product.sellerImageName = sellerImageResults.image;
                             }
                         }
 
-                        setIsLoading(false);
                         return product;
                     }
                     return null;
@@ -71,23 +64,40 @@ const CompareProductpage = () => {
 
             const validProducts = fetchedComparedProducts.filter(product => product !== null);
             setProductComparisonDetails(validProducts);
+            setFilteredProducts(validProducts);
+            setIsLoading(false);
         };
 
         fetchAllProductDetails();
         return () => {
             removeListenerDispatchOnCompareUpdate();
         };
-    }, [isLoading]);
+    }, []);
 
-    if (productComparisonDetails == null) {
+    const applyFiltersAndSort = () => {
+        let updatedProducts = [...productComparisonDetails];
+
+        // Sortowanie
+        updatedProducts.sort((a, b) => {
+            if (direction === "asc") {
+                return a[sortBy] > b[sortBy] ? 1 : -1;
+            } else {
+                return a[sortBy] < b[sortBy] ? 1 : -1;
+            }
+        });
+
+        setFilteredProducts(updatedProducts);
+    };
+
+    if (isLoading) {
         return <div><p>LOADING</p></div>;
     }
 
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Header/>
+            <Header />
             <main className={`${styles.pageContainer}`}>
-                {productComparisonDetails && productComparisonDetails.length > 0 ? (
+                {filteredProducts.length > 0 ? (
                     <div className={styles.headerContainer}>
                         <h1 className={styles.pageTitle}>Compare Product with</h1>
                         <button
@@ -100,19 +110,38 @@ const CompareProductpage = () => {
                 ) : (
                     <h1 className={styles.pageTitle}>No products were selected to be compared</h1>
                 )}
-                {productComparisonDetails && productComparisonDetails.length > 0 && (
+
+                {filteredProducts.length > 0 && (
+                    <div className="filters">
+                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                            <option value="price">Price</option>
+                            <option value="salt">Salt</option>
+                            <option value="fat">Fat</option>
+                            <option value="protein">Protein</option>
+                            <option value="carbs">Carbs</option>
+                            <option value="fiber">Fiber</option>
+                        </select>
+                        <select value={direction} onChange={(e) => setDirection(e.target.value)}>
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                        <button onClick={applyFiltersAndSort}>Apply Filters</button>
+                    </div>
+                )}
+
+                {filteredProducts.length > 0 && (
                     <div className={styles.contentContainer}>
                         <div id="comparedProducts" className={styles.productContainer}>
-                            {productComparisonDetails.map((product) => (
+                            {filteredProducts.map((product) => (
                                 <div key={product.id} className={styles.productItem}>
-                                    <CompareProductElement compareProductData={product} styles={styles}/>
+                                    <CompareProductElement compareProductData={product} styles={styles} />
                                 </div>
                             ))}
                         </div>
                     </div>
                 )}
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 };
