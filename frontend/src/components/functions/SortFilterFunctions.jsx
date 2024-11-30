@@ -57,12 +57,37 @@ export const SortFilterFunctions = () => {
         setFilterValues(newFilterValues);
     };
 
+
+    let debounceTimer;
+
     const handleFilterChange = (filter, type, value) => {
-        if (value.match(/^[0-9]*$/)) {
+        clearTimeout(debounceTimer);
+
+        if (value === "") {
             setFilterValues((prev) => ({
                 ...prev,
-                [`${filter}_${type}`]: Math.max(0, Number(value)), // Ensure no negative values
+                [`${filter}_${type}`]: null,
             }));
+            return;
+        }
+
+        if (value.match(/^\d*\.?\d{0,2}$/)) {
+            setFilterValues((prev) => ({
+                ...prev,
+                [`${filter}_${type}`]: value,
+            }));
+
+            debounceTimer = setTimeout(() => {
+                if (value.endsWith('.')) {
+                    return;
+                }
+
+                const numericValue = Math.max(0, Number(value));
+                setFilterValues((prev) => ({
+                    ...prev,
+                    [`${filter}_${type}`]: numericValue.toString(),
+                }));
+            }, 200);
         }
     };
 
