@@ -118,10 +118,16 @@ const CompareProductpage = () => {
     };
 
     const handleFilterChange = (filter, type, value) => {
-        setFilterValues((prev) => ({
-            ...prev,
-            [`${filter}_${type}`]: Math.max(0, Number(value)), // Zapobiega wartościom ujemnym
-        }));
+        if (value.match(/^[0-9]*$/)) {
+            setFilterValues((prev) => ({
+                ...prev,
+                [`${filter}_${type}`]: Math.max(0, Number(value)), // Zapobiega wartościom ujemnym
+            }));
+        }
+    };
+
+    const handleInput = (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
     };
 
     if (isLoading) {
@@ -180,15 +186,17 @@ const CompareProductpage = () => {
                                 <div key={filter} className={styles.filterRow}>
                                     <label>{filter.charAt(0).toUpperCase() + filter.slice(1)}</label>
                                     <input
-                                        type="number"
+                                        type="text" // Zmienione z "number" na "text"
                                         placeholder="Min"
                                         className={styles.inputField}
+                                        onInput={handleInput} // Dodane onInput
                                         onChange={(e) => handleFilterChange(filter, "min", e.target.value)}
                                     />
                                     <input
-                                        type="number"
+                                        type="text" // Zmienione z "number" na "text"
                                         placeholder="Max"
                                         className={styles.inputField}
+                                        onInput={handleInput} // Dodane onInput
                                         onChange={(e) => handleFilterChange(filter, "max", e.target.value)}
                                     />
                                 </div>
