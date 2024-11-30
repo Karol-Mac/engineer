@@ -23,7 +23,7 @@ const SortFilterSection = ({
 
     useEffect(() => {
         setRemoveFilterReset(false);
-    }, [removeFilterReset]);
+    }, [removeFilterReset, filters]);
 
     return (
         <div className={styles.filtersContainer}>

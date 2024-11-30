@@ -30,6 +30,8 @@ export const SortFilterFunctions = () => {
 
     // Apply filtering to a given array of products
     const applyFiltering = (products) => {
+        if (!products) return [];
+
         let filtered = [...products];
         filters.forEach((filter) => {
             const min = filterValues[`${filter}_min`] || 0;
