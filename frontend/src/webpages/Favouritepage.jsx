@@ -109,22 +109,23 @@ const Favouritepage = () => {
             <div className={styles.removeAllFavouritesButton}>
                 <button onClick={removeAllFavourites}>Remove all favourites</button>
             </div>
-            <div className={styles.productGrid}>
-
+            <div>
                 {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
-                    favouriteProductsDetails.map((product) => {
-                        return (
-                            <div key={product.id}>
-                                {console.log("favouriteProducts page data passed: ", product)}
-                                <FavouriteProductElement favouriteProductData={product} />
-                                <br />
-                                <br />
-                            </div>
-                        );
-                    })
+                    <div className={styles.productGrid}>
+                        {favouriteProductsDetails.map((product) => {
+                            return (
+                                <div key={product.id}>
+                                    {console.log("favouriteProducts page data passed: ", product)}
+                                    <FavouriteProductElement favouriteProductData={product} />
+                                    <br />
+                                    <br />
+                                </div>
+                            );
+                        })}
+                    </div>
                 ) : (
-                    <div id="foundProducts">
-                        <p>no favourite products</p>
+                    <div className={styles.FoundProducts}>
+                        <h1>no favourite products</h1>
                     </div>
                 )}
             </div>

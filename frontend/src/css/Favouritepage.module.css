@@ -18,3 +18,9 @@
     align-content: center;
     margin: 20px 0;
 }
+
+.FoundProducts{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
