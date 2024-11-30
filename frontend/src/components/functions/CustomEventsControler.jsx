@@ -36,6 +36,8 @@ export const CustomEventsControler = () => {
     };
 
 
+
+
     const onLoadingProducts = "onLoadingProducts";
     const onLoadingProductsEvent = new Event(onLoadingProducts);
     const invokeOnLoadingProducts = () => {
@@ -50,6 +52,21 @@ export const CustomEventsControler = () => {
         window.removeEventListener(onLoadingProducts, functionParam);
     };
 
+    const onLogingIn = "onLogingIn";
+    const onLogingInEvent = new Event(onLogingIn);
+
+    const invokeOnLogingIn = () => {
+        window.dispatchEvent(onLogingInEvent);
+    };
+
+    const addListenerOnLogingIn = (callback) => {
+        window.addEventListener(onLogingIn, callback);
+    };
+
+    const removeListenerOnLogingIn = (callback) => {
+        window.removeEventListener(onLogingIn, callback);
+    };
+
 
     return {
         invokeOnCompareUpdateEvent,
@@ -62,6 +79,10 @@ export const CustomEventsControler = () => {
 
         invokeOnLoadingProducts,
         addListenerOnLoadingProducts,
-        removeListenerOnLoadingProducts
+        removeListenerOnLoadingProducts,
+
+        invokeOnLogingIn,
+        addListenerOnLogingIn,
+        removeListenerOnLogingIn,
     };
 };

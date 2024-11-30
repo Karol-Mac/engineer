@@ -7,10 +7,12 @@ import "../css/generalVisuals.css";
 import Header from "../components/generic/Header";
 import Footer from "../components/generic/Footer";
 import HeaderSimple from "../components/generic/HeaderSimple";
+import {CustomEventsControler} from "../components/functions/CustomEventsControler";
 
 const Loginpage = () => {
     const {handleLogin} = LoginFunctions()
     const {openSignuppage, openHomepage} = NavigateFunctions();
+    const {invokeOnLogingIn} = CustomEventsControler();
 
     const isLoggingToCompanyItemName = "isSigningToCompany";
     const [isLoggingToCompany, setIsLoggingToCompany] = useState(JSON.parse(localStorage.getItem(isLoggingToCompanyItemName)) === true);
@@ -41,6 +43,7 @@ const Loginpage = () => {
 
         if(response.success){
             console.log("Login successful");
+            invokeOnLogingIn();
         }else{
             setResponseMessage(response.message);
             console.log("Login Failed"+response.message);

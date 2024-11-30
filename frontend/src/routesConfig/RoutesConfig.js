@@ -19,15 +19,24 @@ import Commentspage from "../webpages/Commentspage";
 import AddCommentspage from "../webpages/AddCommentspage";
 import EditProductpage from "../webpages/EditProductpage";
 import AdminReportVerdictpage from "../webpages/AdminReportVerdictpage";
-
+import {CustomEventsControler} from "../components/functions/CustomEventsControler";
 const RoutesConfig = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
     const [tokenType, setTokenType] = useState(localStorage.getItem("tokenType"));
+    const {addListenerOnLogingIn, removeListenerOnLogingIn} = CustomEventsControler();
 
     useEffect(() => {
-        setAccessToken(localStorage.getItem("accessToken"));
-        setTokenType(localStorage.getItem("tokenType"));
-    }, [tokenType, accessToken]);
+        const handleStorageChange = () => {
+            setAccessToken(localStorage.getItem("accessToken"));
+            setTokenType(localStorage.getItem("tokenType"));
+        };
+
+        addListenerOnLogingIn(handleStorageChange);
+
+        return () => {
+            removeListenerOnLogingIn(handleStorageChange);
+        }
+    }, []);
 
     return (
         <Routes>
