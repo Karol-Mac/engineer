@@ -179,7 +179,7 @@ const Searchpage = () => {
                                     productID: product.id,
                                     productName: product.name,
                                     productImageName: product.productImage,
-                                    productPrice: product.price,
+                                    productPrice: parseFloat(product.price).toFixed(2),
                                     sellerID: product.sellerId,
                                     sellerImageName: product.sellerImage,
                                     productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,

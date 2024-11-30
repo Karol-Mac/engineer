@@ -160,7 +160,8 @@ const AddProductpage = () => {
 
         const formattedProductData = {
             ...newProductData,
-            price: parseFloat(newProductData.price).toFixed(2), // Force correct formatting
+            price: parseFloat(newProductData.price).toFixed(2),
+            // Force correct formatting
         };
 
         const response = await addNewProduct(e, formattedProductData, newProductImage);

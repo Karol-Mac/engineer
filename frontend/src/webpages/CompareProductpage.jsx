@@ -7,6 +7,7 @@ import { SellerAccountFunctions } from "../components/functions/SellerAccountFun
 import { ImagesFunctions } from "../components/functions/ImagesFunctions";
 import { CustomEventsControler } from "../components/functions/CustomEventsControler";
 import { SortFilterFunctions } from "../components/functions/SortFilterFunctions";
+import SortFilterSection from "../components/specific/comparepage/SortFilterSection";
 import styles from "../css/CompareProductpage.module.css";
 
 const CompareProductpage = () => {
@@ -118,69 +119,20 @@ const CompareProductpage = () => {
                     </button>
                 </div>
 
-                {}
-                <div className={styles.filtersContainer}>
-                    <div className={styles.sortContainer}>
-                        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                            <option value="">Select Sort By</option>
-                            <option value="price">Price</option>
-                            <option value="pricePer100g">Price per 100 g</option>
-                            <option value="weight">Weight</option>
-                            <option value="energeticValue">Energetic Value</option>
-                            <option value="carbs">Carbs</option>
-                            <option value="fat">Fat</option>
-                            <option value="protein">Protein</option>
-                            <option value="fiber">Fiber</option>
-                            <option value="salt">Salt</option>
-                        </select>
-                        <select value={direction} onChange={(e) => setDirection(e.target.value)}>
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
-                        <button onClick={handleApplySortAndFilter}>Apply Sort</button>
-                    </div>
+                <SortFilterSection
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    direction={direction}
+                    setDirection={setDirection}
+                    filters={filters}
+                    availableFilters={availableFilters}
+                    filterValues={filterValues}
+                    handleAddFilter={handleAddFilter}
+                    handleRemoveFilter={handleRemoveFilter}
+                    handleFilterChange={handleFilterChange}
+                    onApplySortAndFilter={handleApplySortAndFilter}
+                />
 
-                    <div className={styles.filters}>
-                        <select
-                            onChange={(e) => {
-                                if (e.target.value) handleAddFilter(e.target.value);
-                            }}
-                        >
-                            <option value="">Add Filter</option>
-                            {availableFilters.map((filter) => (
-                                <option key={filter} value={filter}>
-                                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                                </option>
-                            ))}
-                        </select>
-                        {filters.map((filter) => (
-                            <div key={filter} className={styles.filterRow}>
-                                <span
-                                    className={styles.filterLabel}
-                                    onClick={() => handleRemoveFilter(filter)}
-                                    title="Remove filter"
-                                >
-                                    {filter.charAt(0).toUpperCase() + filter.slice(1)} ✖
-                                </span>
-                                <input
-                                    type="text"
-                                    placeholder="Min"
-                                    className={styles.inputField}
-                                    onChange={(e) => handleFilterChange(filter, "min", e.target.value)}
-                                    value={filterValues[`${filter}_min`] || ""}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Max"
-                                    className={styles.inputField}
-                                    onChange={(e) => handleFilterChange(filter, "max", e.target.value)}
-                                    value={filterValues[`${filter}_max`] || ""}
-                                />
-                            </div>
-                        ))}
-                        <button onClick={handleApplySortAndFilter}>Apply Filters</button>
-                    </div>
-                </div>
 
                 {filteredProducts.length > 0 ? (
                     <div className={styles.contentContainer}>

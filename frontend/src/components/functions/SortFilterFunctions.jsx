@@ -57,7 +57,6 @@ export const SortFilterFunctions = () => {
         setFilterValues(newFilterValues);
     };
 
-    // Update filter values (min/max)
     const handleFilterChange = (filter, type, value) => {
         if (value.match(/^[0-9]*$/)) {
             setFilterValues((prev) => ({
