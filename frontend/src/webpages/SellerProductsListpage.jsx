@@ -3,13 +3,11 @@ import Footer from "../components/generic/Footer";
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {QueryParamsFunctions} from "../components/functions/QueryParamsFunctions";
-import {SearchProductFunctions} from "../components/functions/SearchProductFunctions";
-import {ReportFunctions} from "../components/functions/ReportFunctions";
-import SearchProductElement from "../components/specific/searchpage/SearchProductElement";
 import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 import {SellerAccountFunctions} from "../components/functions/SellerAccountFunctions";
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
 import styles from "../css/SellerProductsListpage.module.css";
+import SellerProductElement from "../components/specific/sellerProductListpage/SellerProductElement";
 
 
 const SellerProductsListpage = () => {
@@ -18,6 +16,8 @@ const SellerProductsListpage = () => {
     const{getImageByName} = ImagesFunctions()
 
     let [searchParams, setSearchParams] = useSearchParams();
+    const[sellerName , setSellerName] = useState("");
+    const[sellerImage , setSellerImage] = useState();
     const[searchedProduct , setSearchedProduct] = useState("");
     let [foundProducts, setFoundProducts] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -33,19 +33,15 @@ const SellerProductsListpage = () => {
         const handleFoundProducts = async () => {
             await getSellerProducts().then(
                 async (result) => {
-                    console.log("Test-1");
                     if (result.success) {
-                        console.log("Test0");
                         const updatedProductsDetails = await Promise.all(
 
                             result.foundProducts.map(async (product) => {
-                                console.log("Test1");
                                 const [sellerResult, productImageResult] = await Promise.all([
                                     getSellerInformation({ sellerID: product.sellerId }),
                                     getImageByName({ imageName: product.imageName }),
                                 ]);
 
-                                console.log("Test2");
 
 
                                 if (productImageResult.success) {
@@ -53,9 +49,13 @@ const SellerProductsListpage = () => {
                                 } else {
                                     console.log(productImageResult.message);
                                 }
-                                console.log("Test3");
-                                if (sellerResult.success) {const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
+
+                                if (sellerResult.success) {
+                                    setSellerName(sellerResult.sellerDetails.shopName);
+                                    const sellerImageResults = await getImageByName({ imageName: sellerResult.sellerDetails.imageName });
+
                                     if (sellerImageResults.success) {
+                                        setSellerImage(sellerImageResults.image);
                                         product.sellerImage = sellerImageResults.image;
                                     }
                                 }
@@ -116,7 +116,10 @@ const SellerProductsListpage = () => {
             {!isLoading && (
                 <div className={styles.header}>
 
-                    <h1>Seller Products:</h1>
+                    <div className={styles.sellerInfo}>
+                        <img src={sellerImage}/>
+                        <h1>{sellerName} Products:</h1>
+                    </div>
                     <div id="foundProducts" className={styles.productList}>
                         {foundProducts.length > 0 ? (
                             foundProducts.map((product) => {
@@ -132,7 +135,7 @@ const SellerProductsListpage = () => {
                                 };
                                 return (
                                     <div key={product.id} className={styles.productItem}>
-                                        <SearchProductElement productData={productData} styles={styles} />
+                                        <SellerProductElement productData={productData} styles={styles} />
                                     </div>
                                 );
                             })
