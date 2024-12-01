@@ -32,7 +32,7 @@ function SearchProductElement({ productData, styles }) {
             const result = await getSellerData({ sellerID });
             if (result.success) {
                 setSellerName(result.sellerData.shopName);
-                console.log("GetSellerNameSuccess:", result.sellerData.name);
+                // console.log("GetSellerNameSuccess:", result.sellerData.name);
             } else {
                 console.log("Error fetching seller information:", result.message);
             }
