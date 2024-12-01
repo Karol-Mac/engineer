@@ -16,7 +16,8 @@ import PageButton from "../components/specific/searchpage/PageButton";
 
 const Searchpage = () => {
     const { getSearchedProductName } = QueryParamsFunctions();
-    const { getSearchedProducts, setBatchSize, getBatchSize, getCurrentBatchSize, countPageNumber, getCurrentPage, setCurrentPageNumer, getPagesNumber } = SearchProductFunctions();
+    const { getSearchedProducts, setBatchSize, getBatchSize, getCurrentBatchSize,
+            countPageNumber, getCurrentPage, setCurrentPageNumer, countSearchedProducts } = SearchProductFunctions();
     const { getSellerInformation } = SellerAccountFunctions();
     const { getImageByName } = ImagesFunctions();
     const {
@@ -41,14 +42,21 @@ const Searchpage = () => {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [currentBatchSize, setCurrentBatchSizeState] = useState(getCurrentBatchSize());
+    const [currentProductCount, setCurrentProductCount] = useState(0);
 
     useEffect(() => {
         const paramSearchString = getSearchedProductName(searchParams);
         setSearchedProduct(paramSearchString);
         const handleFoundProducts = async () => {
+            const productCountRes = await countSearchedProducts({ productName: searchedProduct });
+            if (productCountRes.success) {
+                console.log("Product count:", productCountRes.productCount);
+                setCurrentProductCount(productCountRes.productCount);
+            }
+
             await getSearchedProducts({ productName: searchedProduct }).then(async (result) => {
                 if (result.success) {
-                    if (!searchedProduct && paramSearchString != searchedProduct) return;
+                    if (!searchedProduct && paramSearchString !== searchedProduct) return;
                     const updatedProductsDetails = await Promise.all(
                         result.foundProducts.products.map(async (product) => {
                             const [sellerResult, productImageResult] = await Promise.all([

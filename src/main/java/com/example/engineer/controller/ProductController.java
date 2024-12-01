@@ -66,6 +66,19 @@ public class ProductController {
                 ResponseEntity.ok(productService.getAllProducts(name, pageable, principal.getName()));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getPageCount(@RequestParam String name,
+                                                @RequestParam(defaultValue = "0") int pageNo,
+                                                @RequestParam(defaultValue = "9999") int pageSize,
+                                                @RequestParam(defaultValue = "price") String sortBy,
+                                                @RequestParam(defaultValue = "asc") String direction,
+                                                Principal principal){
+
+        Pageable pageable = getPageable(pageNo, pageSize, sortBy, direction);
+
+        return ResponseEntity.ok(productService.getProductPageCount(name, pageable));
+    }
+
     @GetMapping("/seller")
     public ResponseEntity<ProductResponse> getSellerProducts(Principal principal,
                                                               @RequestParam(defaultValue = "0") int pageNo,

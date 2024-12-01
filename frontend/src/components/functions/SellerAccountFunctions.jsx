@@ -9,7 +9,6 @@ export const SellerAccountFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("productID= " +sellerID);
             let getSellerByIDUrl= "http://localhost:8080/api/accounts/"+sellerID;
 
             const response = await axios.get(getSellerByIDUrl);

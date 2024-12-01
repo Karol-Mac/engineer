@@ -131,4 +131,11 @@ public class ProductServiceImpl implements ProductService {
 
         return productResponse;
     }
+
+    @Override
+    public Integer getProductPageCount(String name, Pageable pageable) {
+        var pageCount = productRepository.countByNameContaining(name);
+
+        return pageCount;
+    }
 }

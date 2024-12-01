@@ -27,9 +27,6 @@ function SearchProductElement({ productData, styles }) {
     const [sellerName, setSellerName] = useState("");
     const [sellerImageName, setSellerImageName] = useState(productData.sellerImageName);
 
-    console.log("Raw sellerID:", productData.sellerID);
-    console.log("Parsed sellerID:", parseInt(productData.sellerID, 10));
-
     useEffect(() => {
         const fetchSellerInformation = async () => {
             const result = await getSellerData({ sellerID });

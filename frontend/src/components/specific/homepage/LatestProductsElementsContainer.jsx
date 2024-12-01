@@ -52,7 +52,7 @@ const LatestProductsElementsContainer =({styles}) => {
 
                     setFoundProducts(latestProductsDetails);
                     setIsLoading(false);
-                    console.log("Products:", result.foundProducts);
+                    // console.log("Products:", result.foundProducts);
                 } else {
                     console.log("Error fetching products:", result.message);
                 }
@@ -78,7 +78,7 @@ const LatestProductsElementsContainer =({styles}) => {
                     return (
                         //div-s are temprorary so that I can make more space between found elements
                         <div key={product.id}>
-                            {console.log("latestProduct data = ",product)}
+                            {/*{console.log("latestProduct data = ",product)}*/}
                             <LatestProductsElement latestProductData={product} styles={styles}/>
                             <br/>
                             <br/>

@@ -12,9 +12,71 @@ export const SearchProductFunctions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pagesNumber, setPagesNumber] = useState(1);
 
+    // const getSearchedProducts = async({productName})=>{
+    //     let errorMessage;
+    //     try {
+    //
+    //         let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
+    //
+    //         const response = await axios.get(getProductsByNameUrl);
+    //         const products = response.data;
+    //         // console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getProductsByNameUrl);
+    //
+    //         if(products.length <= 0){
+    //             errorMessage = "No product with similar name found";
+    //             return{ success: false, message: errorMessage};
+    //         }
+    //
+    //         return{ success: true, foundProducts: products};
+    //     }catch (error) {
+    //         if (
+    //             error.response &&
+    //             error.response.status >= 400 &&
+    //             error.response.status <= 500
+    //         ){
+    //             errorMessage = error.response.data.message || "Unknown error";
+    //         }else if(error.response){
+    //             errorMessage = error.response;
+    //         }
+    //
+    //         return{ success: false, message: errorMessage};
+    //     }
+    // };
+    const countSearchedProducts = async({productName})=>{
+        let errorMessage;
+        try {
+
+            let getProductsByNameUrl= "http://localhost:8080/api/products/count?name="+productName;
+
+            const response = await axios.get(getProductsByNameUrl);
+            const productCount = response.data;
+
+            if(productCount == null){
+                errorMessage = "No product with similar name found";
+                return{ success: false, message: errorMessage};
+            }
+
+            return{ success: true, productCount: productCount};
+        }catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ){
+                errorMessage = error.response.data.message || "Unknown error";
+            }else if(error.response){
+                errorMessage = error.response;
+            }
+
+            return{ success: false, message: errorMessage};
+        }
+    }
+
     const getSearchedProducts = async({productName})=>{
         let errorMessage;
         try {
+            // const numberOfProducts = await countSearchedProducts({productName});
+            // console.log("Number of products: "+numberOfProducts.foundProducts);
 
             let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
 
@@ -246,7 +308,8 @@ export const SearchProductFunctions = () => {
         getPagesNumber,
         setCurrentPageNumer,
 
-        deleteProduct
+        deleteProduct,
+        countSearchedProducts
 
     };
 };
