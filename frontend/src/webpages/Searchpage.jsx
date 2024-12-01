@@ -46,20 +46,18 @@ const Searchpage = () => {
     const [currentBatchSize, setCurrentBatchSizeState] = useState(getCurrentBatchSize());
     const [currentProductCount, setCurrentProductCount] = useState(0);
     const [pageNumbers, setPageNumbers] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const paramSearchString = getSearchedProductName(searchParams);
-        setSearchedProduct(paramSearchString);
         const handleFoundProducts = async () => {
             const productCountRes = await countSearchedProducts({ productName: searchedProduct });
             if (productCountRes.success) {
-                console.log("Product count:", productCountRes.productCount);
                 setCurrentProductCount(productCountRes.productCount);
             }
 
-            await getSearchedProducts({ productName: searchedProduct, pageBatch: currentBatchSize, selectedPage: getCurrentPage()-1}).then(async (result) => {
+            console.log("Search product: ", searchedProduct, "current batch size: ", currentBatchSize, "current page: ", currentPage - 1);
+            await getSearchedProducts({ productName: searchedProduct, pageBatch: currentBatchSize, selectedPage: currentPage - 1 }).then(async (result) => {
                 if (result.success) {
-                    if (!searchedProduct && paramSearchString !== searchedProduct) return;
                     const updatedProductsDetails = await Promise.all(
                         result.foundProducts.products.map(async (product) => {
                             const [sellerResult, productImageResult] = await Promise.all([
@@ -84,14 +82,16 @@ const Searchpage = () => {
                     );
 
                     setFoundProducts(updatedProductsDetails);
-                    setFilteredProducts(updatedProductsDetails); // Initialize with full product list
+                    setFilteredProducts(updatedProductsDetails);
+                } else {
+                    console.log("Error fetching products: ", result.message);
                 }
                 setIsLoading(false);
             });
         };
 
         handleFoundProducts();
-    }, [searchedProduct, searchParams, currentBatchSize]);
+    }, [searchedProduct, searchParams, currentPage, currentBatchSize]);
 
     useEffect(() => {
         handleApplySortAndFilter();
@@ -99,7 +99,7 @@ const Searchpage = () => {
 
     useEffect(() => {
         displayPageNumbers();
-    }, [currentBatchSize, getPagesNumber, getCurrentPage]); // Add dependencies
+    }, [currentBatchSize, getPagesNumber, currentPage, getCurrentPage]); // Add dependencies
 
 
     const handleApplySortAndFilter = () => {
@@ -121,10 +121,12 @@ const Searchpage = () => {
         setBatchSize(newBatchSize);
         setCurrentBatchSizeState(newBatchSize);
         setCurrentPageNumer(1);
+        setCurrentPage(1);
     };
 
     const handlePageChange = (newPage) => {
-        setCurrentPageNumer(newPage);
+        // setCurrentPageNumer(newPage);
+        setCurrentPage(newPage);
     };
 
     const displayPageNumbers = React.useCallback(() => {
@@ -180,19 +182,20 @@ const Searchpage = () => {
 
             setPageNumbers((prev) => {
                 if (JSON.stringify(prev) !== JSON.stringify(pageButtons)) {
+
                     return pageButtons;
                 }
                 return prev;
             });
         }
-        console.log("Page numbers: ", pageNumbers, " totalPages: ", totalPages, " current page: ", currentPage);
+        // console.log("Page numbers: ", pageNumbers, " totalPages: ", totalPages, " current page: ", currentPage);
     }, [getPagesNumber, getCurrentPage, handlePageChange]);
 
 
     useEffect(() => {
         if(currentProductCount != null && currentBatchSize != null){
             const calculatedPageNumber = Math.ceil(currentProductCount / currentBatchSize);
-            console.log("Calculated page number: ", calculatedPageNumber, "calculated product count: ", currentProductCount, "current batch size: ", currentBatchSize);
+            // console.log("Calculated page number: ", calculatedPageNumber, "calculated product count: ", currentProductCount, "current batch size: ", currentBatchSize);
             setPageNumber(calculatedPageNumber);
         }
     }, [currentBatchSize, getPagesNumber, currentProductCount]);

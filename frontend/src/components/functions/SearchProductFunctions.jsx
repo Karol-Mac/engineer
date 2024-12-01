@@ -76,7 +76,7 @@ export const SearchProductFunctions = () => {
         let errorMessage;
         try {
             // const numberOfProducts = await countSearchedProducts({productName});
-            console.log("productName= " +productName + " pageBatch= "+pageBatch + " selectedPage= "+selectedPage);
+            console.log("getSearchedProducts: productName= " +productName + " pageBatch= "+pageBatch + " selectedPage= "+selectedPage);
 
             let getProductsByNameUrl= `http://localhost:8080/api/products?name=${productName}&pageNo=${selectedPage}&pageSize=${pageBatch}&sortBy=updatedAt&direction=desc`;
 
@@ -272,6 +272,7 @@ export const SearchProductFunctions = () => {
 
     const setBatchSize = (newBatch) => {
         if(isValidBatchsize(newBatch)){
+            console.log("Setting new batch size to: "+newBatch);
             setCurrentSearchBatch(newBatch);
             setCurrentPage(1);
         }else{
