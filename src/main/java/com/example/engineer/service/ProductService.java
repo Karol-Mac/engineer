@@ -23,4 +23,6 @@ public interface ProductService {
     String deleteProduct(long productId, String email);
 
     ProductResponse getSellerProductDtos(String email, Pageable pageable);
+
+    Integer getProductPageCount(String name, Pageable pageable);
 }

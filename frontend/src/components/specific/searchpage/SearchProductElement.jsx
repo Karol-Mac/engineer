@@ -27,15 +27,12 @@ function SearchProductElement({ productData, styles }) {
     const [sellerName, setSellerName] = useState("");
     const [sellerImageName, setSellerImageName] = useState(productData.sellerImageName);
 
-    console.log("Raw sellerID:", productData.sellerID);
-    console.log("Parsed sellerID:", parseInt(productData.sellerID, 10));
-
     useEffect(() => {
         const fetchSellerInformation = async () => {
             const result = await getSellerData({ sellerID });
             if (result.success) {
                 setSellerName(result.sellerData.shopName);
-                console.log("GetSellerNameSuccess:", result.sellerData.name);
+                // console.log("GetSellerNameSuccess:", result.sellerData.name);
             } else {
                 console.log("Error fetching seller information:", result.message);
             }

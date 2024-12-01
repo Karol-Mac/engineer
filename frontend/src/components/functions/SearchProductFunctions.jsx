@@ -12,11 +12,73 @@ export const SearchProductFunctions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pagesNumber, setPagesNumber] = useState(1);
 
-    const getSearchedProducts = async({productName})=>{
+    // const getSearchedProducts = async({productName})=>{
+    //     let errorMessage;
+    //     try {
+    //
+    //         let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
+    //
+    //         const response = await axios.get(getProductsByNameUrl);
+    //         const products = response.data;
+    //         // console.log("found "+JSON.stringify(products.length)+" items by name: at location :"+getProductsByNameUrl);
+    //
+    //         if(products.length <= 0){
+    //             errorMessage = "No product with similar name found";
+    //             return{ success: false, message: errorMessage};
+    //         }
+    //
+    //         return{ success: true, foundProducts: products};
+    //     }catch (error) {
+    //         if (
+    //             error.response &&
+    //             error.response.status >= 400 &&
+    //             error.response.status <= 500
+    //         ){
+    //             errorMessage = error.response.data.message || "Unknown error";
+    //         }else if(error.response){
+    //             errorMessage = error.response;
+    //         }
+    //
+    //         return{ success: false, message: errorMessage};
+    //     }
+    // };
+    const countSearchedProducts = async({productName})=>{
         let errorMessage;
         try {
 
-            let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
+            let getProductsByNameUrl= "http://localhost:8080/api/products/count?name="+productName;
+
+            const response = await axios.get(getProductsByNameUrl);
+            const productCount = response.data;
+
+            if(productCount == null){
+                errorMessage = "No product with similar name found";
+                return{ success: false, message: errorMessage};
+            }
+
+            return{ success: true, productCount: productCount};
+        }catch (error) {
+            if (
+                error.response &&
+                error.response.status >= 400 &&
+                error.response.status <= 500
+            ){
+                errorMessage = error.response.data.message || "Unknown error";
+            }else if(error.response){
+                errorMessage = error.response;
+            }
+
+            return{ success: false, message: errorMessage};
+        }
+    }
+
+    const getSearchedProducts = async({productName, pageBatch, selectedPage})=>{
+        let errorMessage;
+        try {
+            // const numberOfProducts = await countSearchedProducts({productName});
+            console.log("getSearchedProducts: productName= " +productName + " pageBatch= "+pageBatch + " selectedPage= "+selectedPage);
+
+            let getProductsByNameUrl= `http://localhost:8080/api/products?name=${productName}&pageNo=${selectedPage}&pageSize=${pageBatch}&sortBy=updatedAt&direction=desc`;
 
             const response = await axios.get(getProductsByNameUrl);
             const products = response.data;
@@ -210,6 +272,7 @@ export const SearchProductFunctions = () => {
 
     const setBatchSize = (newBatch) => {
         if(isValidBatchsize(newBatch)){
+            console.log("Setting new batch size to: "+newBatch);
             setCurrentSearchBatch(newBatch);
             setCurrentPage(1);
         }else{
@@ -217,13 +280,12 @@ export const SearchProductFunctions = () => {
         }
     }
 
-    const countPageNumber = (foundProducts) =>{
-        if(foundProducts == null){
+    const setPageNumber = (pageNumber) =>{
+        if(pageNumber == null){
             console.log("Found products are null perhaps you didn't find any products");
             setPagesNumber(1);
         }else{
-            const pageCount = Math.ceil(foundProducts.length / currentSearchBatch);
-            setPagesNumber(pageCount);
+            setPagesNumber(pageNumber);
         }
     }
 
@@ -241,12 +303,13 @@ export const SearchProductFunctions = () => {
         setBatchSize,
         getBatchSize,
         getCurrentBatchSize,
-        countPageNumber,
+        setPageNumber,
         getCurrentPage,
         getPagesNumber,
         setCurrentPageNumer,
 
-        deleteProduct
+        deleteProduct,
+        countSearchedProducts
 
     };
 };

@@ -62,7 +62,6 @@ export const CompareFunctions = () => {
     }
 
     const isSpecificProductSelectedToCompare = (givenProductID) => {
-        console.log("givenProductID: ", givenProductID);
         const existingComparisonList = JSON.parse(localStorage.getItem(localStorageCompareProductList)) || [];
         return existingComparisonList.includes(givenProductID);
     };
