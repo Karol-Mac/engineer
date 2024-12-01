@@ -115,7 +115,6 @@ const Loginpage = () => {
                     </div>
                 </div>
             </main>
-            <RollbackPageButton />
             <Footer />
         </div>
     );

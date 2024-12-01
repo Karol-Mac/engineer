@@ -192,7 +192,6 @@ const Signuppage = () => {
                         </button>
                     </div>
                 </div>
-                <RollbackPageButton />
             </main>
             <Footer />
         </div>
