@@ -166,8 +166,14 @@
     margin-top: 15px;
 }
 
-
-
+.pageTitle
+{
+    font-size: 50px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+    text-align: center;
+}
 
 .title {
     text-align: center;
