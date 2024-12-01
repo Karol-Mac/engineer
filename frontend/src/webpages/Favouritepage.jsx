@@ -103,9 +103,11 @@ const Favouritepage = () => {
 
     return (
         <div id="FavouriteProduct">
-            <Header />
-            <div className={styles.removeAllFavouritesButton}>
-                <button onClick={removeAllFavourites}>Remove all favourites</button>
+            <Header/>
+            <div className={styles.buttonContainer}>
+                <button className={styles.removeAllFavouritesButton} onClick={removeAllFavourites}>
+                    Remove all favourites
+                </button>
             </div>
             <div>
                 {favouriteProductsDetails != null && favouriteProductsDetails.length > 0 ? (
@@ -113,7 +115,7 @@ const Favouritepage = () => {
                         {favouriteProductsDetails.map((product) => {
                             return (
                                 <div key={product.id}>
-                                    <FavouriteProductElement favouriteProductData={product} />
+                                    <FavouriteProductElement favouriteProductData={product}/>
                                 </div>
                             );
                         })}
@@ -124,7 +126,7 @@ const Favouritepage = () => {
                     </div>
                 )}
             </div>
-            <Footer />
+            <Footer/>
         </div>
     );
 };

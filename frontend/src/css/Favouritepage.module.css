@@ -24,3 +24,26 @@
     justify-content: center;
     align-content: center;
 }
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.removeAllFavouritesButton {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.removeAllFavouritesButton:hover {
+    background-color: #e60000;
+    cursor: pointer;
+}
