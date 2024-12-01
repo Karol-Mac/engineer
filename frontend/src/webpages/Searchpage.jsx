@@ -213,8 +213,10 @@ const Searchpage = () => {
         <div>
             {!isLoading && (
                 <div>
-                    <Header />
-                    <h1>Search Results for: {searchedProduct || "All Products"}</h1>
+                    <Header/>
+                    <h1 className={styles.pageTitle}>
+                        Search Results for: {searchedProduct || "All Products"}
+                    </h1>
                     <ProductSearchbar styles={styles}/>
                     <SortFilterSection
                         sortBy={sortBy}
@@ -243,7 +245,7 @@ const Searchpage = () => {
                                 };
                                 return (
                                     <div key={product.id} className={styles.productContainer}>
-                                        <SearchProductElement productData={productData} styles={styles} />
+                                        <SearchProductElement productData={productData} styles={styles}/>
                                     </div>
                                 );
                             })
@@ -253,20 +255,37 @@ const Searchpage = () => {
                             </div>
                         )}
                     </div>
-                    <div style={{ textAlign: "center", margin: "20px 0" }}>
-                        <div style={{ display: "flex", justifyContent: "center", gap: "50px", alignItems: "center" }}>
-                            <div>
+                    <div style={{textAlign: "center", margin: "20px 0"}}>
+                        <div className={styles.controlsContainer}>
+                            <div className={styles.batchSizeContainer}>
                                 <p>How many products do you want to display?</p>
                                 <div className={styles.batchSizeButtons}>
-                                    <BatchSizeButton batchsize={BATCHSIZE.TEN} currentBatchSize={currentBatchSize} onClick={handleBatchSizeChange} />
-                                    <BatchSizeButton batchsize={BATCHSIZE.FIFTEEN} currentBatchSize={currentBatchSize} onClick={handleBatchSizeChange} />
-                                    <BatchSizeButton batchsize={BATCHSIZE.TWENTY} currentBatchSize={currentBatchSize} onClick={handleBatchSizeChange} />
+                                    <BatchSizeButton batchsize={BATCHSIZE.TEN} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
+                                    <BatchSizeButton batchsize={BATCHSIZE.FIFTEEN} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
+                                    <BatchSizeButton batchsize={BATCHSIZE.TWENTY} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
                                 </div>
                             </div>
-                            <div>{pageNumbers}</div>
+                            <div className={styles.pageButtonsContainer}>
+                                <p style={{marginBottom: "5px"}}>Pages:</p>
+                                <div className={styles.pageButtons}>
+                                    {pageNumbers.map((pageButton) => {
+                                        return (
+                                            <PageButton
+                                                key={pageButton.key}
+                                                pageNumber={pageButton.props.pageNumber}
+                                                onClick={handlePageChange}
+                                                currentPage={currentPage}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <Footer />
+                    <Footer/>
                 </div>
             )}
         </div>

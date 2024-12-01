@@ -1,5 +1,4 @@
 
-import {SearchProductFunctions} from "../../functions/SearchProductFunctions";
 import styles from "../../../css/BatchSizeButton.module.css";
 
 function BatchSizeButton({ batchsize, onClick, currentBatchSize }) {
@@ -7,7 +6,7 @@ function BatchSizeButton({ batchsize, onClick, currentBatchSize }) {
     const isActive = currentBatchSize === batchsize;
 
     const handleClick = () => {
-        onClick(batchsize); // Wywołuje funkcję onClick przekazaną z `Searchpage`
+        onClick(batchsize);
     };
 
     return (
