@@ -90,7 +90,11 @@ const AdminReportPanelpage = () => {
 
     const handleClick = (report) => {
         console.log("Clicked report: ", report);
-        setSelectedReport(report);
+        if(selectedReport === report) {
+            setSelectedReport(null);
+        }else{
+            setSelectedReport(report);
+        }
     }
 
     const handleAction = async(actionType, reportID) => {
