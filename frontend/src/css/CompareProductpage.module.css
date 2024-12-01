@@ -75,6 +75,14 @@
     cursor: pointer;
     background-color: #f9f9f9;
     transition: all 0.3s ease;
+
+}
+
+.filters input
+{
+    width: 80px;
+    height: 50px;
+    margin: 2px;
 }
 
 .filters select:focus,
@@ -172,7 +180,6 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin: 0px;
     padding: 10px;
     box-sizing: border-box;
 }
@@ -217,3 +224,4 @@
     width: 100%;
     background-color: #9999b3;
 }
+
