@@ -222,3 +222,22 @@
 .searchbarButtonIcon {
     font-size: 1.2em;
 }
+.controlsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.batchSizeContainer,
+.pageButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.batchSizeButtons,
+.pageButtons {
+    display: flex;
+    gap: 10px;
+}

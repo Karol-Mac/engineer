@@ -217,65 +217,68 @@ const Searchpage = () => {
                     <h1 className={styles.pageTitle}>
                         Search Results for: {searchedProduct || "All Products"}
                     </h1>
-                        <ProductSearchbar styles={styles}/>
-                        <SortFilterSection
-                            sortBy={sortBy}
-                            setSortBy={setSortBy}
-                            direction={direction}
-                            setDirection={setDirection}
-                            filters={filters}
-                            availableFilters={availableFilters}
-                            filterValues={filterValues}
-                            handleAddFilter={handleAddFilter}
-                            handleRemoveFilter={handleRemoveFilter}
-                            handleFilterChange={handleFilterChange}
-                            onApplySortAndFilter={handleApplySortAndFilter}
-                        />
-                        <div id="foundProducts" className={styles.foundProducts}>
-                            {displayedProducts().length > 0 ? (
-                                displayedProducts().map((product) => {
-                                    const productData = {
-                                        productID: product.id,
-                                        productName: product.name,
-                                        productImageName: product.productImage,
-                                        productPrice: parseFloat(product.price).toFixed(2),
-                                        sellerID: product.sellerId,
-                                        sellerImageName: product.sellerImage,
-                                        productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,
-                                    };
-                                    return (
-                                        <div key={product.id} className={styles.productContainer}>
-                                            <SearchProductElement productData={productData} styles={styles}/>
-                                        </div>
-                                    );
-                                })
-                            ) : (
-                                <div id="foundProducts">
-                                    <p>No products found</p>
-                                </div>
-                            )}
-                        </div>
-                        <div style={{textAlign: "center", margin: "20px 0"}}>
-                            <div style={{display: "flex", justifyContent: "center", gap: "50px", alignItems: "center"}}>
-                                <div>
-                                    <p>How many products do you want to display?</p>
-                                    <div className={styles.batchSizeButtons}>
-                                        <BatchSizeButton batchsize={BATCHSIZE.TEN} currentBatchSize={currentBatchSize}
-                                                         onClick={handleBatchSizeChange}/>
-                                        <BatchSizeButton batchsize={BATCHSIZE.FIFTEEN}
-                                                         currentBatchSize={currentBatchSize}
-                                                         onClick={handleBatchSizeChange}/>
-                                        <BatchSizeButton batchsize={BATCHSIZE.TWENTY}
-                                                         currentBatchSize={currentBatchSize}
-                                                         onClick={handleBatchSizeChange}/>
+                    <ProductSearchbar styles={styles}/>
+                    <SortFilterSection
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
+                        direction={direction}
+                        setDirection={setDirection}
+                        filters={filters}
+                        availableFilters={availableFilters}
+                        filterValues={filterValues}
+                        handleAddFilter={handleAddFilter}
+                        handleRemoveFilter={handleRemoveFilter}
+                        handleFilterChange={handleFilterChange}
+                        onApplySortAndFilter={handleApplySortAndFilter}
+                    />
+                    <div id="foundProducts" className={styles.foundProducts}>
+                        {displayedProducts().length > 0 ? (
+                            displayedProducts().map((product) => {
+                                const productData = {
+                                    productID: product.id,
+                                    productName: product.name,
+                                    productImageName: product.productImage,
+                                    productPrice: parseFloat(product.price).toFixed(2),
+                                    sellerID: product.sellerId,
+                                    sellerImageName: product.sellerImage,
+                                    productWeight: `${product.weight} ${product.inGrams ? "g" : "ml"}`,
+                                };
+                                return (
+                                    <div key={product.id} className={styles.productContainer}>
+                                        <SearchProductElement productData={productData} styles={styles}/>
                                     </div>
+                                );
+                            })
+                        ) : (
+                            <div id="foundProducts">
+                                <p>No products found</p>
+                            </div>
+                        )}
+                    </div>
+                    <div style={{textAlign: "center", margin: "20px 0"}}>
+                        <div className={styles.controlsContainer}>
+                            <div className={styles.batchSizeContainer}>
+                                <p>How many products do you want to display?</p>
+                                <div className={styles.batchSizeButtons}>
+                                    <BatchSizeButton batchsize={BATCHSIZE.TEN} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
+                                    <BatchSizeButton batchsize={BATCHSIZE.FIFTEEN} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
+                                    <BatchSizeButton batchsize={BATCHSIZE.TWENTY} currentBatchSize={currentBatchSize}
+                                                     onClick={handleBatchSizeChange}/>
                                 </div>
-                                <div>{pageNumbers}</div>
+                            </div>
+                            <div className={styles.pageButtonsContainer}>
+                                <p>Pages</p>
+                                <div className={styles.pageButtons}>
+                                    {pageNumbers}
+                                </div>
                             </div>
                         </div>
-                        <Footer/>
+                    </div>
+                    <Footer/>
                 </div>
-                )}
+            )}
         </div>
     );
 };
