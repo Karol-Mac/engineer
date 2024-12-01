@@ -18,7 +18,7 @@ import PageButton from "../components/specific/searchpage/PageButton";
 const Searchpage = () => {
     const { getSearchedProductName } = QueryParamsFunctions();
     const { getSearchedProducts, setBatchSize, getBatchSize, getCurrentBatchSize, getPagesNumber,
-            setPageNumber, getCurrentPage, setCurrentPageNumer, countSearchedProducts } = SearchProductFunctions();
+            setPageNumber, setCurrentPageNumer, countSearchedProducts } = SearchProductFunctions();
     const { getSellerInformation } = SellerAccountFunctions();
     const { getImageByName } = ImagesFunctions();
     const {
@@ -99,7 +99,7 @@ const Searchpage = () => {
 
     useEffect(() => {
         displayPageNumbers();
-    }, [currentBatchSize, getPagesNumber, currentPage, getCurrentPage]); // Add dependencies
+    }, [currentBatchSize, getPagesNumber, currentPage]);
 
 
     const handleApplySortAndFilter = () => {
@@ -112,8 +112,7 @@ const Searchpage = () => {
 
     const displayedProducts = () => {
         return filteredProducts.slice(
-            (getCurrentPage() - 1) * getCurrentBatchSize(),
-            getCurrentPage() * getCurrentBatchSize()
+            0, getCurrentBatchSize()
         );
     };
 
@@ -131,7 +130,6 @@ const Searchpage = () => {
 
     const displayPageNumbers = React.useCallback(() => {
         const totalPages = getPagesNumber();
-        const currentPage = getCurrentPage();
 
         if (totalPages > 0) {
             const pageButtons = [];
@@ -189,7 +187,7 @@ const Searchpage = () => {
             });
         }
         // console.log("Page numbers: ", pageNumbers, " totalPages: ", totalPages, " current page: ", currentPage);
-    }, [getPagesNumber, getCurrentPage, handlePageChange]);
+    }, [getPagesNumber, currentPage, handlePageChange]);
 
 
     useEffect(() => {
