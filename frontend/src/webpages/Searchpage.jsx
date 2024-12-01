@@ -268,11 +268,17 @@ const Searchpage = () => {
                                                      onClick={handleBatchSizeChange}/>
                                 </div>
                             </div>
-                            <div className={styles.pageButtonsContainer}>
-                                <p>Pages</p>
-                                <div className={styles.pageButtons}>
-                                    {pageNumbers}
-                                </div>
+                            <div className={styles.pageButtons}>
+                                {pageNumbers.map((pageButton) => {
+                                    return (
+                                        <PageButton
+                                            key={pageButton.key}
+                                            pageNumber={pageButton.props.pageNumber}
+                                            onClick={handlePageChange}
+                                            currentPage={currentPage}
+                                        />
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

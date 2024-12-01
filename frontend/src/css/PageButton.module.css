@@ -1,4 +1,3 @@
-
 .pageButton {
     display: inline-block;
     padding: 8px 16px; /* Takie same wymiary */
@@ -13,7 +12,12 @@
     transition: all 0.3s ease;
 }
 
-.pageButton.active{
+.pageButton:hover {
+    background-color: #d1d1d1;
+    transform: scale(1.05);
+}
+
+.pageButton.active {
     background-color: #28a745; /* Zielony dla aktywnych */
     color: #fff;
     border-color: #28a745;
