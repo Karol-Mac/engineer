@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import RollbackPageButton from "../components/generic/RollbackPageButton";
 import {LoginFunctions} from "../components/functions/LoginFunctions";
 import {NavigateFunctions} from "../components/functions/NavigateFunctions";
@@ -75,7 +75,7 @@ const Loginpage = () => {
                                 value={loginData.email}
                                 placeholder="Email or login"
                             />
-                            <br />
+                            <br/>
                             <label htmlFor="password">Password</label>
                             <input
                                 type="password"
@@ -84,9 +84,9 @@ const Loginpage = () => {
                                 value={loginData.password}
                                 placeholder="Password"
                             />
-                            <br />
-                            <input type="submit" value="Login" />
-                            <br />
+                            <br/>
+                            <input type="submit" value="Login"/>
+                            <br/>
                             <p>{responseMessage}</p>
                         </form>
                     </div>
@@ -95,7 +95,7 @@ const Loginpage = () => {
                         <button onClick={openSignuppage} className="createAccountButton">
                             Create an Account
                         </button>
-                        <h4>Why is it worth to have an account on Nutrinexus:</h4>
+                    <p style={{marginBottom: "5px"}}><h4>Why is it worth to have an account on Nutrinexus:</h4></p>
                         <div className="reasonContainer">
                             <img
                                 src="/images/icons/FavouriteImg.png"
@@ -112,9 +112,9 @@ const Loginpage = () => {
                             />
                             <p className="reasonText">Save your preferences</p>
                         </div>
-                    </div>
                 </div>
-            </main>
+        </div>
+</main>
             <Footer />
         </div>
     );
