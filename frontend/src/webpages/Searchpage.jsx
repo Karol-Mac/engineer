@@ -54,7 +54,7 @@ const Searchpage = () => {
                 setCurrentProductCount(productCountRes.productCount);
             }
 
-            await getSearchedProducts({ productName: searchedProduct }).then(async (result) => {
+            await getSearchedProducts({ productName: searchedProduct, pageBatch: currentBatchSize, selectedPage: getCurrentPage()-1}).then(async (result) => {
                 if (result.success) {
                     if (!searchedProduct && paramSearchString !== searchedProduct) return;
                     const updatedProductsDetails = await Promise.all(
@@ -88,7 +88,7 @@ const Searchpage = () => {
         };
 
         handleFoundProducts();
-    }, [searchedProduct, searchParams]);
+    }, [searchedProduct, searchParams, currentBatchSize]);
 
     useEffect(() => {
         handleApplySortAndFilter();

@@ -72,13 +72,13 @@ export const SearchProductFunctions = () => {
         }
     }
 
-    const getSearchedProducts = async({productName})=>{
+    const getSearchedProducts = async({productName, pageBatch, selectedPage})=>{
         let errorMessage;
         try {
             // const numberOfProducts = await countSearchedProducts({productName});
-            // console.log("Number of products: "+numberOfProducts.foundProducts);
+            console.log("productName= " +productName + " pageBatch= "+pageBatch + " selectedPage= "+selectedPage);
 
-            let getProductsByNameUrl= "http://localhost:8080/api/products?name="+productName;
+            let getProductsByNameUrl= `http://localhost:8080/api/products?name=${productName}&pageNo=${selectedPage}&pageSize=${pageBatch}&sortBy=updatedAt&direction=desc`;
 
             const response = await axios.get(getProductsByNameUrl);
             const products = response.data;
@@ -279,13 +279,12 @@ export const SearchProductFunctions = () => {
         }
     }
 
-    const countPageNumber = (foundProducts) =>{
-        if(foundProducts == null){
+    const setPageNumber = (pageNumber) =>{
+        if(pageNumber == null){
             console.log("Found products are null perhaps you didn't find any products");
             setPagesNumber(1);
         }else{
-            const pageCount = Math.ceil(foundProducts.length / currentSearchBatch);
-            setPagesNumber(pageCount);
+            setPagesNumber(pageNumber);
         }
     }
 
@@ -303,7 +302,7 @@ export const SearchProductFunctions = () => {
         setBatchSize,
         getBatchSize,
         getCurrentBatchSize,
-        countPageNumber,
+        setPageNumber,
         getCurrentPage,
         getPagesNumber,
         setCurrentPageNumer,
