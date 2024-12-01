@@ -269,7 +269,7 @@ const Searchpage = () => {
                                 </div>
                             </div>
                             <div className={styles.pageButtonsContainer}>
-                                <p style={{marginBottom: "10px"}}>Pages:</p>
+                                <p style={{marginBottom: "5px"}}>Pages:</p>
                                 <div className={styles.pageButtons}>
                                     {pageNumbers.map((pageButton) => {
                                         return (
