@@ -268,17 +268,20 @@ const Searchpage = () => {
                                                      onClick={handleBatchSizeChange}/>
                                 </div>
                             </div>
-                            <div className={styles.pageButtons}>
-                                {pageNumbers.map((pageButton) => {
-                                    return (
-                                        <PageButton
-                                            key={pageButton.key}
-                                            pageNumber={pageButton.props.pageNumber}
-                                            onClick={handlePageChange}
-                                            currentPage={currentPage}
-                                        />
-                                    );
-                                })}
+                            <div className={styles.pageButtonsContainer}>
+                                <p style={{marginBottom: "10px"}}>Pages:</p>
+                                <div className={styles.pageButtons}>
+                                    {pageNumbers.map((pageButton) => {
+                                        return (
+                                            <PageButton
+                                                key={pageButton.key}
+                                                pageNumber={pageButton.props.pageNumber}
+                                                onClick={handlePageChange}
+                                                currentPage={currentPage}
+                                            />
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>
