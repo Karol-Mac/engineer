@@ -186,7 +186,7 @@ const AdminReportPanelpage = () => {
                             <td>{report.authorName}</td>
                             <td>{report.authorId}</td>
                         </tr>
-                        {selectedReport != null && selectedReport.id === report.id && (
+                        {selectedReport != null && selectedReport.id === report.id && selectedReport.isDone === false &&  (
                             <tr key={`details-${report.id}`}>
                                 <td colSpan="8">
                                     <div className={styles.decisionPanel}>
