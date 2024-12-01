@@ -14,6 +14,7 @@ import SortFilterSection from "../components/specific/comparepage/SortFilterSect
 import styles from "../css/Searchpage.module.css";
 import BatchSizeButton from "../components/specific/searchpage/BatchSizeButton";
 import PageButton from "../components/specific/searchpage/PageButton";
+import ProductSearchbar from "../components/generic/ProductSearchbar";
 
 const Searchpage = () => {
     const { getSearchedProductName } = QueryParamsFunctions();
@@ -214,6 +215,7 @@ const Searchpage = () => {
                 <div>
                     <Header />
                     <h1>Search Results for: {searchedProduct || "All Products"}</h1>
+                    <ProductSearchbar styles={styles}/>
                     <SortFilterSection
                         sortBy={sortBy}
                         setSortBy={setSortBy}
