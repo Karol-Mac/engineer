@@ -34,6 +34,7 @@ const Homepage = () => {
                 <ProductSearchbar styles={styles}/>
 
                 <Carousel/>
+                <h4 className={styles.pageTitle}>Last 10 products added to the website!</h4>
 
                 {/* last updated products div (using last updatedProductElement)*/}
                 <LatestProductsElementsContainer styles={styles}/>
