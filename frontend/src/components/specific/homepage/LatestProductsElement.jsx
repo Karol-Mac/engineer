@@ -33,7 +33,7 @@ export function LatestProductsElement ({latestProductData, styles}) {
             <img src={productImageName} alt={productImageName} className={styles.latestProductImage} onClick={handleClick} />
             <div onClick={handleClick}>
                 <h3 className={styles.latestProductName}>{productName}</h3>
-                <h5 className={styles.latestProductPrice}>{productPrice} zł</h5>
+                <h5 className={styles.latestProductPrice}>{productPrice.toFixed(2)} zł</h5>
                 <h5 className="latestProductUpdateDate">{productUpdateDate}</h5>
             </div>
         </div>

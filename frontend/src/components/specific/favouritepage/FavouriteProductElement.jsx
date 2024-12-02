@@ -57,7 +57,7 @@ function FavouriteProductElement ({favouriteProductData}) {
             <div className={styles.productDetails}>
                 <img className={styles.sellerImage} src={sellerImageName} alt={sellerImageName} />
                 <h2 className={styles.productTitle}>{productName}</h2>
-                <h2 className={styles.priceDefault}>Price: {productPrice} zł</h2>
+                <h2 className={styles.priceDefault}>Price: {parseFloat(productPrice).toFixed(2)} zł</h2>
                 <h3 className={styles.priceByWeight}>Price per 100 {productIsGram ? "g" : "ml"}: {valuePer100Units} zł</h3>
                 <h3 className={styles.priceByWeight}>Weight: {productWeight} {productIsGram ? "g" : "ml"}</h3>
             </div>

@@ -68,7 +68,7 @@ function SearchProductElement({ productData, styles }) {
             <img src={productImageName} alt={productImageName} className={styles.productImage} />
             <div className={styles.productDetails}>
                 <h4 className={styles.productName}>{productName}</h4>
-                <p className={styles.productPrice}>Price: {productPrice} zł</p>
+                <p className={styles.productPrice}>Price: {parseFloat(productPrice).toFixed(2)} zł</p>
                 <p className={styles.productWeight}>Weight: {productWeight}</p>
                 <div className={styles.sellerInfo}>
                     <span>{sellerName}</span>
