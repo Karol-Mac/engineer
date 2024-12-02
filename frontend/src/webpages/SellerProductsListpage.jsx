@@ -8,6 +8,7 @@ import {SellerAccountFunctions} from "../components/functions/SellerAccountFunct
 import {ImagesFunctions} from "../components/functions/ImagesFunctions";
 import styles from "../css/SellerProductsListpage.module.css";
 import SellerProductElement from "../components/specific/sellerProductListpage/SellerProductElement";
+import SellerProductsSearchbar from "../components/specific/sellerProductListpage/SellerProductsSearchbar";
 
 
 const SellerProductsListpage = () => {
@@ -20,6 +21,7 @@ const SellerProductsListpage = () => {
     const[sellerImage , setSellerImage] = useState();
     const[searchedProduct , setSearchedProduct] = useState("");
     let [foundProducts, setFoundProducts] = useState(null);
+    let [filteredProducts, setFilteredProducts] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isEmpty, setIsEmpty] = useState(false);
     const [loadingError, setLoadingError] = useState(false);
@@ -65,6 +67,7 @@ const SellerProductsListpage = () => {
                         );
 
                         setFoundProducts(updatedProductsDetails);
+                        setFilteredProducts(updatedProductsDetails);
                         console.log("Products:", result.foundProducts);
                     } else {
                         console.log("Error fetching products:", result.message);
@@ -109,6 +112,13 @@ const SellerProductsListpage = () => {
         </div>;
     }
 
+    const filtreProducts = (searchedPhrase) => {
+        // const filtered = foundProducts.contains(containPhrase);
+        const filtered = foundProducts.filter(product => product.name.includes(searchedPhrase));
+        setFilteredProducts(filtered);
+    }
+
+
     return (
         <div>
             <Header/>
@@ -120,9 +130,12 @@ const SellerProductsListpage = () => {
                         <img src={sellerImage}/>
                         <h1>{sellerName} Products:</h1>
                     </div>
+                    <div>
+                        <SellerProductsSearchbar styles={styles} onSearch={filtreProducts}/>
+                    </div>
                     <div id="foundProducts" className={styles.productList}>
-                        {foundProducts.length > 0 ? (
-                            foundProducts.map((product) => {
+                        {filteredProducts.length > 0 ? (
+                            filteredProducts.map((product) => {
                                 const productData = {
                                     productID: product.id,
                                     productName: product.name,
