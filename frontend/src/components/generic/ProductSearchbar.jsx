@@ -10,7 +10,7 @@ const ProductSearchbar = ({SearchbarID, styles}) => {
     const [searchName, setSearchName] = useState("");
 
     const handleSearchClick = () =>{
-        const searchedProductName = {string: searchName}
+        const searchedProductName = {name: searchName}
         console.log("Open Searchpage with search: "+searchedProductName);
         openSearchpage(searchedProductName);
     };

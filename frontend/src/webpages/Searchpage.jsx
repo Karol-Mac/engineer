@@ -38,8 +38,8 @@ const Searchpage = () => {
     } = SortFilterFunctions();
 
     const BATCHSIZE = getBatchSize();
-    let [searchParams, setSearchParams] = useSearchParams();
-    const [searchedProduct, setSearchedProduct] = useState("");
+    let [searchParams] = useSearchParams();
+    const [searchedProduct, setSearchedProduct] = useState(searchParams.get("name") || "");
     const [foundProducts, setFoundProducts] = useState(null);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
