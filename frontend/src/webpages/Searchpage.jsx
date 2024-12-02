@@ -38,7 +38,7 @@ const Searchpage = () => {
     } = SortFilterFunctions();
 
     const BATCHSIZE = getBatchSize();
-    let [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [searchedProduct, setSearchedProduct] = useState(searchParams.get("name") || "");
     const [foundProducts, setFoundProducts] = useState(null);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -209,6 +209,12 @@ const Searchpage = () => {
         );
     }
 
+    const handleSearchbarSearch = (searchName) => {
+        setSearchParams({ name: searchName });
+        setSearchedProduct(searchName);
+        setCurrentPage(1);
+    };
+
     return (
         <div>
             {!isLoading && (
@@ -217,7 +223,7 @@ const Searchpage = () => {
                     <h1 className={styles.pageTitle}>
                         Search Results for: {searchedProduct || "All Products"}
                     </h1>
-                    <ProductSearchbar styles={styles}/>
+                    <ProductSearchbar styles={styles} onSearch={handleSearchbarSearch}/>
                     <SortFilterSection
                         sortBy={sortBy}
                         setSortBy={setSortBy}
