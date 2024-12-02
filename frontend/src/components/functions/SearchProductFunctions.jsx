@@ -218,7 +218,7 @@ export const SearchProductFunctions = () => {
 
             let deleteProduct= "http://localhost:8080/api/products/"+productID;
 
-            const {data: res} = await axios.delete(deleteProduct, null, {
+            const {data: res} = await axios.delete(deleteProduct, {
                 headers: {
                     Authorization: `Bearer ${AuthorizationToken}`,
                 },
