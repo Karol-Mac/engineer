@@ -3,19 +3,28 @@ package com.example.engineer.service;
 import com.example.engineer.entity.Product;
 import com.example.engineer.entity.Seller;
 import com.example.engineer.payload.FreshProductDto;
+import com.example.engineer.payload.ProductDto;
+import com.example.engineer.payload.ProductResponse;
 import com.example.engineer.repository.ProductRepository;
 import com.example.engineer.service.impl.ProductServiceImpl;
 import com.example.engineer.util.ProductUtils;
 import com.example.engineer.util.UserUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,18 +56,10 @@ class ProductServiceImplTest {
     @Test
     void addProduct_returnsFreshProductDto_whenProductIsAddedSuccessfully() throws IOException {
         FreshProductDto freshProductDto = new FreshProductDto(
-                1L,
-                "Test Product",
-                BigDecimal.valueOf(9.99),
-                true,
-                500,
-                200,
-                BigDecimal.valueOf(10),
-                BigDecimal.valueOf(15),
-                BigDecimal.valueOf(30),
-                BigDecimal.valueOf(5),
-                BigDecimal.valueOf(1),
-                "testImage.jpg"
+                1L, "Test Product", BigDecimal.valueOf(9.99),
+                true, 500, 200, BigDecimal.valueOf(10),
+                BigDecimal.valueOf(15), BigDecimal.valueOf(30), BigDecimal.valueOf(5),
+                BigDecimal.valueOf(1), "testImage.jpg"
         );
         MultipartFile imageFile = mock(MultipartFile.class);
         Seller seller = new Seller();
@@ -87,61 +88,57 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).save(product);
     }
 
-//    @Test
-//    void getAllProducts_returnsMatchingProducts_whenSearchedByName() {
-//        String searchPhrase = "Prod";
-//        String email = "user@example.com";
-//
-//        Product product1 = new Product();
-//        product1.setName("Product1");
-//        Product product2 = new Product();
-//        product2.setName("Product2");
-//        Product product3 = new Product();
-//        product3.setName("Product3");
-//        Product product4 = new Product();
-//        product4.setName("Test1");
-//
-//        ProductDto productDto1 = new ProductDto();
-//        productDto1.setName("Product1");
-//        ProductDto productDto2 = new ProductDto();
-//        productDto2.setName("Product2");
-//        ProductDto productDto3 = new ProductDto();
-//        productDto3.setName("Product3");
-//
-//        when(productRepository.findByNameContaining(searchPhrase)).thenReturn(List.of(product1, product2, product3));
-//        when(productUtils.mapProductToDto(product1, email)).thenReturn(productDto1);
-//        when(productUtils.mapProductToDto(product2, email)).thenReturn(productDto2);
-//        when(productUtils.mapProductToDto(product3, email)).thenReturn(productDto3);
-//
-//        List<ProductDto> result = productService.getAllProducts(searchPhrase, email);
-//
-//        List<String> expectedNames = List.of("Product1", "Product2", "Product3");
-//        List<String> actualNames = result.stream().map(ProductDto::getName).toList();
-//
-//        System.out.println("Expected Names: " + expectedNames);
-//        System.out.println("Actual Names: " + actualNames);
-//
-//        assertNotNull(result);
-//        assertEquals(3, result.size());
-//        assertTrue(actualNames.containsAll(expectedNames));
-//    }
 
 
+    @ParameterizedTest
+    @CsvSource({
+            "Test, 0, 2, user@example.com",
+            "Sample, 1, 3, seller@example.com",
+            "Example, 2, 1, admin@example.com",
+            "Product, 0, 5, user@example.com",
+            "Item, 1, 4, seller@example.com",
+            "Goods, 2, 3, admin@example.com",
+            "Merchandise, 0, 2, user@example.com",
+            "Commodity, 1, 3, seller@example.com",
+            "Article, 2, 1, admin@example.com",
+            "Object, 0, 5, user@example.com",
+            "Thing, 1, 4, seller@example.com",
+            "Entity, 2, 3, admin@example.com",
+            "Stuff, 0, 2, user@example.com",
+            "Material, 1, 3, seller@example.com",
+            "Asset, 2, 1, admin@example.com"
+    })
+    void getAllProducts_returnsProductResponse(String productName, int page, int size, String email) {
+        Pageable pageable = PageRequest.of(page, size);
+        Product product1 = new Product();
+        product1.setName(productName + " Product 1");
+        Product product2 = new Product();
+        product2.setName(productName + " Product 2");
+        ProductDto productDto1 = new ProductDto();
+        productDto1.setName(productName + " Product 1");
+        ProductDto productDto2 = new ProductDto();
+        productDto2.setName(productName + " Product 2");
 
+        Page<Product> productsPage = new PageImpl<>(List.of(product1, product2), pageable, 2);
+        ProductResponse productResponse = ProductResponse.builder()
+                .pageNumber(page)
+                .totalPages(1)
+                .pageSize(size)
+                .isLast(true)
+                .products(List.of(productDto1, productDto2))
+                .build();
 
-//    @Test
-//    void getSellerProducts_returnsListOfFreshProductDto_whenSellerHasProducts() {
-//        String email = "seller@example.com";
-//        Product product = new Product();
-//        FreshProductDto freshProductDto = new FreshProductDto();
-//
-//        when(productRepository.findBySellerEmail(anyString())).thenReturn(List.of(product));
-//        when(productUtils.mapProductToFresh(any(Product.class))).thenReturn(freshProductDto);
-//
-//        List<FreshProductDto> result = productService.getSellerProducts(email);
-//
-//        assertNotNull(result);
-//        assertEquals(1, result.size());
-//        assertEquals(freshProductDto, result.get(0));
-//    }
+        when(productRepository.findByNameContaining(anyString(), any(Pageable.class))).thenReturn(productsPage);
+        when(productUtils.getProductResponse(productsPage)).thenReturn(productResponse);
+        when(productUtils.mapProductToDto(product1, email)).thenReturn(productDto1);
+        when(productUtils.mapProductToDto(product2, email)).thenReturn(productDto2);
+
+        ProductResponse result = productService.getAllProducts(productName, pageable, email);
+        assertNotNull(result);
+        assertEquals(1, result.getTotalPages());
+        assertEquals(size, result.getPageSize());
+        assertEquals(2, result.getProducts().size());
+        assertEquals(productName + " Product 1", result.getProducts().get(0).getName());
+        assertEquals(productName + " Product 2", result.getProducts().get(1).getName());
+    }
 }

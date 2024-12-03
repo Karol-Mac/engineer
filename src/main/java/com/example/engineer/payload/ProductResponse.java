@@ -1,12 +1,12 @@
 package com.example.engineer.payload;
 
 
-import lombok.Builder;
-import lombok.Data;
-
+import lombok.*;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ProductResponse {
 
