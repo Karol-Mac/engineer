@@ -48,7 +48,7 @@ function SellerProductElement({ productData, styles }) {
             <img src={productImageName} alt={productImageName} className={styles.productImage} />
             <div className={styles.productDetails}>
                 <h4 className={styles.productName}>{productName}</h4>
-                <p className={styles.productPrice}>Price: {productPrice} zł</p>
+                <p className={styles.productPrice}>Price: {productPrice.toFixed(2)} zł</p>
                 <p className={styles.productWeight}>Weight: {productWeight}</p>
             </div>
             <div className={styles.productActions} onClick={(e) => handleActionClick(e)}>

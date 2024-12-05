@@ -150,7 +150,7 @@ export const SearchProductFunctions = () => {
     const getLatestProducts = async() => {
         let errorMessage;
         try {
-            let getLatestProductsByNameUrl= `http://localhost:8080/api/products?name=&pageNo=0&pageSize=10&sortBy=updatedAt&direction=desc`;
+            let getLatestProductsByNameUrl= `http://localhost:8080/api/products?name=&pageNo=0&pageSize=30&sortBy=updatedAt&direction=desc`;
 
             const response = await axios.get(getLatestProductsByNameUrl);
             let products = response.data.products;
@@ -162,11 +162,11 @@ export const SearchProductFunctions = () => {
                 return{ success: false, message: errorMessage};
             }
 
-            console.log("items before filtering "+JSON.stringify(products) + " items before filtering");
+            console.log("items before filtering num : "+products.length+" "+JSON.stringify(products) + " items before filtering");
             products = products.filter(product => product.isHidden !== true);
-            console.log("items after filtering "+JSON.stringify(products) + " items after filtering");
+            console.log("items after filtering num : "+products.length+" "+JSON.stringify(products) + " items after filtering");
             products = products.sort((dateA,dateB) => new Date(dateB.updatedAt) - new Date(dateA.updatedAt));
-            console.log("items after sorting "+JSON.stringify(products) + " items after sorting");
+            console.log("items after sorting num : "+products.length+" "+JSON.stringify(products) + " items after sorting");
 
             if (products.length > 10) {
                 products = products.slice(0, 10);
