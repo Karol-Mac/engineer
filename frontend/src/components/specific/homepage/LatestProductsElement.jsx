@@ -4,10 +4,12 @@ import {NavigateFunctions} from "../../functions/NavigateFunctions";
 import CompareProductsButton from "../../generic/CompareProductsButton";
 import ReportButton from "../../generic/ReportButton";
 import FavouriteButton from "../../generic/FavouriteButton";
+import {LoginFunctions} from "../../functions/LoginFunctions";
 
 export function LatestProductsElement ({latestProductData, styles}) {
     const {setReportTypeProduct} = ReportFunctions();
     const {openProductpage} = NavigateFunctions();
+    const { isAdminUser , isSeller} = LoginFunctions();
 
     const [productID, setProductID] = useState(latestProductData.id);
     const [productName, setProductName] = useState(latestProductData.name);
@@ -27,7 +29,9 @@ export function LatestProductsElement ({latestProductData, styles}) {
         <div className={styles.latestProductElement} >
             <div className={styles.topRightElements}>
                 <CompareProductsButton givenProductID={productID} />
-                <ReportButton reportType={setReportTypeProduct()} givenReportedID={productID} />
+                {(!isSeller() && !isAdminUser()) && (
+                    <ReportButton reportType={setReportTypeProduct()} givenReportedID={productID} />
+                )}
                 <FavouriteButton givenProductID={productID} isInFavourite={latestProductData.isFavourite} />
             </div>
             <img src={productImageName} alt={productImageName} className={styles.latestProductImage} onClick={handleClick} />

@@ -9,10 +9,13 @@ import ReportButton from "../components/generic/ReportButton";
 import {ReportFunctions} from "../components/functions/ReportFunctions";
 import AddCommentButton from "../components/specific/addCommentspage/AddCommentButton";
 import AddCommentspage from "./AddCommentspage";
+import {LoginFunctions} from "../components/functions/LoginFunctions";
 
 const Commentspage = () => {
     const { getComments } = CommentFunctions();
     const {setReportTypeComment, } = ReportFunctions();
+    const { isAdminUser, isSeller } = LoginFunctions();
+
     const [comments, setComments] = useState([]);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +62,9 @@ const Commentspage = () => {
                     comments.map((comment) => (
                         <div key={comment.id} className="card mb-3">
                             <div className={styles.reportButtonContainer}>
-                                <ReportButton reportType={setReportTypeComment()} givenReportedID={comment.id} />
+                                {(!isSeller() && !isAdminUser()) && (
+                                    <ReportButton reportType={setReportTypeComment()} givenReportedID={comment.id} />
+                                )}
                             </div>
                             <div className={`card-body`}>
                                 <p className={`card-text  ${styles.fancyBorder}`}>"{comment.content}"</p>
