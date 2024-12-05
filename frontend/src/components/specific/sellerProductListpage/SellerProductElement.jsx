@@ -12,6 +12,7 @@ import { LoginFunctions } from "../../functions/LoginFunctions";
 function SellerProductElement({ productData, styles }) {
     const { setReportTypeProduct } = ReportFunctions();
     const { openProductpage } = NavigateFunctions();
+    const { isAdminUser , isSeller} = LoginFunctions();
 
 
     const [productID, setProductID] = useState(productData.productID);
@@ -53,7 +54,9 @@ function SellerProductElement({ productData, styles }) {
             </div>
             <div className={styles.productActions} onClick={(e) => handleActionClick(e)}>
                 <CompareProductsButton givenProductID={productID}/>
-                <ReportButton reportType="product" givenReportedID={productID}  />
+                {(!isSeller() && !isAdminUser()) && (
+                    <ReportButton reportType="product" givenReportedID={productID}  />
+                )}
                 <EditProductButton givenProductID={productID} />
 
             </div>

@@ -77,7 +77,9 @@ function SearchProductElement({ productData, styles }) {
             </div>
             <div className={styles.productActions} onClick={(e) => handleActionClick(e)}>
                 <CompareProductsButton givenProductID={productID}/>
-                <ReportButton reportType="product" givenReportedID={productID}  />
+                {(!isSeller() && !isAdminUser()) && (
+                    <ReportButton reportType="product" givenReportedID={productID}  />
+                )}
                 <FavouriteButton givenProductID={productID} isInFavourite={productData.isFavourite}  />
                 {(isSeller() || isAdminUser()) && (
                     <EditProductButton givenProductID={productID} />

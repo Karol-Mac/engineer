@@ -9,6 +9,7 @@ import { CustomEventsControler } from "../components/functions/CustomEventsContr
 import { SortFilterFunctions } from "../components/functions/SortFilterFunctions";
 import SortFilterSection from "../components/specific/comparepage/SortFilterSection";
 import styles from "../css/CompareProductpage.module.css";
+import LoadingOverlay from "../components/specific/overlays/LoadingOverlay";
 
 const CompareProductpage = () => {
     const { getProductInformation } = SearchProductFunctions();
@@ -94,7 +95,9 @@ const CompareProductpage = () => {
     if (isLoading) {
         return (
             <div>
-                <p>LOADING</p>
+                <Header />
+                <LoadingOverlay />
+                <Footer />
             </div>
         );
     }
