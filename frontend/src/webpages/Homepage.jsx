@@ -38,7 +38,6 @@ const Homepage = () => {
 
                 <LatestProductsElementsContainer styles={styles}/>
 
-                <ProductCompareToolbar/>
             </div>
             <Footer/>
         </div>

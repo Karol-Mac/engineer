@@ -102,7 +102,6 @@ const Productpage = () => {
                     </div>
                 </div>
 
-                <ProductCompareToolbar/>
             </div>
             <Footer/>
         </div>
