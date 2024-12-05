@@ -32,7 +32,7 @@ const SideMenu = ({displaySideMenu}) => { //pass Token if token is null than dis
     return (
         <div className={styles.sideMenu}>
             {/* Renderowanie przycisku "Compare" tylko dla użytkowników niebędących sprzedawcami ani administratorami */}
-            {!isSeller() && !isAdminUser() && (
+            { !isAdminUser() && (
                 <div onClick={openComparepage} className={styles.menuItem}>
                     <p>Compare</p>
                 </div>
