@@ -5,14 +5,14 @@ import CompareProductsButton from "./CompareProductsButton";
 import styles from "../../css/Footer.module.css";
 
 const Footer = () => {
-    const { openContactpage } = NavigateFunctions();
+    const { openContactpage ,openTermsOfServicepage} = NavigateFunctions();
     return (
         <footer className="bg-light text-center py-3 mt-auto">
             <div className={styles.footerContainer}>
                 <p>Got Questions? <span>+48 123 123 133</span></p>
                 <div className="footerLinks">
                     <a onClick={openContactpage} className={`text-primary me-3 ${styles.footerLink}`}>Contact Us</a>
-                    <a onClick={openContactpage} className={`text-primary ${styles.footerLink}`}>Terms of Service</a>
+                    <a onClick={openTermsOfServicepage} className={`text-primary ${styles.footerLink}`}>Terms of Service</a>
                 </div>
             </div>
         </footer>

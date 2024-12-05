@@ -20,6 +20,8 @@ import AddCommentspage from "../webpages/AddCommentspage";
 import EditProductpage from "../webpages/EditProductpage";
 import AdminReportVerdictpage from "../webpages/AdminReportVerdictpage";
 import {CustomEventsControler} from "../components/functions/CustomEventsControler";
+import TermsOfService from "../webpages/TermsOfServicepage";
+import TermsOfServicepage from "../webpages/TermsOfServicepage";
 const RoutesConfig = () => {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
     const [tokenType, setTokenType] = useState(localStorage.getItem("tokenType"));
@@ -73,6 +75,7 @@ const RoutesConfig = () => {
 
             <Route path="/account/products" exact element={<SellerProductsListpage />} />
             <Route path="/contact" exact element={<ContactUspage />} />
+            <Route path="/terms" exact element={<TermsOfServicepage />} />
             <Route path="/search" exact element={<Searchpage />} />
             <Route path="/compare" exact element={<CompareProductpage />} />
             <Route path="/product/:id" exact element={<Productpage />} />

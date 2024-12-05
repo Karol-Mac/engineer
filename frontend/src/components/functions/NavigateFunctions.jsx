@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom";
+import TermsOfServicepage from "../../webpages/TermsOfServicepage";
 
 export const NavigateFunctions = () => {
     const navigate = useNavigate();
@@ -75,6 +76,10 @@ export const NavigateFunctions = () => {
         navigate("/contact");
     }
 
+    const openTermsOfServicepage = () =>{
+        navigate("/terms");
+    }
+
     const openRaportpage = (reportType, reportID) =>{
         navigate("/report/"+reportType+"/"+reportID);
     }
@@ -120,6 +125,7 @@ export const NavigateFunctions = () => {
         openSellerProductspage,
         openAdminpanelpage,
         openAddCommentpage,
+        openTermsOfServicepage
     };
 };
 
